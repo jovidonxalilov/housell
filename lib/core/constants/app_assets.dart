@@ -1,0 +1,73 @@
+class AppAssets {
+  static const String _svg = 'assets/icons/';
+  static const String _png = 'assets/images/';
+
+  // SVG iconlar
+  static const String add = '${_svg}add.svg';
+  static const String arrowChevronLeft = '${_svg}arrow_left.svg';
+  static const String arrowExpanded = '${_svg}arrow_expanded.svg';
+  static const String attach = '${_svg}attach.svg';
+  static const String backArrow = '${_svg}back_arrow.svg';
+  static const String bloc = '${_svg}bloc.svg';
+  static const String calendar = '${_svg}calendar.svg';
+  static const String cancel = '${_svg}cancel.svg';
+  static const String cEng = '${_svg}c_eng.svg';
+  static const String cRus = '${_svg}c_rus.svg';
+  static const String cUz = '${_svg}c_uz.svg';
+  static const String check = '${_svg}check.svg';
+  static const String chevronBottom = '${_svg}chevron_bottom.svg';
+  static const String chevronRight = '${_svg}chevron_right.svg';
+  static const String edit = '${_svg}edit.svg';
+  static const String eyeOn = '${_svg}eye_on.svg';
+  static const String google = '${_svg}google.svg';
+  static const String groups = '${_svg}groups.svg';
+  static const String home = '${_svg}home.svg';
+  static const String lock = '${_svg}lock.svg';
+  static const String login = '${_svg}login.svg';
+  static const String logout = '${_svg}logout.svg';
+  static const String manageSearch = '${_svg}manage_search.svg';
+  static const String notificationsNone = '${_svg}notifications_none.svg';
+  static const String notification = '${_svg}notification.svg';
+  static const String person = '${_svg}person.svg';
+  static const String placeholder = '${_svg}placeholder.svg';
+  static const String profileOutlined = '${_svg}profile_outlined.svg';
+  static const String remove = '${_svg}remove.svg';
+  static const String search = '${_svg}search.svg';
+  static const String settings = '${_svg}settings.svg';
+  static const String share = '${_svg}share.svg';
+  static const String telephone = '${_svg}telephone.svg';
+  static const String warning = '${_svg}warning.svg';
+  static const String map = '${_svg}map.svg';
+  static const String office = '${_svg}office.svg';
+  static const String window = '${_svg}window.svg';
+  static const String chat = '${_svg}chat.svg';
+  static const String profile = '${_svg}profile.svg';
+  static const String villa = '${_svg}villa.svg';
+  static const String pentHouse = '${_svg}pent_house.svg';
+  static const String land = '${_svg}land.svg';
+  static const String housee = '${_svg}housee.svg';
+  static const String tag = '${_svg}tag.svg';
+  static const String checkCircle = '${_svg}check_circle.svg';
+  static const String hearth = '${_svg}hearth.svg';
+  static const String sqft = '${_svg}sqft.svg';
+  static const String list = '${_svg}list.svg';
+  static const String grid = '${_svg}grid.svg';
+  static const String gallery = '${_svg}gallery.svg';
+  static const String bedroom = '${_svg}bedroom.svg';
+  static const String flash = '${_svg}flash_on.svg';
+  static const String camera = '${_svg}camera.svg';
+  static const String close = '${_svg}close.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  static const String apartment = '${_svg}apartment.svg';
+  static const String uzbI = '${_svg}uzb_i.svg';
+  static const String eyeOff = '${_svg}eye_off.svg';
+  static const String filter = '${_svg}filter.svg';
+
+  // PNG
+  static const String logo = '${_png}logo.png';
+  static const String logoUi = '${_png}logo_ui.png';
+}
