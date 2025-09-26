@@ -1543,14 +1543,11 @@ class _AddPageState extends State<AddPage> {
               AddHouseEvent(
                 propertyModel: datum,
                 onSuccess: () {
-                  print("🎉 SUCCESS CALLBACK!");
+                  if (!mounted) return; // widget hali ekranda bo‘lmasa chiqib ketadi
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Malumotlar muvaffaqiyatli qo'shildi"),
-                      backgroundColor: Colors.green,
-                    ),
+                    const SnackBar(content: Text('✅ Uy muvaffaqiyatli qo‘shildi!')),
                   );
-                  Navigator.pop(context);
+                  Navigator.of(context).pop(); // faqat mounted bo‘lsa ishlaydi
                 },
                 onFailure: () {
                   print("💥 FAILURE CALLBACK!");

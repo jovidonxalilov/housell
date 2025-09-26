@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
 
 import 'app_image.dart';
+// import 'package:housell/core/extensions/widget_extension.dart';
+//
+// import 'app_image.dart';
+//
+// // ignore: must_be_immutable
+// import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? leading;
   final String? leadingImage;
@@ -24,7 +29,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor = Colors.white,
     this.elevation = 0,
     this.padding,
-    this.centerTitle = true, // Default true qilib qo'ydim
+    this.centerTitle = true,
     this.automaticallyImplyLeading = false,
   });
 
@@ -42,43 +47,51 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           padding: padding ?? const EdgeInsets.only(left: 24, right: 24),
           height: preferredSize.height,
-          child: Row(
+          child: Stack(
             children: [
+              // Leading widget (chap tomon)
               if (leading != null || leadingImage != null)
-                SizedBox(
-                  width: 50,
-                  child: leading != null
-                      ? Align(
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: leading!,
-                  )
-                      : (leadingImage != null
-                      ? Align(
-                    alignment: Alignment.centerLeft,
-                    child: AppImage(path: leadingImage!),
-                  )
-                      : null),
+                    child: leading != null
+                        ? leading!
+                        : (leadingImage != null
+                        ? AppImage(path: leadingImage!)
+                        : const SizedBox.shrink()),
+                  ),
                 ),
-              Expanded(
-                child: title != null
-                    ? Container(
-                  alignment: centerTitle && (leading != null || leadingImage != null)
-                      ? Alignment.center
-                      : Alignment.centerLeft,
-                  child: title!,
-                )
-                    : const SizedBox.shrink(),
-              ),
-              SizedBox(
-                width: 50,
-                child: actions != null && actions!.isNotEmpty
-                    ? Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  mainAxisSize: MainAxisSize.min,
-                  children: actions!,
-                )
-                    : null,
-              ),
+
+              // Actions widget (o'ng tomon)
+              if (actions != null && actions!.isNotEmpty)
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisSize: MainAxisSize.min,
+                      children: actions!,
+                    ),
+                  ),
+                ),
+
+              // Title widget (har doim centerda)
+              if (title != null)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: title!,
+                  ),
+                ),
             ],
           ),
         ),
@@ -86,3 +99,4 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     ).paddingOnly(top: 44);
   }
 }
+

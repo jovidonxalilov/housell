@@ -17,10 +17,11 @@ import 'package:housell/features/auth/presentation/pages/splash/splash_page.dart
 import 'package:housell/features/home/presentation/pages/home_page.dart';
 import 'package:housell/features/map/presentation/pages/map_page.dart';
 import 'package:housell/features/message/presentation/pages/message_page.dart';
+import 'package:housell/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:housell/features/profile/presentation/pages/profile_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.splash,
+  initialLocation: Routes.editProfile,
   routes: [
     ShellRoute(
 
@@ -48,6 +49,7 @@ final GoRouter router = GoRouter(
     GoRoute(path: Routes.splash, builder: (context, state) => SplashScreen()),
     GoRoute(path: Routes.signUp, builder: (context, state) => SignUpPage()),
     GoRoute(path: Routes.resetOtp, builder: (context, state) => ResetOtpPage()),
+    GoRoute(path: Routes.editProfile, builder: (context, state) => EditProfilePage()),
     GoRoute(
       path: Routes.resetOtpVerify,
       builder: (context, state) => ResetOtpVerify(),

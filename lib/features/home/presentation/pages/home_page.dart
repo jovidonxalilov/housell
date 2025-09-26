@@ -336,7 +336,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                   color: Colors.grey[300],
                   child: property.photos.isNotEmpty
                       ? Image.network(
-                    property.photos[0].photo!, // Faqat birinchi rasm
+                    property.photos[0].photo, // Faqat birinchi rasm
                     fit: BoxFit.cover,
                     loadingBuilder: (context, child, loadingProgress) {
                       if (loadingProgress == null) return child;

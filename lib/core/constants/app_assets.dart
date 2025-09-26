@@ -57,17 +57,48 @@ class AppAssets {
   static const String flash = '${_svg}flash_on.svg';
   static const String camera = '${_svg}camera.svg';
   static const String close = '${_svg}close.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
+  static const String calendarMinus = '${_svg}calendar_minus.svg';
+  static const String chevronLeft = '${_svg}chevron_left.svg';
+  static const String clickL = '${_svg}click.svg';
+  static const String copy = '${_svg}copy.svg';
+  static const String currency = '${_svg}currency.svg';
+  static const String faceBookL = '${_svg}facebook_logo.svg';
+  static const String helpCircle = '${_svg}help_circle.svg';
+  static const String houses = '${_svg}houses.svg';
+  static const String instagramL = '${_svg}instagram_logo.svg';
+  static const String koshelok = '${_svg}koshelok.svg';
+  static const String language = '${_svg}language.svg';
+  static const String link = '${_svg}link.svg';
+  static const String logOut = '${_svg}log_out.svg';
+  static const String message = '${_svg}message.svg';
+  static const String moon = '${_svg}moon.svg';
+  static const String paperclip = '${_svg}paperclip.svg';
+  static const String paymeL = '${_svg}payme.svg';
+  static const String pencil = '${_svg}pencil.svg';
+  static const String phone = '${_svg}phone.svg';
+  static const String plus = '${_svg}plus.svg';
+  static const String privacyPolicy = '${_svg}privacy_policy.svg';
+  static const String share02 = '${_svg}share_02.svg';
+  static const String sim = '${_svg}sim.svg';
+  static const String star = '${_svg}star.svg';
+  static const String telegramL = '${_svg}telegram_logo.svg';
+  static const String text = '${_svg}text.svg';
+  static const String totalE = '${_svg}totalE.svg';
+  static const String totalI = '${_svg}totalI.svg';
+  static const String trash = '${_svg}trash.svg';
+  static const String unlock = '${_svg}unlock.svg';
+  static const String vip = '${_svg}VIP.svg';
   static const String apartment = '${_svg}apartment.svg';
   static const String uzbI = '${_svg}uzb_i.svg';
   static const String eyeOff = '${_svg}eye_off.svg';
   static const String filter = '${_svg}filter.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
 
   // PNG
   static const String logo = '${_png}logo.png';
   static const String logoUi = '${_png}logo_ui.png';
+  static const String simGroup = '${_png}sim_group.png';
+
 }

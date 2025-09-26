@@ -8,8 +8,8 @@ class ApiUrls {
   static const String urlImage = '/upload/image';
   static const String getHouses = '/houses';
   static const String addHouses = '/houses';
-  static const String profile = '/auth/v1/check-auth';
-  static const String putProfile = '/profile/update';
+  static const String profile = '/users/me';
+  static const String patchProfile = '/users';
   static const String senResetOtp = '/auth/send-reset-otp';
   static const String verifyResetOtp = '/auth/verify-reset-otp';
   static const String resetPassword = '/auth/reset-password';

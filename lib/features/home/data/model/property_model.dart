@@ -26,12 +26,26 @@ class PropertyModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PropertyModel.fromMap(Map<String, dynamic> json) => PropertyModel(
-    data: List<Datum>.from(json["data"].map((x) => Datum.fromMap(x))),
-    total: json["total"] ?? 0,
-    page: json["page"] ?? 0,
-    limit: json["limit"] ?? 10,
-  );
+  factory PropertyModel.fromMap(Map<String, dynamic> json) {
+    final rawData = json["data"];
+
+    List<Datum> parsedData = [];
+
+    if (rawData is List) {
+      parsedData = rawData.map((x) => Datum.fromMap(x)).toList();
+    } else if (rawData is Map<String, dynamic>) {
+      parsedData = [Datum.fromMap(rawData)];
+    } else {
+      parsedData = [];
+    }
+
+    return PropertyModel(
+      data: parsedData,
+      total: json["total"] ?? 0,
+      page: json["page"] ?? 0,
+      limit: json["limit"] ?? 10,
+    );
+  }
 
   Map<String, dynamic> toMap() => {
     "data": List<dynamic>.from(data.map((x) => x.toMap())),

@@ -4,6 +4,8 @@ import 'package:housell/features/add/domain/repository/add_repository.dart';
 import 'package:housell/features/add/domain/usecase/add_usecase.dart';
 import 'package:housell/features/home/domain/repository/home_repository.dart';
 import 'package:housell/features/home/domain/usecase/home_usecase.dart';
+import 'package:housell/features/profile/domain/repository/profile_repository.dart';
+import 'package:housell/features/profile/domain/usecase/profile_usecase.dart';
 
 import '../../features/auth/domain/repository/auth_repository.dart';
 import '../../features/auth/domain/usecase/usecase.dart';
@@ -33,6 +35,10 @@ Future<void> registerUseCases(GetIt getIt) async {
         () => AddHouseUsecase(getIt<AddRepository>()),
   )..registerLazySingleton<AddPhotosUrlUsecase>(
         () => AddPhotosUrlUsecase(getIt<AddRepository>()),
+  )..registerLazySingleton<ProfileGetUsecase>(
+        () => ProfileGetUsecase(getIt<ProfileRepository>()),
+  )..registerLazySingleton<ProfilePatchUsecase>(
+        () => ProfilePatchUsecase(getIt<ProfileRepository>()),
   );
   log("Register UseCase Complare For GetIT");
 }

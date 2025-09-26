@@ -72,7 +72,7 @@ class ContainerW extends StatelessWidget {
     this.margin,
     this.text,
     this.width = double.infinity,
-    this.height = 48,
+    this.height,
     this.color = AppColors.base,
     this.borderColor = Colors.transparent,
     this.onTap,
