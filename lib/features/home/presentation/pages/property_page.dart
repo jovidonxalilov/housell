@@ -129,25 +129,4 @@ class DetailPage extends StatelessWidget {
   }
 }
 
-/// Custom appbar button (circle background)
-class _AppBarButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback onTap;
 
-  const _AppBarButton({required this.icon, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.black45,
-        ),
-        padding: const EdgeInsets.all(8),
-        child: Icon(icon, color: Colors.white),
-      ),
-    );
-  }
-}
