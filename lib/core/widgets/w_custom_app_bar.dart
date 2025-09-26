@@ -18,9 +18,9 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final EdgeInsetsGeometry? padding;
   final bool centerTitle;
-  bool automaticallyImplyLeading;
+  final bool showLeadingAutomatically; // yangi flag
 
-  WCustomAppBar({
+  const WCustomAppBar({
     super.key,
     this.leading,
     this.title,
@@ -30,7 +30,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation = 0,
     this.padding,
     this.centerTitle = true,
-    this.automaticallyImplyLeading = false,
+    this.showLeadingAutomatically = true, // default true
   });
 
   @override
@@ -38,6 +38,8 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final canPop = Navigator.of(context).canPop();
+
     return Material(
       color: backgroundColor,
       elevation: elevation,
@@ -45,27 +47,27 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         top: false,
         bottom: false,
         child: Container(
-          padding: padding ?? const EdgeInsets.only(left: 24, right: 24),
+          padding: padding ?? const EdgeInsets.symmetric(horizontal: 24),
           height: preferredSize.height,
           child: Stack(
             children: [
-              // Leading widget (chap tomon)
-              if (leading != null || leadingImage != null)
+              // Leading (chap taraf)
+              if ((leading != null || leadingImage != null) &&
+                  (!showLeadingAutomatically || canPop))
                 Positioned(
                   left: 0,
                   top: 0,
                   bottom: 0,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: leading != null
-                        ? leading!
-                        : (leadingImage != null
-                        ? AppImage(path: leadingImage!)
-                        : const SizedBox.shrink()),
+                    child: leading ??
+                        (leadingImage != null
+                            ? AppImage(path: leadingImage!)
+                            : const SizedBox.shrink()),
                   ),
                 ),
 
-              // Actions widget (o'ng tomon)
+              // Actions (o‘ng taraf)
               if (actions != null && actions!.isNotEmpty)
                 Positioned(
                   right: 0,
@@ -74,20 +76,15 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
                       mainAxisSize: MainAxisSize.min,
                       children: actions!,
                     ),
                   ),
                 ),
 
-              // Title widget (har doim centerda)
+              // Title (markazda)
               if (title != null)
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
+                Positioned.fill(
                   child: Center(
                     child: title!,
                   ),

@@ -5,6 +5,7 @@ class Routes {
   static const String map = '/map';
   static const String add = '/add';
   static const String message = '/message';
+  static const String propertyDetail = '/property_detail';
   static const String editProfile = '/edit_profile';
   static const String splash = '/splash';
   static const String profile = '/profile';

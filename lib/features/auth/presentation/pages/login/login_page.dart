@@ -17,6 +17,7 @@ import 'package:housell/features/auth/presentation/bloc/auth_bloc.dart';
 import '../../../../../config/service/local_service.dart';
 import '../../../../../core/constants/app_status.dart';
 import '../../../../../core/dp/dp_injection.dart';
+import '../../../../../core/widgets/app_image.dart';
 import '../../../domain/entities/login.dart';
 import '../../bloc/auth_event.dart';
 
@@ -48,8 +49,14 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: WCustomAppBar(
-          title: Center(child: AppText(text: "Login")),
+          title: Center(child: AppText(text: "Login", fontWeight: 400, fontSize: 18, color: AppColors.blackT,)),
           centerTitle: true,
+          leading: AppImage(
+            path: AppAssets.arrowChevronLeft,
+            onTap: () => context.pop(),
+            size: 24,
+          ),
+          showLeadingAutomatically: true,
         ),
         body: BlocBuilder<AuthBloc, AuthState>(
           builder: (context, state) {
@@ -211,7 +218,11 @@ class _LoginPageState extends State<LoginPage> {
               ),
               AppText(
                 onTap: () {
-                  context.push(Routes.otp);
+                  if (Navigator.of(context).canPop()) {
+                    context.pop();
+                  } else {
+                    context.push('/otp');
+                  }
                 },
                 text: "Sign up now",
                 color: AppColors.base,

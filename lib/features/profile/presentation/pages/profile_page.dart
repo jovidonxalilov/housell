@@ -6,6 +6,7 @@ import 'package:housell/core/extensions/widget_extension.dart';
 import 'package:housell/core/widgets/app_image.dart';
 import 'package:housell/core/widgets/app_text.dart';
 import 'package:housell/core/widgets/w__container.dart';
+import 'package:housell/core/widgets/w_custom_app_bar.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -19,6 +20,12 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
+      appBar: WCustomAppBar(
+        title: AppText(text: "Profile", fontSize: 18, fontWeight: 400,),
+        actions: [
+          AppImage(path: AppAssets.settings)
+        ],
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -15,13 +15,14 @@ import 'package:housell/features/auth/presentation/pages/sign_up/otp_verify.dart
 import 'package:housell/features/auth/presentation/pages/sign_up/sign_up_page.dart';
 import 'package:housell/features/auth/presentation/pages/splash/splash_page.dart';
 import 'package:housell/features/home/presentation/pages/home_page.dart';
+import 'package:housell/features/home/presentation/pages/property_page.dart';
 import 'package:housell/features/map/presentation/pages/map_page.dart';
 import 'package:housell/features/message/presentation/pages/message_page.dart';
 import 'package:housell/features/profile/presentation/pages/edit_profile_page.dart';
 import 'package:housell/features/profile/presentation/pages/profile_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.editProfile,
+  initialLocation: Routes.propertyDetail,
   routes: [
     ShellRoute(
 
@@ -47,6 +48,7 @@ final GoRouter router = GoRouter(
     GoRoute(path: Routes.otp, builder: (context, state) => OtpPage()),
     GoRoute(path: Routes.otpVerify, builder: (context, state) => OtpVerify()),
     GoRoute(path: Routes.splash, builder: (context, state) => SplashScreen()),
+    GoRoute(path: Routes.propertyDetail, builder: (context, state) => DetailPage()),
     GoRoute(path: Routes.signUp, builder: (context, state) => SignUpPage()),
     GoRoute(path: Routes.resetOtp, builder: (context, state) => ResetOtpPage()),
     GoRoute(path: Routes.editProfile, builder: (context, state) => EditProfilePage()),
