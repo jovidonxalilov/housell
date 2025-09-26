@@ -220,12 +220,20 @@ class _LoginPageState extends State<OtpPage> {
                 fontWeight: 400,
               ),
               AppText(
-                onTap: () => context.push(Routes.login),
+                onTap: () {
+                  if (Navigator.of(context).canPop()) {
+                    // Agar oldingi sahifa bo‘lsa (Login → Signup)
+                    context.pop();
+                  } else {
+                    // Agar SignupPage bevosita run bo‘lib ochilgan bo‘lsa
+                    context.push('/login');
+                  }
+                },
                 text: "Log in",
                 color: AppColors.base,
                 fontSize: 16,
                 fontWeight: 500,
-              ),
+              )
             ],
           ),
         ),

@@ -21,7 +21,7 @@ import 'package:housell/features/profile/presentation/pages/edit_profile_page.da
 import 'package:housell/features/profile/presentation/pages/profile_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.editProfile,
+  initialLocation: Routes.otp,
   routes: [
     ShellRoute(
 
