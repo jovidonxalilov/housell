@@ -31,3 +31,24 @@ extension WidgetPaddingX on Widget {
 
   Widget get paddingZero => Padding(padding: EdgeInsets.zero, child: this);
 }
+
+extension RentalFrequencyExtension on String {
+  String toDisplayText() {
+    switch (this.toUpperCase()) {
+      case 'MONTHLY':
+        return 'month';
+      case 'YEARLY':
+        return 'year';
+      case 'WEEKLY':
+        return 'week';
+      case 'DAILY':
+        return 'day';
+      case 'QUARTERLY':
+        return 'quarter';
+      case 'BIANNUALLY':
+        return 'Half Year';
+      default:
+        return this; // Agar mos kelmasa, asl qiymatni qaytaradi
+    }
+  }
+}

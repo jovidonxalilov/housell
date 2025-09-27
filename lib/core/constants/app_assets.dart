@@ -92,6 +92,9 @@ class AppAssets {
   static const String uzbI = '${_svg}uzb_i.svg';
   static const String eyeOff = '${_svg}eye_off.svg';
   static const String filter = '${_svg}filter.svg';
+  static const String play = '${_svg}play.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
