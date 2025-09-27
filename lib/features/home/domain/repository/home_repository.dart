@@ -6,6 +6,7 @@ import 'package:housell/features/home/data/repository_impl/home_repository_impl.
 
 abstract class HomeRepository {
   Future<Either<Failure, PropertyModel>> getHouses();
+  Future<Either<Failure, PropertyModel>> getHousesId(String id);
 
   factory HomeRepository(HomeDatasourse homeDataSource) =>
       HomeRepositoryImpl(homeDataSource: homeDataSource);

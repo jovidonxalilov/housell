@@ -3,6 +3,7 @@ import 'dart:io';
 
 class PropertyModel {
   final List<Datum> data;
+  final Datum? datum;
   final int? total;
   final int? page;
   final int? limit;
@@ -10,6 +11,7 @@ class PropertyModel {
   PropertyModel({
     required this.data,
      this.total,
+    this.datum,
      this.page,
      this.limit,
   });
@@ -41,10 +43,12 @@ class PropertyModel {
 
     return PropertyModel(
       data: parsedData,
+      datum: parsedData.isNotEmpty ? parsedData.first : null, // 🔑
       total: json["total"] ?? 0,
       page: json["page"] ?? 0,
       limit: json["limit"] ?? 10,
     );
+
   }
 
   Map<String, dynamic> toMap() => {

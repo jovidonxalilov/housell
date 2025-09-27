@@ -19,4 +19,16 @@ class HomeRepositoryImpl implements HomeRepository {
       return Left(ValidationFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, PropertyModel>> getHousesId(String id) async {
+    try {
+      final result = await _homeDatasourse.getHouses();
+      return Right(result);
+    } catch (e){
+      return Left(ValidationFailure(e.toString()));
+    }
+  }
 }
+
+

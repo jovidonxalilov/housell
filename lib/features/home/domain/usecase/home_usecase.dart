@@ -15,3 +15,15 @@ class HomeGetHousesUsecase extends UseCase<PropertyModel, NoParams> {
     return homeRepository.getHouses();
   }
 }
+
+class HomeGetHousesIdUsecase extends UseCase<PropertyModel, String> {
+  final HomeRepository homeRepository;
+
+  HomeGetHousesIdUsecase(this.homeRepository);
+
+  @override
+  Future<Either<Failure, PropertyModel>> call(String id) {
+    return homeRepository.getHouses();
+  }
+}
+

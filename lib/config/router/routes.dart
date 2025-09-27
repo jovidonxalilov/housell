@@ -5,7 +5,8 @@ class Routes {
   static const String map = '/map';
   static const String add = '/add';
   static const String message = '/message';
-  static const String propertyDetail = '/property_detail';
+  static String propertyDetailId(int propertyId) => '/property_detail/$propertyId';
+  static String propertyDetail = '/property_detail/:propertyId';
   static const String editProfile = '/edit_profile';
   static const String splash = '/splash';
   static const String profile = '/profile';

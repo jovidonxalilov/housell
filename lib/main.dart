@@ -3,21 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:housell/config/router/router.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
+// import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-import 'config/theme/app_colors.dart';
 import 'core/dp/dp_injection.dart';
 import 'core/extensions/num_extensions.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +27,7 @@ void main() async {
     ),
   );
 
-  AndroidYandexMap.useAndroidViewSurface = false;
+  // AndroidYandexMap.useAndroidViewSurface = false;
 
   // System UI mode - 3 ta tugma ko'rinishi uchun
   SystemChrome.setEnabledSystemUIMode(
@@ -54,7 +44,7 @@ void main() async {
     DeviceOrientation.portraitDown,
   ]);
 
-  AndroidYandexMap.useAndroidViewSurface = false;
+  // AndroidYandexMap.useAndroidViewSurface = false;
 
   await EasyLocalization.ensureInitialized();
   await setupDependencies();

@@ -39,6 +39,8 @@ Future<void> registerUseCases(GetIt getIt) async {
         () => ProfileGetUsecase(getIt<ProfileRepository>()),
   )..registerLazySingleton<ProfilePatchUsecase>(
         () => ProfilePatchUsecase(getIt<ProfileRepository>()),
+  )..registerLazySingleton<HomeGetHousesIdUsecase>(
+        () => HomeGetHousesIdUsecase(getIt<HomeRepository>()),
   );
   log("Register UseCase Complare For GetIT");
 }

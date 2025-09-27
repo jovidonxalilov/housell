@@ -18,7 +18,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double elevation;
   final EdgeInsetsGeometry? padding;
   final bool centerTitle;
-  final bool showLeadingAutomatically; // yangi flag
+  final bool showLeadingAutomatically;
 
   const WCustomAppBar({
     super.key,
@@ -30,7 +30,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.elevation = 0,
     this.padding,
     this.centerTitle = true,
-    this.showLeadingAutomatically = true, // default true
+    this.showLeadingAutomatically = true,
   });
 
   @override
@@ -67,7 +67,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
 
-              // Actions (o‘ng taraf)
+              // Actions (o'ng taraf)
               if (actions != null && actions!.isNotEmpty)
                 Positioned(
                   right: 0,
@@ -82,10 +82,23 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ),
                 ),
 
-              // Title (markazda)
+              // Title - centerTitle true bo'lsa markazda, false bo'lsa leadingdan keyin
               if (title != null)
-                Positioned.fill(
+                centerTitle
+                    ? Positioned.fill(
                   child: Center(
+                    child: title!,
+                  ),
+                )
+                    : Positioned(
+                  left: (leading != null || leadingImage != null) &&
+                      (!showLeadingAutomatically || canPop)
+                      ? 56 // Leading elementdan keyin joy qoldirish
+                      : 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
                     child: title!,
                   ),
                 ),
@@ -96,4 +109,3 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     ).paddingOnly(top: 44);
   }
 }
-

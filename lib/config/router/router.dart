@@ -22,7 +22,7 @@ import 'package:housell/features/profile/presentation/pages/edit_profile_page.da
 import 'package:housell/features/profile/presentation/pages/profile_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.propertyDetail,
+  initialLocation: Routes.home,
   routes: [
     ShellRoute(
 
@@ -30,11 +30,15 @@ final GoRouter router = GoRouter(
         return MainScaffold(child: child);
       },
       routes: [
-        GoRoute(path: Routes.home, builder: (context, state) => PropertyGridScreen()),
-        GoRoute(path: Routes.map, builder: (context, state) => MapPage()),
-        GoRoute(path: Routes.add, builder: (context, state) => BlocProvider(
-          create: (context) => AddHouseBloc(getIt<AddHouseUsecase>(), getIt<AddPhotosUrlUsecase>()),
-            child: AddPage())),
+        GoRoute(path: Routes.home,
+            builder: (context, state) => PropertyGridScreen()),
+        // GoRoute(path: Routes.map, builder: (context, state) => MapPage()),
+        GoRoute(path: Routes.add, builder: (context, state) =>
+            BlocProvider(
+                create: (context) =>
+                    AddHouseBloc(
+                        getIt<AddHouseUsecase>(), getIt<AddPhotosUrlUsecase>()),
+                child: AddPage())),
         GoRoute(
           path: Routes.message,
           builder: (context, state) => MessagePage(),
@@ -48,10 +52,18 @@ final GoRouter router = GoRouter(
     GoRoute(path: Routes.otp, builder: (context, state) => OtpPage()),
     GoRoute(path: Routes.otpVerify, builder: (context, state) => OtpVerify()),
     GoRoute(path: Routes.splash, builder: (context, state) => SplashScreen()),
-    GoRoute(path: Routes.propertyDetail, builder: (context, state) => DetailPage()),
+    GoRoute(
+      path: '/property_detail/:propertyId',
+      builder: (context, state) {
+        final id = state.pathParameters['propertyId']!; // ✅ to‘g‘ri
+        return DetailPage(id: id);
+      },
+    ),
+
     GoRoute(path: Routes.signUp, builder: (context, state) => SignUpPage()),
     GoRoute(path: Routes.resetOtp, builder: (context, state) => ResetOtpPage()),
-    GoRoute(path: Routes.editProfile, builder: (context, state) => EditProfilePage()),
+    GoRoute(path: Routes.editProfile,
+        builder: (context, state) => EditProfilePage()),
     GoRoute(
       path: Routes.resetOtpVerify,
       builder: (context, state) => ResetOtpVerify(),

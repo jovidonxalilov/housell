@@ -23,7 +23,7 @@ Future<void> registerBlocs(GetIt getIt) async {
         getIt<AuthResetSendOtpUsecase>(),
       ),
     )
-    ..registerFactory<HomeBloc>(() => HomeBloc(getIt<HomeGetHousesUsecase>()))
+    ..registerFactory<HomeBloc>(() => HomeBloc(getIt<HomeGetHousesUsecase>(), getIt<HomeGetHousesIdUsecase>()))
     ..registerFactory<AddHouseBloc>(() => AddHouseBloc(getIt<AddHouseUsecase>(), getIt<AddPhotosUrlUsecase>()))
     ..registerFactory<ProfileBloc>(() => ProfileBloc(getIt<ProfileGetUsecase>(), getIt<ProfilePatchUsecase>()));
   log("Register BLOC Complate For GetIT");

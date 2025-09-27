@@ -51,7 +51,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeBloc(getIt<HomeGetHousesUsecase>()),
+      create: (context) => HomeBloc(getIt<HomeGetHousesUsecase>(), getIt<HomeGetHousesIdUsecase>()),
       child: Scaffold(
         backgroundColor: AppColors.white,
         appBar: WCustomAppBar(
@@ -309,95 +309,245 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
   }
 
   Widget _buildPropertyCard(Datum property) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 8,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(12),
-                ),
-                child: Container(
-                  width: double.infinity.w,
-                  height: 123.h,
-                  color: Colors.grey[300],
-                  child: property.photos.isNotEmpty
-                      ? Image.network(
-                    property.photos[0].photo, // Faqat birinchi rasm
-                    fit: BoxFit.cover,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Container(
-                        color: Colors.grey[300],
-                        child: Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                : null,
-                          ),
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[300],
-                        child: const Icon(
-                          Icons.image,
-                          color: Colors.grey,
-                          size: 40,
-                        ),
-                      );
-                    },
-                  )
-                      : Container(
-                    color: Colors.grey[300],
-                    child: const Icon(
-                      Icons.image,
-                      color: Colors.grey,
-                      size: 40,
-                    ),
+    return GestureDetector(
+      onTap: () {
+        context.push('/property_detail/${property.id}');
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(12),
                   ),
-                ),
-              ),
-              if (property.isVip)
-                Positioned(
-                  top: 8,
-                  left: 8,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.purple,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: AppText(
-                      text: 'VIP',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+                    width: double.infinity.w,
+                    height: 123.h,
+                    color: Colors.grey[300],
+                    child: property.photos.isNotEmpty
+                        ? Image.network(
+                      property.photos[0].photo, // Faqat birinchi rasm
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Container(
+                          color: Colors.grey[300],
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
+                          ),
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Icon(
+                            Icons.image,
+                            color: Colors.grey,
+                            size: 40,
+                          ),
+                        );
+                      },
+                    )
+                        : Container(
+                      color: Colors.grey[300],
+                      child: const Icon(
+                        Icons.image,
+                        color: Colors.grey,
+                        size: 40,
                       ),
                     ),
                   ),
                 ),
-            ],
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(8),
+                if (property.isVip)
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.purple,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: AppText(
+                        text: 'VIP',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            Expanded(
+              flex: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: AppText(
+                            text: property.title.isNotEmpty
+                                ? property.title
+                                : "No title",
+                            fontSize: 16,
+                            height: 1.2,
+                            fontWeight: 400,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                          ),
+                        ),
+                        AppImage(path: AppAssets.hearth),
+                      ],
+                    ),
+                    SizedBox(height: 4.h),
+                    AppText(
+                      text: property.price > 0
+                          ? "${property.price} ${property.currency}"
+                          : "Price not set",
+                      fontWeight: 800,
+                      fontSize: 16,
+                    ),
+                    SizedBox(height: 6.h),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: AppText(
+                            text: property.location.isNotEmpty
+                                ? property.location
+                                : "Location not specified",
+                            fontSize: 12,
+                            fontWeight: 400,
+                            maxLines: 2,
+                            textAlign: TextAlign.start,
+                            height: 1.2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 4),
+                    Row(
+                      children: [
+                        AppImage(path: AppAssets.bedroom),
+                        SizedBox(width: 8.w),
+                        AppText(
+                          text: '${property.numberOfBathrooms}',
+                          fontWeight: 400,
+                          fontSize: 12,
+                          color: AppColors.base,
+                        ),
+                        SizedBox(width: 16.w),
+                        AppImage(path: AppAssets.sqft),
+                        SizedBox(width: 8.w),
+                        AppText(
+                          text: property.numberOfRooms.isNotEmpty
+                              ? property.numberOfRooms
+                              : "0",
+                          fontWeight: 400,
+                          fontSize: 12,
+                          color: AppColors.base,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildListItem(Datum property) {
+    return GestureDetector(
+      onTap: () {
+        context.push('/property_detail/${property.id}');
+      },
+      child: Container(
+        height: 157.h,
+        margin: EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: AppColors.bg,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.07),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.horizontal(left: Radius.circular(8)),
+              child: Stack(
+                children: [
+                  Container(
+                    width: 118.w,
+                    height: double.infinity.h,
+                    color: Colors.grey[300],
+                    child: Image.network(
+                      property.photos[1].photo!,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Colors.grey[300],
+                          child: const Icon(Icons.image, color: Colors.grey),
+                        );
+                      },
+                    ),
+                  ),
+                  if (property.isVip)
+                    Positioned(
+                      top: 5,
+                      left: 5,
+                      child: ContainerW(
+                        width: 40.w,
+                        height: 23.h,
+                        color: AppColors.base,
+                        radius: 4,
+                        child: Center(
+                          child: AppText(
+                            text: 'VIP',
+                            fontSize: 12,
+                            fontWeight: 500,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -406,140 +556,134 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     children: [
                       Expanded(
                         child: AppText(
-                          text: property.title.isNotEmpty
-                              ? property.title
-                              : "No title",
+                          text: property.title,
                           fontSize: 16,
-                          height: 1.2,
                           fontWeight: 400,
+
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.start,
                         ),
                       ),
-                      AppImage(path: AppAssets.hearth),
+                      AppImage(path: AppAssets.hearth, size: 24),
                     ],
+                  ).paddingOnly(right: 4),
+                  SizedBox(height: 4.h),
+                  AppText(
+                    text: property.price.toString(),
+                    fontSize: 18,
+                    fontWeight: 700,
                   ),
                   SizedBox(height: 4.h),
                   AppText(
-                    text: property.price > 0
-                        ? "${property.price} ${property.currency}"
-                        : "Price not set",
-                    fontWeight: 800,
-                    fontSize: 16,
+                    text: property.location,
+                    fontSize: 12,
+                    fontWeight: 400,
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
-                  SizedBox(height: 6.h),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: AppText(
-                          text: property.location.isNotEmpty
-                              ? property.location
-                              : "Location not specified",
-                          fontSize: 12,
-                          fontWeight: 400,
-                          maxLines: 2,
-                          textAlign: TextAlign.start,
-                          height: 1.2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 4),
+                  SizedBox(height: 24.h),
                   Row(
                     children: [
                       AppImage(path: AppAssets.bedroom),
-                      SizedBox(width: 8.w),
+                      SizedBox(width: 8.h),
                       AppText(
-                        text: '${property.numberOfBathrooms}',
-                        fontWeight: 400,
+                        text: property.numberOfBathrooms.toString(),
                         fontSize: 12,
+                        fontWeight: 400,
                         color: AppColors.base,
                       ),
                       SizedBox(width: 16.w),
                       AppImage(path: AppAssets.sqft),
                       SizedBox(width: 8.w),
                       AppText(
-                        text: property.numberOfRooms.isNotEmpty
-                            ? property.numberOfRooms
-                            : "0",
-                        fontWeight: 400,
+                        text: '${property.area.toString()} m²',
                         fontSize: 12,
+                        fontWeight: 400,
                         color: AppColors.base,
                       ),
                     ],
                   ),
                 ],
-              ),
+              ).paddingAll(12),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildListItem(Datum property) {
-    return Container(
-      height: 157.h,
-      margin: EdgeInsets.only(bottom: 12),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: AppColors.bg,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.07),
-            blurRadius: 8,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.horizontal(left: Radius.circular(8)),
-            child: Stack(
-              children: [
-                Container(
-                  width: 118.w,
-                  height: double.infinity.h,
-                  color: Colors.grey[300],
-                  child: Image.network(
-                    property.photos[1].photo!,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.image, color: Colors.grey),
-                      );
-                    },
-                  ),
-                ),
-                if (property.isVip)
-                  Positioned(
-                    top: 5,
-                    left: 5,
-                    child: ContainerW(
-                      width: 40.w,
-                      height: 23.h,
-                      color: AppColors.base,
-                      radius: 4,
-                      child: Center(
-                        child: AppText(
-                          text: 'VIP',
-                          fontSize: 12,
-                          fontWeight: 500,
-                          color: AppColors.white,
-                        ),
+  Widget _buildGalleryCard(Datum property) {
+    return GestureDetector(
+      onTap: () {
+        context.push('/property_detail/${property.id}');
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.08),
+              blurRadius: 8,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 3,
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(12),
+                    ),
+                    child: Container(
+                      width: double.infinity,
+                      height: 196.h,
+                      color: Colors.grey[300],
+                      child: Image.network(
+                        property.photos[1].photo!,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Colors.grey[300],
+                            width: double.infinity,
+                            height: 196.h,
+                            child: Icon(
+                              Icons.image,
+                              color: Colors.grey,
+                              size: 40,
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),
-              ],
+                  if (property.isVip)
+                    Positioned(
+                      top: 12,
+                      left: 12,
+                      child: ContainerW(
+                        width: 40.w,
+                        height: 23.h,
+                        color: AppColors.base,
+                        radius: 4,
+                        child: Center(
+                          child: AppText(
+                            text: 'VIP',
+                            fontSize: 12,
+                            fontWeight: 500,
+                            color: AppColors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: Column(
+            // Details
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
@@ -548,183 +692,54 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     Expanded(
                       child: AppText(
                         text: property.title,
-                        fontSize: 16,
                         fontWeight: 400,
-
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                        fontSize: 16,
                       ),
                     ),
                     AppImage(path: AppAssets.hearth, size: 24),
                   ],
-                ).paddingOnly(right: 4),
-                SizedBox(height: 4.h),
+                ),
+                SizedBox(height: 9.h),
                 AppText(
-                  text: property.price.toString(),
-                  fontSize: 18,
-                  fontWeight: 700,
+                  text: "\$${property.price}",
+                  fontSize: 16,
+                  fontWeight: 800,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 SizedBox(height: 4.h),
                 AppText(
                   text: property.location,
                   fontSize: 12,
                   fontWeight: 400,
-                  style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                  color: AppColors.textMuted,
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 4.h),
                 Row(
                   children: [
                     AppImage(path: AppAssets.bedroom),
-                    SizedBox(width: 8.h),
+                    SizedBox(width: 8.w),
                     AppText(
                       text: property.numberOfBathrooms.toString(),
-                      fontSize: 12,
                       fontWeight: 400,
-                      color: AppColors.base,
+                      fontSize: 12,
                     ),
                     SizedBox(width: 16.w),
                     AppImage(path: AppAssets.sqft),
                     SizedBox(width: 8.w),
                     AppText(
-                      text: '${property.area.toString()} m²',
-                      fontSize: 12,
+                      text: property.numberOfRooms.toString(),
                       fontWeight: 400,
-                      color: AppColors.base,
+                      fontSize: 12,
                     ),
                   ],
                 ),
               ],
-            ).paddingAll(12),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildGalleryCard(Datum property) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 8,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: const BorderRadius.vertical(
-                    top: Radius.circular(12),
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    height: 196.h,
-                    color: Colors.grey[300],
-                    child: Image.network(
-                      property.photos[1].photo!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          width: double.infinity,
-                          height: 196.h,
-                          child: Icon(
-                            Icons.image,
-                            color: Colors.grey,
-                            size: 40,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                if (property.isVip)
-                  Positioned(
-                    top: 12,
-                    left: 12,
-                    child: ContainerW(
-                      width: 40.w,
-                      height: 23.h,
-                      color: AppColors.base,
-                      radius: 4,
-                      child: Center(
-                        child: AppText(
-                          text: 'VIP',
-                          fontSize: 12,
-                          fontWeight: 500,
-                          color: AppColors.white,
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
-          // Details
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: AppText(
-                      text: property.title,
-                      fontWeight: 400,
-                      fontSize: 16,
-                    ),
-                  ),
-                  AppImage(path: AppAssets.hearth, size: 24),
-                ],
-              ),
-              SizedBox(height: 9.h),
-              AppText(
-                text: "\$${property.price}",
-                fontSize: 16,
-                fontWeight: 800,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 4.h),
-              AppText(
-                text: property.location,
-                fontSize: 12,
-                fontWeight: 400,
-                color: AppColors.textMuted,
-              ),
-              SizedBox(height: 4.h),
-              Row(
-                children: [
-                  AppImage(path: AppAssets.bedroom),
-                  SizedBox(width: 8.w),
-                  AppText(
-                    text: property.numberOfBathrooms.toString(),
-                    fontWeight: 400,
-                    fontSize: 12,
-                  ),
-                  SizedBox(width: 16.w),
-                  AppImage(path: AppAssets.sqft),
-                  SizedBox(width: 8.w),
-                  AppText(
-                    text: property.numberOfRooms.toString(),
-                    fontWeight: 400,
-                    fontSize: 12,
-                  ),
-                ],
-              ),
-            ],
-          ).paddingOnly(top: 18, left: 14, right: 14, bottom: 18),
-        ],
+            ).paddingOnly(top: 18, left: 14, right: 14, bottom: 18),
+          ],
+        ),
       ),
     );
   }
