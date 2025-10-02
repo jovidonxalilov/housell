@@ -1,0 +1,28 @@
+{
+  "login": "Kirish",
+  "welcomeBack": "Qaytib kelganingizdan xursandmiz",
+  "loginWithPhone" : "Telefon raqamingiz va parolingiz bilan tizimga kiring",
+  "enterNumber" : "Telefon raqamini kiriting",
+  "enterPassword" : "Parolni kiriting",
+  "forgotPassword" : "Parolni unutdingizmi?",
+  "loginParolXato" : "Login yoki parol xato!",
+  "continue" : "Davom eting",
+  "dontHaveAccount" : "Hisobingiz yo'qmi? ",
+  "signNow" : "Hozir ro'yxatdan o'ting",
+  "phone" : "Telefon" ,
+  "numberNotFound" : "Raqam topilmadi" ,
+  "exceededTheLimit" : "Limitdan oshib ketdi",
+  "enterViaNumber" : "Telefon raqami orqali biz yuborgan 6-raqamni kiriting" ,
+  "codeConsistDigits" : "Kod 6 ta raqamdan iborat bo'lishi kerak",
+  "enterNumbersOnly" : "Faqat raqamlar kiriting",
+  "resendCode" : "Kodni qayta yuborish",
+  "otpCodeError" : "Otp kod xato!",
+  "recoverYourAccount" : "Hisobingizni tiklang",
+  "enterNumberStartReset" : "Qayta tiklashni boshlash uchun telefon raqamingizni kiriting.",
+  "setNewPassword" : "Yangi parol o'rnating",
+  "createPasswordYourAccount" : "Hisobingiz uchun kuchli parol yarating.",
+  "thePasswordsNotSame" : "Parollar bir xil emas",
+  "passwordSuccessfullyUpdated" :"Password muvaffaqiyatli yangilandi"
+
+
+}

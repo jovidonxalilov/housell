@@ -1,0 +1,29 @@
+{
+  "login": "Login",
+  "welcomeBack": "Welcome Back",
+  "loginWithPhone" : "Log in with your phone number and password",
+  "enterNumber" : "Enter phone number",
+  "enterPassword" : "Enter password" ,
+  "forgotPassword" : "Forgot password?",
+  "loginParolXato" : "Login yoki parol xato!",
+  "continue" : "Continue",
+  "dontHaveAccount" : "Don't have an account? ",
+  "signNow" : "Sign up now",
+  "phone" : "phone" ,
+  "numberNotFound" : "Number not found" ,
+  "exceededTheLimit" : "Exceeded the limit",
+  "verifyYourIdentity" : "Verify Your Identity" ,
+  "enterViaNumber" : "Enter the 6-digit that we have sent via the phone number" ,
+  "codeConsistDigits" : "The code must consist of 6 digits.",
+  "enterNumbersOnly" : "Enter numbers only" ,
+  "resendCode" : "Resend code",
+  "otpCodeError" : "Otp code error!",
+  "recoverYourAccount" : "Recover Your Account",
+  "enterNumberStartReset" : "Enter your phone number to start reset.",
+  "setNewPassword" : "Set New Password",
+  "createPasswordYourAccount" : "Create a strong password for your account.",
+  "thePasswordsNotSame" : "The passwords are not the same.",
+  "passwordSuccessfullyUpdated" : "Password successfully updated"
+
+
+}

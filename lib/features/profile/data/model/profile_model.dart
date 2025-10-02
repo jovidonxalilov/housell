@@ -2,54 +2,45 @@ import 'dart:convert';
 
 class ProfileModel {
   final String? id;
-  final String name;
-  final String surname;
-  final String? image;  // nullable qildim
-  final String? email;  // nullable qildim
-  final String phone;
-  final String password;
-  final String role;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final int freeListingsRemaining;
+  final String? name;        // ✅ nullable qildik
+  final String? surname;     // ✅ nullable qildik
+  final String? image;
+  final String? email;
+  final String? phone;
+  final String? password;
+  final String? role;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
+  final int? freeListingsRemaining;
 
   ProfileModel({
     this.id,
-    required this.name,
-    required this.surname,
-    this.image,  // nullable
-    this.email,  // nullable
-    required this.phone,
-    required this.password,
-    required this.role,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.freeListingsRemaining,
+    this.name,        // ✅ required olib tashladik
+    this.surname,     // ✅ required olib tashladik
+    this.image,
+    this.email,
+    this.phone,
+    this.password,
+    this.role,
+    this.createdAt,
+    this.updatedAt,
+    this.freeListingsRemaining,
   });
-
-
 
   factory ProfileModel.fromMap(Map<String, dynamic> json) {
     try {
       return ProfileModel(
-        // String fieldlar uchun xavfsiz parsing
-        id: json["id"]?.toString() ?? '',
-        name: json["name"]?.toString() ?? '',
-        surname: json["surname"]?.toString() ?? '',
-        phone: json["phone"]?.toString() ?? '',
-        password: json["password"]?.toString() ?? '',
-        role: json["role"]?.toString() ?? '',
-
-        // Nullable fieldlar
+        id: json["id"]?.toString(),
+        name: json["name"]?.toString(),      // ✅ null bo'lishi mumkin
+        surname: json["surname"]?.toString(), // ✅ null bo'lishi mumkin
+        phone: json["phone"]?.toString(),
+        password: json["password"]?.toString(),
+        role: json["role"]?.toString(),
         image: json["image"]?.toString(),
         email: json["email"]?.toString(),
-
-        // DateTime parsing xavfsiz
-        createdAt: _parseDateTime(json["createdAt"]) ?? DateTime.now(),
-        updatedAt: _parseDateTime(json["updatedAt"]) ?? DateTime.now(),
-
-        // Int parsing xavfsiz
-        freeListingsRemaining: _parseInt(json["freeListingsRemaining"]) ?? 0,
+        createdAt: _parseDateTime(json["createdAt"]),
+        updatedAt: _parseDateTime(json["updatedAt"]),
+        freeListingsRemaining: _parseInt(json["freeListingsRemaining"]),
       );
     } catch (e) {
       print('ProfileModel.fromMap error: $e');
@@ -58,16 +49,13 @@ class ProfileModel {
     }
   }
 
-  // DateTime ni xavfsiz parse qilish
   static DateTime? _parseDateTime(dynamic value) {
     if (value == null) return null;
-
     try {
       if (value is String) {
         return DateTime.parse(value);
       }
       if (value is int) {
-        // Unix timestamp bo'lsa
         return DateTime.fromMillisecondsSinceEpoch(value * 1000);
       }
     } catch (e) {
@@ -76,32 +64,33 @@ class ProfileModel {
     return null;
   }
 
-  // Int ni xavfsiz parse qilish
   static int? _parseInt(dynamic value) {
     if (value == null) return null;
-
     if (value is int) return value;
     if (value is double) return value.toInt();
     if (value is String) return int.tryParse(value);
-
     return null;
   }
 
-  Map<String, dynamic> toMap() => {
-    "id": id,
-    "name": name,
-    "surname": surname,
-    "image": image,
-    "email": email,
-    "phone": phone,
-    "password": password,
-    "role": role,
-    "createdAt": createdAt.toIso8601String(),
-    "updatedAt": updatedAt.toIso8601String(),
-    "freeListingsRemaining": freeListingsRemaining,
-  };
+  Map<String, dynamic> toMap() {
+    final map = <String, dynamic>{};
 
-  // Copy with method - yangilash uchun foydali
+    // Faqat null bo'lmagan qiymatlarni qo'shish
+    if (id != null) map["id"] = id;
+    if (name != null) map["name"] = name;
+    if (surname != null) map["surname"] = surname;
+    if (image != null) map["image"] = image;
+    if (email != null) map["email"] = email;
+    if (phone != null) map["phone"] = phone;
+    if (password != null) map["password"] = password;
+    if (role != null) map["role"] = role;
+    if (createdAt != null) map["createdAt"] = createdAt!.toIso8601String();
+    if (updatedAt != null) map["updatedAt"] = updatedAt!.toIso8601String();
+    if (freeListingsRemaining != null) map["freeListingsRemaining"] = freeListingsRemaining;
+
+    return map;
+  }
+
   ProfileModel copyWith({
     String? id,
     String? name,
@@ -135,7 +124,6 @@ class ProfileModel {
     return 'ProfileModel(id: $id, name: $name, surname: $surname, email: $email, phone: $phone, role: $role)';
   }
 }
-
 // Foydalanish namunasi
 
 // Test uchun

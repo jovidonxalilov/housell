@@ -10,7 +10,6 @@ import 'package:housell/core/widgets/app_image.dart';
 import 'package:housell/core/widgets/app_text.dart';
 import 'package:housell/core/widgets/w__container.dart';
 import 'package:housell/core/widgets/w_custom_app_bar.dart';
-import 'package:housell/features/home/data/model/property_model.dart';
 import 'package:housell/features/home/domain/usecase/home_usecase.dart';
 import 'package:housell/features/home/presentation/bloc/home_bloc.dart';
 import 'package:housell/features/home/presentation/bloc/home_event.dart';
@@ -106,7 +105,7 @@ class _DetailPageState extends State<DetailPage> {
                     builder: (context, scrollController) {
                       return Container(
                         decoration: const BoxDecoration(
-                          color: Colors.white,
+                          color: AppColors.backgroundP,
                           borderRadius: BorderRadius.vertical(
                             top: Radius.circular(24),
                           ),

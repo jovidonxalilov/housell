@@ -11,10 +11,12 @@ import 'package:housell/core/widgets/app_image.dart';
 import 'package:housell/core/widgets/app_text.dart';
 import 'package:housell/core/widgets/sing_drop_down.dart';
 import 'package:housell/core/widgets/w__container.dart';
+import 'package:provider/provider.dart';
 import 'package:housell/core/widgets/w_custom_app_bar.dart';
 import 'package:housell/features/home/domain/usecase/home_usecase.dart';
 import 'package:housell/features/home/presentation/bloc/home_bloc.dart';
 
+import '../../../../config/theme/theme_provider.dart';
 import '../../data/model/property_model.dart';
 import '../bloc/home_state.dart';
 
@@ -50,18 +52,20 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    final isDark = themeProvider.isDarkMode;
     return BlocProvider(
       create: (context) => HomeBloc(getIt<HomeGetHousesUsecase>(), getIt<HomeGetHousesIdUsecase>()),
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: isDark ? AppColors.white : AppColors.primaryB,
         appBar: WCustomAppBar(
           title: AppText(
             text: "Housell",
             fontSize: 32,
             fontWeight: 700,
-            color: AppColors.blackT,
+            color: isDark ? AppColors.blackT : AppColors.primaryForTex,
           ),
-          actions: [AppImage(path: AppAssets.notification)],
+          actions: [AppImage(path: AppAssets.notification, color: isDark ? AppColors.lightIcon : AppColors.primaryForTex,)],
           centerTitle: false,
         ),
         body: SingleChildScrollView(

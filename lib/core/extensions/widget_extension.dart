@@ -52,3 +52,15 @@ extension RentalFrequencyExtension on String {
     }
   }
 }
+
+extension NullCheckExtension on String? {
+  String get orQoshilmagan => this ?? "qo'shilmagan";
+
+  String orDefault([String defaultValue = "qo'shilmagan"]) {
+    return this ?? defaultValue;
+  }
+
+  String get orEmpty => this ?? "";
+
+  bool get isNullOrEmpty => this == null || this!.isEmpty;
+}
