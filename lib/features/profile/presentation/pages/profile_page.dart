@@ -41,7 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Scaffold(
         // backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
-          // backgroundColor: AppColors.backgroundP,
           title: AppText(text: "Profile", fontSize: 18, fontWeight: 400),
           actions: [
             AppImage(
@@ -70,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Container(
                         width: 80,
                         height: 80,
-                        // color: Colors.grey[300],
+                        color: Colors.grey[300],
                         child:
                             profile?.image != null && profile!.image!.isNotEmpty
                             ? AppImage(
@@ -111,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                       width: 231.w,
                       height: 42.h,
-                      color: AppColors.white,
+                      // color: AppColors.white,
                       // borderColor: AppColors.base,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

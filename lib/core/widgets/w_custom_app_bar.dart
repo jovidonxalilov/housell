@@ -41,7 +41,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final canPop = Navigator.of(context).canPop();
 
     return Material(
-      color: backgroundColor,
+      color: Theme.of(context).appBarTheme.backgroundColor,
       elevation: elevation,
       child: SafeArea(
         top: false,

@@ -124,7 +124,7 @@ class ContainerW extends StatelessWidget {
         decoration: BoxDecoration(
           color: defaultColor, // Tema rangini ishlatish
           borderRadius: BorderRadius.circular(radius!),
-          border: defaultBorder,
+          border: border ?? Border.all(color: borderColor ?? theme.dividerColor),
           boxShadow: boxShadow ?? defaultShadow, // Tema soyasini ishlatish
         ),
         child: child ?? Center(

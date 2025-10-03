@@ -29,7 +29,7 @@ import 'package:housell/features/profile/presentation/pages/settings/settings_pa
 import '../../features/profile/presentation/pages/edit/new_password_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.profile,
+  initialLocation: Routes.home,
   routes: [
     ShellRoute(
       builder: (context, state, child) {

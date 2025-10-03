@@ -32,6 +32,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
     null,
   );
   ViewMode selectedViewMode = ViewMode.box;
+
   String _getCurrentViewIcon() {
     switch (selectedViewMode) {
       case ViewMode.list:
@@ -55,7 +56,10 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
     // final themeProvider = Provider.of<ThemeProvider>(context);
     // final isDark = themeProvider.isDarkMode;
     return BlocProvider(
-      create: (context) => HomeBloc(getIt<HomeGetHousesUsecase>(), getIt<HomeGetHousesIdUsecase>()),
+      create: (context) => HomeBloc(
+        getIt<HomeGetHousesUsecase>(),
+        getIt<HomeGetHousesIdUsecase>(),
+      ),
       child: Scaffold(
         // backgroundColor: isDark ? AppColors.white : AppColors.primaryB,
         appBar: WCustomAppBar(
@@ -65,7 +69,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
             fontWeight: 700,
             color: AppColors.primaryForTex,
           ),
-          actions: [AppImage(path: AppAssets.notification, color:  AppColors.lightIcon)],
+          actions: [AppImage(path: AppAssets.notification)],
           centerTitle: false,
         ),
         body: SingleChildScrollView(
@@ -94,13 +98,11 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(height: 12.h),
-                        Container(
+                        ContainerW(
                           width: double.infinity,
                           height: 36.h,
-                          decoration: BoxDecoration(
-                            color: AppColors.bg,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
+                          // borderColor: Colors.transparent,
+                          radius: 8,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
@@ -118,15 +120,28 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                         Row(
                           children: [
                             Expanded(
-                              child: CustomDropdown(
-                                hintText: "Property",
-                                options: ["Popular", "Vip"],
-                                controller: propertyController,
+                              child: ContainerW(
+                                // borderColor: Colors.transparent,
+                                height: 36.h,
+                                radius: 8,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: AppText(
+                                        text: "Property",
+                                        fontSize: 16,
+                                        fontWeight: 400,
+                                      ),
+                                    ),
+                                    AppImage(path: AppAssets.chevronBottom),
+                                  ],
+                                ).paddingOnly(left: 16, right: 16),
                               ),
                             ),
                             SizedBox(width: 12.w),
                             ContainerW(
-                              color: AppColors.bg,
+                              // color: AppColors.bg,
                               radius: 8,
                               width: 40.w,
                               height: 40.h,
@@ -317,18 +332,20 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
       onTap: () {
         context.push('/property_detail/${property.id}');
       },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 8,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
+      child: ContainerW(
+        radius: 12,
+
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(12),
+        //   // color: Colors.white,
+        //   boxShadow: [
+        //     BoxShadow(
+        //       color: Colors.black.withOpacity(0.08),
+        //       blurRadius: 8,
+        //       spreadRadius: 0,
+        //     ),
+        //   ],
+        // ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -344,40 +361,45 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     color: Colors.grey[300],
                     child: property.photos.isNotEmpty
                         ? Image.network(
-                      property.photos[0].photo, // Faqat birinchi rasm
-                      fit: BoxFit.cover,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress == null) return child;
-                        return Container(
-                          color: Colors.grey[300],
-                          child: Center(
-                            child: CircularProgressIndicator(
-                              value: loadingProgress.expectedTotalBytes != null
-                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                  : null,
+                            property.photos[0].photo, // Faqat birinchi rasm
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Container(
+                                color: Colors.grey[300],
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    value:
+                                        loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                  .cumulativeBytesLoaded /
+                                              loadingProgress
+                                                  .expectedTotalBytes!
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                color: Colors.grey[300],
+                                child: const Icon(
+                                  Icons.image,
+                                  color: Colors.grey,
+                                  size: 40,
+                                ),
+                              );
+                            },
+                          )
+                        : Container(
+                            color: Colors.grey[300],
+                            child: const Icon(
+                              Icons.image,
+                              color: Colors.grey,
+                              size: 40,
                             ),
                           ),
-                        );
-                      },
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(
-                            Icons.image,
-                            color: Colors.grey,
-                            size: 40,
-                          ),
-                        );
-                      },
-                    )
-                        : Container(
-                      color: Colors.grey[300],
-                      child: const Icon(
-                        Icons.image,
-                        color: Colors.grey,
-                        size: 40,
-                      ),
-                    ),
                   ),
                 ),
                 if (property.isVip)
@@ -393,7 +415,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                       child: AppText(
                         text: 'VIP',
                         style: TextStyle(
-                          color: Colors.white,
+                          // color: Colors.white,
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -464,7 +486,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                           text: '${property.numberOfBathrooms}',
                           fontWeight: 400,
                           fontSize: 12,
-                          color: AppColors.base,
+                          // color: AppColors.base,
                         ),
                         SizedBox(width: 16.w),
                         AppImage(path: AppAssets.sqft),
@@ -475,7 +497,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                               : "0",
                           fontWeight: 400,
                           fontSize: 12,
-                          color: AppColors.base,
+                          // color: AppColors.base,
                         ),
                       ],
                     ),
@@ -494,41 +516,49 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
       onTap: () {
         context.push('/property_detail/${property.id}');
       },
-      child: Container(
-        height: 157.h,
+      child: ContainerW(
+        // height: 157.h,
         margin: EdgeInsets.only(bottom: 12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: AppColors.bg,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.07),
-              blurRadius: 8,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
+        radius: 12,
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(12),
+        //   color: AppColors.bg,
+        //   boxShadow: [
+        //     BoxShadow(
+        //       color: Colors.black.withOpacity(0.07),
+        //       blurRadius: 8,
+        //       spreadRadius: 0,
+        //     ),
+        //   ],
+        // ),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.horizontal(left: Radius.circular(8)),
               child: Stack(
                 children: [
-                  Container(
+                  AppImage(
                     width: 118.w,
-                    height: double.infinity.h,
-                    color: Colors.grey[300],
-                    child: Image.network(
-                      property.photos[1].photo!,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          color: Colors.grey[300],
-                          child: const Icon(Icons.image, color: Colors.grey),
-                        );
-                      },
-                    ),
+                    height: 157,
+                    path: property.photos[1].photo,
+                    fit: BoxFit.cover,
                   ),
+                  // Container(
+                  //   width: 118.w,
+                  //   // height: double.infinity.h,
+                  //   color: Colors.grey[300],
+                  //   child: Image.network(
+                  //     // height: double.infinity,
+                  //     property.photos[1].photo,
+                  //     fit: BoxFit.cover,
+                  //     errorBuilder: (context, error, stackTrace) {
+                  //       return Container(
+                  //         color: Colors.grey[300],
+                  //         child: const Icon(Icons.image, color: Colors.grey),
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                   if (property.isVip)
                     Positioned(
                       top: 5,
@@ -593,7 +623,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                         text: property.numberOfBathrooms.toString(),
                         fontSize: 12,
                         fontWeight: 400,
-                        color: AppColors.base,
+                        // color: AppColors.base,
                       ),
                       SizedBox(width: 16.w),
                       AppImage(path: AppAssets.sqft),
@@ -602,7 +632,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                         text: '${property.area.toString()} m²',
                         fontSize: 12,
                         fontWeight: 400,
-                        color: AppColors.base,
+                        // color: AppColors.base,
                       ),
                     ],
                   ),
@@ -620,18 +650,19 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
       onTap: () {
         context.push('/property_detail/${property.id}');
       },
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.08),
-              blurRadius: 8,
-              spreadRadius: 0,
-            ),
-          ],
-        ),
+      child: ContainerW(
+        radius: 12,
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(12),
+        //   color: Colors.white,
+        //   boxShadow: [
+        //     BoxShadow(
+        //       color: Colors.black.withOpacity(0.08),
+        //       blurRadius: 8,
+        //       spreadRadius: 0,
+        //     ),
+        //   ],
+        // ),
         child: Column(
           children: [
             Expanded(
@@ -642,27 +673,32 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(12),
                     ),
-                    child: Container(
-                      width: double.infinity,
-                      height: 196.h,
-                      color: Colors.grey[300],
-                      child: Image.network(
-                        property.photos[1].photo!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Colors.grey[300],
-                            width: double.infinity,
-                            height: 196.h,
-                            child: Icon(
-                              Icons.image,
-                              color: Colors.grey,
-                              size: 40,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                    child: AppImage(
+                      width: double.infinity.w,
+                        height: 195.h,
+                        path: property.photos[1].photo),
+
+                    // Container(
+                    //   width: double.infinity,
+                    //   height: 196.h,
+                    //   color: Colors.grey[300],
+                    //   child: Image.network(
+                    //     property.photos[1].photo,
+                    //     fit: BoxFit.cover,
+                    //     errorBuilder: (context, error, stackTrace) {
+                    //       return Container(
+                    //         color: Colors.grey[300],
+                    //         width: double.infinity,
+                    //         height: 196.h,
+                    //         child: Icon(
+                    //           Icons.image,
+                    //           color: Colors.grey,
+                    //           size: 40,
+                    //         ),
+                    //       );
+                    //     },
+                    //   ),
+                    // ),
                   ),
                   if (property.isVip)
                     Positioned(

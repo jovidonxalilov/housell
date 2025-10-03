@@ -1216,7 +1216,7 @@ class ThemeProvider extends ChangeNotifier {
     // Asosiy brend rangi (light theme bilan bir xil)
     canvasColor: const Color(0xFF2A2A2A),
     // To'q canvas rang
-    shadowColor: Colors.black.withOpacity(0.3),
+    shadowColor: Color(0xFF141414),
     // To'q soya rangi
     focusColor: const Color(0xFF6C5CE7).withOpacity(0.12),
     // Fokus overlay
@@ -1383,12 +1383,12 @@ class ThemeProvider extends ChangeNotifier {
       margin: const EdgeInsets.all(8), // Karta margin
     ),
 
-    cardColor: const Color(0xFF2A2A2A),
+    cardColor: const Color(0xFF252525),
     // Default to'q karta rangi
-    dividerColor: Colors.grey[800],
+    dividerColor: Colors.transparent,
     // To'q bo'luvchi chiziq
     dividerTheme: DividerThemeData(
-      color: Colors.grey[800], // To'q divider
+      color: Colors.transparent, // To'q divider
       thickness: 1,
       space: 1,
     ),

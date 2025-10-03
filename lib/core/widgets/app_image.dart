@@ -75,7 +75,7 @@ class GlobalImageWidget extends StatelessWidget {
           width: width?.w,
           height: height?.h,
           fit: fit,
-          color: color,
+          // color: color,
           placeholder: (context, url) => placeholder ?? _defaultPlaceholder(),
           errorWidget: (context, url, error) =>
           errorWidget ?? _defaultErrorWidget(),
@@ -176,7 +176,7 @@ class GlobalImageWidget extends StatelessWidget {
         imagePath: path,
         width: width ?? size,
         height: height ?? size,
-        color: imageColor, // Tema ikonka rangi
+        color: imageColor, // //Tema ikonka rangi
         callback: onTap,
         fit: fit,
         borderRadius: borderRadius,
