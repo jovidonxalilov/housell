@@ -146,38 +146,40 @@ class GlobalImageWidget extends StatelessWidget {
   }
 }
 
-class AppImage extends StatelessWidget {
-  const AppImage({
-    super.key,
-    required this.path,
-    this.size,
-    this.width,
-    this.height,
-    this.color,
-    this.onTap,
-    this.fit = BoxFit.cover,
-    this.borderRadius,
-  });
+  class AppImage extends StatelessWidget {
+    const AppImage({
+      super.key,
+      required this.path,
+      this.size,
+      this.width,
+      this.height,
+      this.color, // Agar berilmasa, tema ikonka rangini oladi
+      this.onTap,
+      this.fit = BoxFit.cover,
+      this.borderRadius,
+    });
 
-  final String path;
-  final double? size;
-  final double? width, height;
-  final Color? color;
-  final VoidCallback? onTap;
-  final BoxFit fit;
-  final BorderRadius? borderRadius;
+    final String path;
+    final double? size;
+    final double? width, height;
+    final Color? color;
+    final VoidCallback? onTap;
+    final BoxFit fit;
+    final BorderRadius? borderRadius;
 
-  @override
-  Widget build(BuildContext context) {
-    return GlobalImageWidget(
-      imagePath: path,
-      width: width ?? size,
-      height: height ?? size,
-      color: color,
-      callback: onTap,
-      fit: fit,
-      borderRadius: borderRadius,
-    );
+    @override
+    Widget build(BuildContext context) {
+      // Agar color berilmasa, tema ikonka rangini olish
+      final imageColor = color ?? Theme.of(context).iconTheme.color;
+
+      return GlobalImageWidget(
+        imagePath: path,
+        width: width ?? size,
+        height: height ?? size,
+        color: imageColor, // Tema ikonka rangi
+        callback: onTap,
+        fit: fit,
+        borderRadius: borderRadius,
+      );
+    }
   }
-}
-

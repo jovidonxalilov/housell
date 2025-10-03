@@ -14,7 +14,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? leadingImage;
   final Widget? title;
   final List<Widget>? actions;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final double elevation;
   final EdgeInsetsGeometry? padding;
   final bool centerTitle;
@@ -26,7 +26,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.leadingImage,
     this.actions,
-    this.backgroundColor = Colors.white,
+    this.backgroundColor,
     this.elevation = 0,
     this.padding,
     this.centerTitle = true,

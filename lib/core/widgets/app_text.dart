@@ -8,7 +8,7 @@ class AppText extends StatelessWidget {
   const AppText({
     super.key,
     required this.text,
-    this.color = AppColors.blackT,
+    this.color, // Agar berilmasa, tema rangini oladi
     this.fontSize,
     this.fontWeight,
     this.maxLines,
@@ -39,24 +39,24 @@ class AppText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fw = AppFonts.getFontWeight(fontWeight);
+
+    // Agar color berilmagan bo'lsa, tema rangini olish
+    final textColor = color ?? Theme.of(context).textTheme.bodyLarge?.color ?? Theme.of(context).colorScheme.onSurface;
+
     return InkWell(
       onTap: onTap,
       child: Text(
-        // context.tr(text),
         text,
-        style:
-            style ??
-            TextStyle(
-              height: height,
-              fontSize: fontSize?.sp,
-              fontWeight: fw,
-              color: color,
-              fontFamily: AppFonts.getFontFamily(fontWeight),
-              letterSpacing: letterSpacing,
-              decoration: decoration ?? TextDecoration.none,
-              decorationColor: decorationColor ?? Colors.black,
-            ),
-
+        style: style ?? TextStyle(
+          height: height,
+          fontSize: fontSize?.sp,
+          fontWeight: fw,
+          color: textColor, // Tema rangini ishlatish
+          fontFamily: AppFonts.getFontFamily(fontWeight),
+          letterSpacing: letterSpacing,
+          decoration: decoration ?? TextDecoration.none,
+          decorationColor: decorationColor ?? textColor,
+        ),
         maxLines: maxLines ?? 1,
         textAlign: textAlign,
         overflow: overflow ?? TextOverflow.ellipsis,

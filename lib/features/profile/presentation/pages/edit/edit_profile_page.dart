@@ -13,7 +13,7 @@ import 'package:housell/core/widgets/app_image.dart';
 import 'package:housell/core/widgets/app_text.dart';
 import 'package:housell/core/widgets/w__container.dart';
 import 'package:housell/core/widgets/w_custom_app_bar.dart';
-import 'package:housell/core/widgets/w_text_form.dart';
+import 'package:housell/core/widgets/w_text_form.dart' hide AppText;
 import 'package:housell/features/profile/data/model/profile_model.dart';
 import 'package:housell/features/profile/domain/entities/path_profile.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_bloc.dart';
@@ -121,9 +121,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         return _profileBloc!;
       },
       child: Scaffold(
-        backgroundColor: AppColors.backgroundP,
+        // backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
-          backgroundColor: AppColors.backgroundP,
+          // backgroundColor: AppColors.backgroundP,
           title: AppText(
             text: "Edit profile",
             fontSize: 18,

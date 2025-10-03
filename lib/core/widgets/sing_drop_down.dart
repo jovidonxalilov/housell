@@ -265,8 +265,17 @@ class _CustomDropdownState extends State<CustomDropdown> with SingleTickerProvid
   void _closeDropdown() {
     _overlayEntry?.remove();
     _overlayEntry = null;
-    setState(() => _isOpen = false);
+
+    if (!mounted) return; // State yo‘q bo‘lsa, hech narsa qilmang
+
+    // Agar hozir build/animation fazasida bo‘lsak, keyingi freymda bajaramiz
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        setState(() => _isOpen = false);
+      }
+    });
   }
+
 
   OverlayEntry _createOverlayEntry() {
     final RenderBox renderBox = context.findRenderObject() as RenderBox;

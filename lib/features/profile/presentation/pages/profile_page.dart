@@ -27,7 +27,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -37,16 +36,21 @@ class _ProfilePageState extends State<ProfilePage> {
         getIt<ProfilePhotoUrlUsecase>(),
         getIt<ProfileNewPhoneOtpUsecase>(),
         getIt<ProfileNewPhoneVerifyOtpUsecase>(),
-          getIt<ProfileNewPasswordUsecase>()
+        getIt<ProfileNewPasswordUsecase>(),
       )..add(ProfileGetMeEvent()),
       child: Scaffold(
-        backgroundColor: AppColors.backgroundP,
+        // backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
-          backgroundColor: AppColors.backgroundP,
+          // backgroundColor: AppColors.backgroundP,
           title: AppText(text: "Profile", fontSize: 18, fontWeight: 400),
-          actions: [AppImage(path: AppAssets.settings, onTap: () {
-            context.push(Routes.settings);
-          },)],
+          actions: [
+            AppImage(
+              path: AppAssets.settings,
+              onTap: () {
+                context.push(Routes.settings);
+              },
+            ),
+          ],
           showLeadingAutomatically: false,
         ),
         body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -66,19 +70,20 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Container(
                         width: 80,
                         height: 80,
-                        color: Colors.grey[300],
-                        child: profile?.image != null && profile!.image!.isNotEmpty
+                        // color: Colors.grey[300],
+                        child:
+                            profile?.image != null && profile!.image!.isNotEmpty
                             ? AppImage(
-                          path: profile.image!,
-                          width: 80,
-                          height: 80,
-                          fit: BoxFit.cover,
-                        )
+                                path: profile.image!,
+                                width: 80,
+                                height: 80,
+                                fit: BoxFit.cover,
+                              )
                             : Icon(
-                          Icons.person,
-                          size: 60,
-                          color: Colors.grey[600],
-                        ),
+                                Icons.person,
+                                size: 60,
+                                color: Colors.grey[600],
+                              ),
                       ),
                     ),
                     SizedBox(height: 12.h),
@@ -88,14 +93,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       text: '${profile!.name} ${profile.surname}',
                       fontWeight: 700,
                       fontSize: 24,
-                      color: AppColors.blackT,
+                      // color: AppColors.blackT,
                     ),
                     SizedBox(height: 12.h),
                     AppText(
                       text: profile.phone.toString(),
                       fontWeight: 400,
                       fontSize: 16,
-                      color: AppColors.textLight,
+                      // color: AppColors.textLight,
                     ),
                     SizedBox(height: 12.h),
 
@@ -103,12 +108,11 @@ class _ProfilePageState extends State<ProfilePage> {
                     ContainerW(
                       onTap: () {
                         context.push('/edit_profile/${profile.id}');
-
                       },
                       width: 231.w,
                       height: 42.h,
                       color: AppColors.white,
-                      borderColor: AppColors.base,
+                      // borderColor: AppColors.base,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -119,7 +123,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             text: "Edit Profile",
                             fontSize: 14,
                             fontWeight: 600,
-                            color: AppColors.base,
+                            // color: AppColors.base,
                           ),
                         ],
                       ),
@@ -130,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ContainerW(
                       width: double.infinity.h,
                       // height: 148.h,
-                      color: AppColors.white,
+                      // color: AppColors.white,
                       radius: 16,
                       boxShadow: [
                         BoxShadow(
@@ -168,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     // Account Balance
                     ContainerW(
-                      color: AppColors.base.withOpacity(0.2),
+                      // color: AppColors.base.withOpacity(0.2),
                       radius: 16,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,28 +184,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                 text: 'Account Balance',
                                 fontSize: 16,
                                 fontWeight: 500,
-                                color: AppColors.base,
+                                // color: AppColors.base,
                               ),
                               SizedBox(height: 4.h),
                               AppText(
                                 text: '56.29',
                                 fontWeight: 700,
                                 fontSize: 24,
-                                color: AppColors.base,
+                                // color: AppColors.base,
                               ),
                               SizedBox(height: 4.h),
                               AppText(
                                 text: 'USD available',
                                 fontSize: 16,
                                 fontWeight: 400,
-                                color: AppColors.base,
+                                // color: AppColors.base,
                               ),
                             ],
                           ),
                           ContainerW(
                             width: 48.w,
                             height: 48.h,
-                            color: AppColors.lightest,
+                            // color: AppColors.lightest,
                             radius: 24,
                             child: Center(
                               child: AppImage(path: AppAssets.koshelok),
@@ -214,7 +218,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     // Menu Items
                     ContainerW(
-                      color: AppColors.white,
+                      // color: AppColors.white,
                       radius: 16,
                       boxShadow: [
                         BoxShadow(
@@ -274,9 +278,13 @@ class _ProfilePageState extends State<ProfilePage> {
           width: 48,
           height: 48,
           radius: 24,
-          color: AppColors.base.withOpacity(0.2),
+          // color: AppColors.base.withOpacity(0.2),
           child: Center(
-            child: AppImage(path: icon, size: 24, color: AppColors.base),
+            child: AppImage(
+              path: icon,
+              size: 24,
+              // , color: AppColors.base,
+            ),
           ),
         ),
         SizedBox(height: 8.h),
@@ -284,14 +292,14 @@ class _ProfilePageState extends State<ProfilePage> {
           text: value,
           fontWeight: 700,
           fontSize: 20,
-          color: AppColors.blackT,
+          // color: AppColors.blackT,
         ),
         SizedBox(height: 8.h),
         AppText(
           text: label,
           fontWeight: 400,
           fontSize: 12,
-          color: AppColors.textLight,
+          // color: AppColors.textLight,
         ),
       ],
     );
@@ -308,7 +316,9 @@ class _ProfilePageState extends State<ProfilePage> {
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : Border(bottom: BorderSide(color: AppColors.bgLight, width: 1)),
+            : Border(bottom: BorderSide(
+            // color: AppColors.bgLight,
+            width: 1)),
       ),
       child: GestureDetector(
         onTap: onTap,
@@ -317,10 +327,12 @@ class _ProfilePageState extends State<ProfilePage> {
             ContainerW(
               width: 40,
               height: 40,
-              color: AppColors.base.withOpacity(0.2),
+              // color: AppColors.base.withOpacity(0.2),
               radius: 24,
               child: Center(
-                child: AppImage(path: icon, color: AppColors.base, size: 24),
+                child: AppImage(path: icon,
+                    // color: AppColors.base,
+                    size: 24),
               ),
             ),
             SizedBox(width: 12.w),
@@ -329,10 +341,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 text: title,
                 fontWeight: 500,
                 fontSize: 16,
-                color: AppColors.blackT,
+                // color: AppColors.blackT,
               ),
             ),
-            AppImage(path: AppAssets.chevronRight, size: 24),
+            AppImage(path: AppAssets.chevronRight, size: 24, ),
           ],
         ),
       ),

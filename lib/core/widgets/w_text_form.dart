@@ -6,6 +6,7 @@ import 'package:housell/core/constants/app_assets.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
 import 'package:housell/core/widgets/phone_formatter.dart';
 import '../../config/theme/app_colors.dart';
+import '../../config/theme/app_fonts.dart';
 import 'app_image.dart';
 import 'app_text.dart';
 
@@ -106,7 +107,7 @@ class WTextField extends StatefulWidget {
   final String? hintText;
   final String? errorText;
   final String? title;
-  final String? prefixIconOnePath; // masalan: current location icon
+  final String? prefixIconOnePath;
   final String? prefixIconTwoPath;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -120,9 +121,9 @@ class WTextField extends StatefulWidget {
   final int? maxLength;
   final bool hasClearButton;
   final bool hasError;
-  final Color? fillColor;
-  final Color? borderColor;
-  final Color? cursorColor;
+  final Color? fillColor; // Agar berilmasa, tema rangini oladi
+  final Color? borderColor; // Agar berilmasa, tema rangini oladi
+  final Color? cursorColor; // Agar berilmasa, tema rangini oladi
   final double borderRadius;
   final Widget? prefixIcon;
   final bool suffixIcon;
@@ -170,9 +171,9 @@ class WTextField extends StatefulWidget {
     this.maxLength,
     this.hasClearButton = false,
     this.hasError = false,
-    this.fillColor = AppColors.white,
-    this.borderColor,
-    this.cursorColor,
+    this.fillColor, // null bo'lsa tema rangini oladi
+    this.borderColor, // null bo'lsa tema rangini oladi
+    this.cursorColor, // null bo'lsa tema rangini oladi
     this.borderRadius = 8,
     this.prefixIcon,
     this.suffixIcon = false,
@@ -196,10 +197,6 @@ class WTextField extends StatefulWidget {
 
 class _WTextFieldState extends State<WTextField> {
   late final FocusNode _focusNode;
-
-  // bool _showClear = false;
-  // bool _isPrefixTapped = false;
-
   bool _obscureText = true;
   bool _hasUserStartedTyping = false;
 
@@ -230,7 +227,6 @@ class _WTextFieldState extends State<WTextField> {
     if (text == null) return;
 
     if (!_hasUserStartedTyping && text.isNotEmpty && !text.startsWith('+998')) {
-      // Faqat raqam tekshiruvi
       bool isNumeric = RegExp(r'^[0-9]+$').hasMatch(text);
 
       if (isNumeric) {
@@ -260,11 +256,23 @@ class _WTextFieldState extends State<WTextField> {
   @override
   Widget build(BuildContext context) {
     final isFocused = _focusNode.hasFocus;
+
+    // Tema ranglarini olish
+    final theme = Theme.of(context);
+    final fillColor = widget.fillColor ?? theme.inputDecorationTheme.fillColor ?? theme.cardColor;
+    final cursorColor = widget.cursorColor ?? theme.colorScheme.primary;
+    final hintColor = theme.inputDecorationTheme.hintStyle?.color ?? theme.hintColor;
+    final titleColor = theme.textTheme.titleMedium?.color ?? theme.colorScheme.onSurface;
+    final textColor = theme.textTheme.bodyLarge?.color ?? theme.colorScheme.onSurface;
+    final iconColor = theme.iconTheme.color ?? theme.colorScheme.onSurface;
+
+    // Border rangi
     final borderColor = widget.hasError
-        ? Theme.of(context).colorScheme.error
+        ? theme.colorScheme.error
         : isFocused
-        ? (widget.borderColor ?? AppColors.bg)
-        : AppColors.bg;
+        ? (widget.borderColor ?? theme.colorScheme.primary)
+        : (widget.borderColor ?? theme.dividerColor);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -275,7 +283,7 @@ class _WTextFieldState extends State<WTextField> {
               text: widget.title!,
               fontSize: 16,
               fontWeight: 500,
-              color: AppColors.black,
+              color: titleColor, // Tema rangini ishlatish
             ),
           ),
         TextFormField(
@@ -290,28 +298,26 @@ class _WTextFieldState extends State<WTextField> {
           maxLines: widget.isObscureText ? 1 : widget.maxLines,
           minLines: widget.minLines,
           maxLength: widget.maxLength,
-          cursorColor: widget.cursorColor ?? AppColors.black,
+          cursorColor: cursorColor, // Tema cursor rangi
           textAlign: widget.textAlign,
-          style:
-              widget.textStyle ??
-              TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          style: widget.textStyle ?? TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: textColor, // Tema matn rangi
+          ),
           onTap: widget.onTap,
           onChanged: widget.onChanged,
-          validator:
-              widget.validator ??
-              (value) {
-                if (value == null || value.isEmpty) {
-                  return widget.errorText;
-                }
-                return null;
-              },
+          validator: widget.validator ?? (value) {
+            if (value == null || value.isEmpty) {
+              return widget.errorText;
+            }
+            return null;
+          },
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             filled: true,
-            fillColor: widget.fillColor,
-            contentPadding:
-                widget.contentPadding ??
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            fillColor: fillColor, // Tema fill rangi
+            contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             hint: Align(
               alignment: widget.hintTextAlign,
               child: RichText(
@@ -320,73 +326,71 @@ class _WTextFieldState extends State<WTextField> {
                     TextSpan(
                       text: widget.hintText,
                       style: TextStyle(
-                        color: AppColors.textGrey,
+                        color: hintColor, // Tema hint rangi
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    ?widget.richText
-                        ? TextSpan(
-                            text: ' *',
-                            style: TextStyle(
-                              color: AppColors.red,
-                              fontSize: 16,
-                            ),
-                          )
-                        : null,
+                    if (widget.richText)
+                      TextSpan(
+                        text: ' *',
+                        style: TextStyle(
+                          color: theme.colorScheme.error, // Tema error rangi
+                          fontSize: 16,
+                        ),
+                      ),
                   ],
                 ),
               ),
             ),
-            hintStyle:
-                widget.hintStyle ??
-                TextStyle(
-                  color: AppColors.textGrey,
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w500,
-                ),
+            hintStyle: widget.hintStyle ?? TextStyle(
+              color: hintColor, // Tema hint rangi
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
+            ),
             prefixIcon: widget.prefixImage != null
                 ? AppImage(
-                    size: 20,
-                    path: widget.prefixImage!,
-                    onTap: () {},
-                    color: AppColors.grey300,
-                  ).paddingAll(16)
+              size: 20,
+              path: widget.prefixImage!,
+              onTap: () {},
+              color: iconColor, // Tema ikonka rangi
+            ).paddingAll(16)
                 : null,
             suffixIcon: widget.suffixIcon
                 ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(width: 15.w),
-                      AppImage(
-                        onTap: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                        path: _obscureText ? AppAssets.eyeOff : AppAssets.eyeOn,
-                        color: AppColors.grey300,
-                      ),
-                    ],
-                  )
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(width: 15.w),
+                AppImage(
+                  onTap: () {
+                    setState(() {
+                      _obscureText = !_obscureText;
+                    });
+                  },
+                  path: _obscureText ? AppAssets.eyeOff : AppAssets.eyeOn,
+                  color: iconColor, // Tema ikonka rangi
+                ),
+              ],
+            )
                 : (widget.suffixIconWidget != null
-                      ? widget.suffixIconWidget!
-                      : (widget.suffixImage != null
-                            ? Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(width: 15.w),
-                                  AppImage(
-                                    path: widget.suffixImage!,
-                                    onTap: widget.suffixImageTap,
-                                  ),
-                                ],
-                              )
-                            : null)),
+                ? widget.suffixIconWidget!
+                : (widget.suffixImage != null
+                ? Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(width: 15.w),
+                AppImage(
+                  path: widget.suffixImage!,
+                  onTap: widget.suffixImageTap,
+                  color: iconColor, // Tema ikonka rangi
+                ),
+              ],
+            )
+                : null)),
             counterText: '',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(color: AppColors.divider, width: 2),
+              borderSide: BorderSide(color: theme.dividerColor, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -399,8 +403,15 @@ class _WTextFieldState extends State<WTextField> {
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
               borderSide: BorderSide(
-                color: Theme.of(context).colorScheme.error,
+                color: theme.colorScheme.error, // Tema error rangi
                 width: 1.2,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(widget.borderRadius),
+              borderSide: BorderSide(
+                color: theme.colorScheme.error, // Tema error rangi
+                width: 2,
               ),
             ),
           ),
@@ -408,38 +419,5 @@ class _WTextFieldState extends State<WTextField> {
       ],
     );
   }
-
-  // Widget? _buildSuffixIcon() {
-  //   if (widget.hasClearButton && _showClear) {
-  //     return IconButton(
-  //       icon: const Icon(Icons.clear, size: 20),
-  //       onPressed: () {
-  //         widget.controller?.clear();
-  //         setState(() => _showClear = false);
-  //         widget.onClearTap?.call();
-  //       },
-  //     );
-  //   }
-  //   return widget.suffixIcon;
-  // }
-
-  // Widget? _buildPrefixIcon() {
-  //   if (widget.prefixIconOnePath != null && widget.prefixIconTwoPath != null) {
-  //     return IconButton(
-  //       onPressed: () {
-  //         setState(() {
-  //           _isPrefixTapped = !_isPrefixTapped;
-  //         });
-  //       },
-  //       icon: SvgPicture.asset(
-  //         _isPrefixTapped
-  //             ? widget.prefixIconTwoPath!
-  //             : widget.prefixIconOnePath!,
-  //         key: ValueKey(_isPrefixTapped),
-  //         color: AppColors.grey100,
-  //       ),
-  //     );
-  //   }
-  //   return widget.prefixIcon;
-  // }
 }
+

@@ -52,20 +52,20 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.isDarkMode;
+    // final themeProvider = Provider.of<ThemeProvider>(context);
+    // final isDark = themeProvider.isDarkMode;
     return BlocProvider(
       create: (context) => HomeBloc(getIt<HomeGetHousesUsecase>(), getIt<HomeGetHousesIdUsecase>()),
       child: Scaffold(
-        backgroundColor: isDark ? AppColors.white : AppColors.primaryB,
+        // backgroundColor: isDark ? AppColors.white : AppColors.primaryB,
         appBar: WCustomAppBar(
           title: AppText(
             text: "Housell",
             fontSize: 32,
             fontWeight: 700,
-            color: isDark ? AppColors.blackT : AppColors.primaryForTex,
+            color: AppColors.primaryForTex,
           ),
-          actions: [AppImage(path: AppAssets.notification, color: isDark ? AppColors.lightIcon : AppColors.primaryForTex,)],
+          actions: [AppImage(path: AppAssets.notification, color:  AppColors.lightIcon)],
           centerTitle: false,
         ),
         body: SingleChildScrollView(

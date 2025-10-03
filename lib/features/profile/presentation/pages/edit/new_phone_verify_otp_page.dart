@@ -15,7 +15,7 @@ import '../../../../../../core/constants/app_assets.dart';
 import '../../../../../../core/dp/dp_injection.dart';
 import '../../../../../../core/widgets/app_image.dart';
 import '../../../../../../core/widgets/app_text.dart';
-import '../../../../../../core/widgets/w__container.dart';
+import '../../../../../../core/widgets/w__container.dart' hide AppText;
 import '../../../../../../core/widgets/w_custom_app_bar.dart';
 import '../../../domain/entities/new_phone.dart';
 import '../../../domain/usecase/profile_usecase.dart';
