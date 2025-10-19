@@ -2,10 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:housell/core/constants/app_status.dart';
 import 'package:housell/core/usecase/usecase.dart';
 import 'package:housell/features/profile/domain/usecase/profile_usecase.dart';
-import 'package:housell/features/profile/presentation/bloc/profile_event.dart';
+import 'package:housell/features/profile/presentation/bloc/profile_event.dart' hide ProfileGetMyHouses;
 import 'package:housell/features/profile/presentation/bloc/profile_state.dart';
 
-import '../../../add/data/model/url_photos_model.dart';
 import '../../../home/data/model/property_model.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -15,7 +14,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   final ProfileNewPhoneOtpUsecase profileNewPhoneUsecase;
   final ProfileNewPhoneVerifyOtpUsecase profileNewPhoneVerifyOtpUsecase;
   final ProfileNewPasswordUsecase newPasswordUsecase;
-
+  final ProfileGetMyHousesUsecase profileGetMyHousesUsecase;
   ProfileBloc(
     this.profileGetUsecase,
     this.profilePathUsecase,
@@ -23,6 +22,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     this.profileNewPhoneUsecase,
       this.profileNewPhoneVerifyOtpUsecase,
       this.newPasswordUsecase,
+      this.profileGetMyHousesUsecase
   ) : super(ProfileState.initial()) {
     on<ProfileGetMeEvent>(_profileMe);
     on<ProfilePatchEvent>(_patchProfile);
@@ -30,6 +30,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     on<ProfileNewPhoneOtpEvent>(_profileNewPhoneSendOtpEvent);
     on<ProfileNewPhoneVerifyOtpEvent>(_profileNewPhoneVerifyOtpEvent);
     on<ProfileNewPasswordEvent>(_profileNewPassword);
+    on<ProfileGetMyHousesEvent>(_getLoading);
+
   }
 
   Future<void> _profileMe(
@@ -235,5 +237,47 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         event.onSuccess(success.message);
       },
     );
+  }
+
+  Future<void> _getLoading(
+      ProfileGetMyHousesEvent event,
+      Emitter<ProfileState> emit,
+      ) async {
+    try {
+      emit(state.copyWith(mainStatus: MainStatus.loading));
+      final either = await profileGetMyHousesUsecase.call(NoParams());
+      either.either(
+            (failure) {
+          print("❌ Failure holati: $failure");
+          emit(
+            state.copyWith(
+              mainStatus: MainStatus.failure,
+              errorMessage: failure.toString(),
+            ),
+          );
+          event.onFailure();
+        },
+            (success) {
+          print("✅ Success holati: $success");
+          emit(
+            state.copyWith(
+              mainStatus: MainStatus.succes,
+              errorMessage: '',
+              propertyModel: success,
+            ),
+          );
+          event.onSuccess();
+        },
+      );
+    } catch (e) {
+      print("❌ Kutilmagan xatolik: $e");
+      emit(
+        state.copyWith(
+          mainStatus: MainStatus.failure,
+          errorMessage: "Kutilmagan xatolik yuz berdi: $e",
+        ),
+      );
+      event.onFailure();
+    }
   }
 }

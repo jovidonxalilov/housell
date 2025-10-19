@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:housell/features/auth/data/model/auth_model.dart';
 import 'package:housell/features/auth/data/model/otp_model.dart';
 
 import '../../../../config/service/local_service.dart';

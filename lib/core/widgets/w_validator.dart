@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 /// Validatorlar to'plami
 class Validators {

@@ -6,23 +6,23 @@ plugins {
 
 android {
     namespace = "dasturchi.mobile.housell"
-    compileSdk = 36   // ✅ yangiladik
-
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        // ✅ Kotlin DSL sintaksisi:
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+        jvmTarget = "17"
     }
 
     defaultConfig {
         applicationId = "dasturchi.mobile.housell"
-        minSdk = flutter.minSdkVersion  // kerak bo‘lsa qo‘lda 21 qilib yozamiz
+        minSdk = 26
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -40,6 +40,9 @@ flutter {
 }
 
 dependencies {
-    // ✅ yangilangan versiya
+    implementation("com.yandex.android:maps.mobile:4.4.0-full")
+
+    // ✅ Kotlin DSL uchun to‘g‘ri yozilishi:
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+
 }

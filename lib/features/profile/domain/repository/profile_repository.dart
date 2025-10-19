@@ -27,6 +27,8 @@ abstract class ProfileRepository {
       String? id
    });
 
+   Future<Either<Failure, PropertyModel>> getHousesMy();
+
 
 
 

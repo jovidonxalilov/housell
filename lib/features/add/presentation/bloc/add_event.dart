@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
 
-import 'package:housell/features/add/data/model/url_photos_model.dart';
 import 'package:housell/features/home/data/model/property_model.dart';
 
 sealed class AddEvent {}

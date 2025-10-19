@@ -4,16 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:housell/config/router/routes.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/constants/app_assets.dart';
 import 'package:housell/core/constants/app_status.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
 import 'package:housell/core/widgets/app_image.dart';
 import 'package:housell/core/widgets/app_text.dart';
-import 'package:housell/core/widgets/w__container.dart';
 import 'package:housell/core/widgets/w_custom_app_bar.dart';
-import 'package:housell/core/widgets/w_text_form.dart' hide AppText;
+import 'package:housell/core/widgets/w_text_form.dart';
 import 'package:housell/features/profile/data/model/profile_model.dart';
 import 'package:housell/features/profile/domain/entities/path_profile.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_bloc.dart';
@@ -116,14 +114,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
           getIt<ProfilePhotoUrlUsecase>(),
           getIt<ProfileNewPhoneOtpUsecase>(),
           getIt<ProfileNewPhoneVerifyOtpUsecase>(),
-            getIt<ProfileNewPasswordUsecase>()
+            getIt<ProfileNewPasswordUsecase>(),
+            getIt<ProfileGetMyHousesUsecase>()
         )..add(ProfileGetMeEvent());
         return _profileBloc!;
       },
       child: Scaffold(
-        // backgroundColor: AppColors.backgroundP,
+        backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
-          // backgroundColor: AppColors.backgroundP,
+          backgroundColor: AppColors.backgroundP,
           title: AppText(
             text: "Edit profile",
             fontSize: 18,
@@ -160,7 +159,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   print('🔍 DEBUG: name = $name');
                   print('🔍 DEBUG: surname = $surname');
                   print('🔍 DEBUG: file path = ${file?.path}');
-                  print('🔍 DEBUG: widget.id = ${widget.id}');
+                  print('🔍 DEBUG: widgets.id = ${widget.id}');
 
                   // Agar rasm tanlangan bo'lsa, avval rasmni yuklash
                   if (file != null) {
@@ -285,7 +284,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                       _buildSettingsRow(
                         onTap: (){
-                          context.push('/edit_phone_page/${profile.id}');
+                          context.push('/edit_phone_page/${profile.id}', extra: {
+                            "phone": profile.phone.toString()
+                          });
                         },
                         icon: AppAssets.sim,
                         title: "Number",
@@ -358,16 +359,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
-    String? placeholder,
     String? text,
     bool isFirst = false,
-    bool isLast = false,
   }) {
     try {
       return WTextField(
         controller: controller,
         hintText: label,
-        borderColor: AppColors.bgLight,
+        borderColor: AppColors.lightSky,
+        fillColor: AppColors.white,
         borderRadius: 8,
         text: text,
         autoPrefix998: false,
@@ -402,14 +402,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Expanded(
                   child: AppText(text: title, fontSize: 16, fontWeight: 400),
                 ),
-                Flexible(
-                  child: AppText(
-                    text: des,
-                    fontWeight: 400,
-                    fontSize: 16,
-                    color: AppColors.textMuted,
-                    textAlign: TextAlign.end,
-                  ),
+                AppText(
+                  text: des,
+                  fontWeight: 400,
+                  fontSize: 16,
+                  color: AppColors.textMuted,
+                  textAlign: TextAlign.end,
                 ),
                 SizedBox(width: 8.w),
                 AppImage(path: AppAssets.chevronRight, size: 20),

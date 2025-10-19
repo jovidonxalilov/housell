@@ -170,13 +170,13 @@ class GlobalImageWidget extends StatelessWidget {
     @override
     Widget build(BuildContext context) {
       // Agar color berilmasa, tema ikonka rangini olish
-      final imageColor = color ?? Theme.of(context).iconTheme.color;
+      // final imageColor = color ?? Theme.of(context).iconTheme.color;
 
       return GlobalImageWidget(
         imagePath: path,
         width: width ?? size,
         height: height ?? size,
-        color: imageColor, // //Tema ikonka rangi
+        color: color, // //Tema ikonka rangi
         callback: onTap,
         fit: fit,
         borderRadius: borderRadius,

@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +97,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   //   selectedImagesNotifier.value = [];
   //
   //   // Callback orqali bo'sh ro'yxatni jo'natish
-  //   widget.onImagesSelected?.call([]);
+  //   widgets.onImagesSelected?.call([]);
   //
   //   // Validatsiya tekshirish
   //   _checkValidation();
@@ -342,7 +341,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 }
 
 //
-// // Bu widget'ni qanday ishlatish kerakligini ko'rsatuvchi misol
+// // Bu widgets'ni qanday ishlatish kerakligini ko'rsatuvchi misol
 // class ParentWidget extends StatefulWidget {
 //   @override
 //   _ParentWidgetState createState() => _ParentWidgetState();

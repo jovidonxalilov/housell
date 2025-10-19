@@ -81,7 +81,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Title", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.propertyTitleController,
+//           controller: widgets.propertyTitleController,
 //           richText: true,
 //           hintText: "Enter Property Title",
 //           keyboardType: TextInputType.text,
@@ -93,7 +93,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Description", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.descriptionController,
+//           controller: widgets.descriptionController,
 //           richText: true,
 //           validator: (value) {
 //             return SimpleValidators.validateText(value, minLength: 50);
@@ -106,7 +106,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Number of rooms", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.numberOfRoomsController,
+//           controller: widgets.numberOfRoomsController,
 //           richText: true,
 //           hintText: "Enter number of rooms",
 //           keyboardType: TextInputType.number,
@@ -119,7 +119,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //           valueListenable: selectedStudio,
 //           builder: (context, value, _) {
 //             return _buildNumberSelector(
-//               controller: widget.numberOfRoomsController,
+//               controller: widgets.numberOfRoomsController,
 //               selectedValue: value,
 //               maxValue: 5,
 //               onChanged: (v) => selectedStudio.value = v,
@@ -132,7 +132,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Number of bathrooms", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.numberOfBathroomsController,
+//           controller: widgets.numberOfBathroomsController,
 //           hintText: "Enter number of bathrooms",
 //           validator: (value) {
 //             return SimpleValidators.numberInRange(value, min: 1, max: 15);
@@ -145,7 +145,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //           builder: (context, value, _) {
 //             return _buildNumberSelector(
 //               showStudio: false,
-//               controller: widget.numberOfBathroomsController,
+//               controller: widgets.numberOfBathroomsController,
 //               selectedValue: value,
 //               maxValue: 3,
 //               onChanged: (v) => selectedBathrooms.value = v,
@@ -158,7 +158,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Area m²", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.areaController,
+//           controller: widgets.areaController,
 //           hintText: "e.g. 150 m²",
 //           keyboardType: TextInputType.number,
 //         ),
@@ -168,7 +168,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Floor", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.floorController,
+//           controller: widgets.floorController,
 //           hintText: "e.g. 5",
 //           keyboardType: TextInputType.number,
 //         ),
@@ -178,7 +178,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Enter total residential floors", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.totalFloorsController,
+//           controller: widgets.totalFloorsController,
 //           hintText: "e.g., 4",
 //           keyboardType: TextInputType.number,
 //         ),
@@ -203,7 +203,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Location", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.floorController,
+//           controller: widgets.floorController,
 //           hintText: "e.g., Downtown Manhattan, NYC",
 //           keyboardType: TextInputType.number,
 //           richText: true,
@@ -257,7 +257,7 @@ import 'package:housell/core/widgets/w_validator.dart';
 //         _buildSectionTitle("Price", isRequired: true),
 //         SizedBox(height: 8.h),
 //         _buildTextField(
-//           controller: widget.priceController,
+//           controller: widgets.priceController,
 //           hintText: "2 300",
 //           suffixWidget: ContainerW(
 //             width: 104.w,
@@ -564,15 +564,15 @@ import 'package:housell/core/widgets/w_validator.dart';
 //
 //   @override
 //   void dispose() {
-//     widget.propertyTitleController.dispose();
-//     widget.descriptionController.dispose();
-//     widget.numberOfRoomsController.dispose();
-//     widget.numberOfBathroomsController.dispose();
-//     widget.areaController.dispose();
-//     widget.floorController.dispose();
-//     widget.totalFloorsController.dispose();
-//     widget.locationController.dispose();
-//     widget.priceController.dispose();
+//     widgets.propertyTitleController.dispose();
+//     widgets.descriptionController.dispose();
+//     widgets.numberOfRoomsController.dispose();
+//     widgets.numberOfBathroomsController.dispose();
+//     widgets.areaController.dispose();
+//     widgets.floorController.dispose();
+//     widgets.totalFloorsController.dispose();
+//     widgets.locationController.dispose();
+//     widgets.priceController.dispose();
 //     super.dispose();
 //   }
 // }
@@ -1338,7 +1338,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
     );
   }
 
-  Widget _buildSectionTitle(String title, {String? subtitle, bool isRequired = false}) {
+  Widget _buildSectionTitle(String title, {bool isRequired = false}) {
     return Row(
       children: [
         AppText(

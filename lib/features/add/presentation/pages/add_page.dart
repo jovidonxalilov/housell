@@ -3,6 +3,8 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:housell/config/router/routes.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/constants/app_assets.dart';
@@ -18,6 +20,7 @@ import 'package:housell/features/add/presentation/bloc/add_event.dart';
 import 'package:housell/features/add/presentation/bloc/add_state.dart';
 import 'package:housell/features/add/presentation/pages/new_property_deatil.dart';
 import 'package:housell/features/home/data/model/property_model.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 import '../../../../core/widgets/w_validator.dart';
 
@@ -45,9 +48,9 @@ class _AddPageState extends State<AddPage> {
     {"name": "Hospital, clinic", "selected": false},
     {"name": "Entertainment facilities", "selected": false},
     {"name": "Kindergarten", "selected": false},
-    {"name": "Restaurant, facilities", "selected": false},
-    {"name": "Resort, farmhouse", "selected": false},
-    {"name": "Shops, shopping mall", "selected": false},
+    {"name": "Restaurant, cafe", "selected": false},
+    {"name": "Resort/ Dormitory", "selected": false},
+    {"name": "Bus Stops/Metro Stations", "selected": false},
     {"name": "Supermarket, shops", "selected": false},
     {"name": "Park, green area", "selected": false},
     {"name": "School", "selected": false},
@@ -182,7 +185,7 @@ class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.backgroundP,
       appBar: WCustomAppBar(
         title: AppText(text: "Add Listing", fontWeight: 700, fontSize: 32),
         centerTitle: false,
@@ -294,27 +297,33 @@ class _AddPageState extends State<AddPage> {
                                     // textColor: isValid ? AppColors.white : AppColors.textLight,
                                   )
                                 : ContainerW(
-                              onTap: isValid && state.mainStatus != MainStatus.loading
-                                  ? _submitForm
-                                  : null,
-                              radius: 8,
-                              width: double.infinity,
-                              height: 51,
-                              color: isValid ? AppColors.base : AppColors.grey200,
-                              child: state.mainStatus == MainStatus.loading
-                                  ? const Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                                  : AppText(
-                                text: "Create Listing",
-                                fontWeight: 600,
-                                fontSize: 16,
-                                color: AppColors.white,
-                              ),
-                            );
+                                    onTap:
+                                        isValid &&
+                                            state.mainStatus !=
+                                                MainStatus.loading
+                                        ? _submitForm
+                                        : null,
+                                    radius: 8,
+                                    width: double.infinity,
+                                    height: 51,
+                                    color: isValid
+                                        ? AppColors.base
+                                        : AppColors.grey200,
+                                    child:
+                                        state.mainStatus == MainStatus.loading
+                                        ? const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2,
+                                            ),
+                                          )
+                                        : AppText(
+                                            text: "Create Listing",
+                                            fontWeight: 600,
+                                            fontSize: 16,
+                                            color: AppColors.white,
+                                          ),
+                                  );
                           },
                         ),
                       ),
@@ -835,6 +844,14 @@ class _AddPageState extends State<AddPage> {
               minLength: 5,
             );
           },
+        ),
+        SizedBox(height: 20.h),
+
+        // Yadex map
+        SizedBox(
+          width: double.infinity.w,
+          height: 200.h,
+          child: Stack(children: [YandexMap()]),
         ),
         SizedBox(height: 20.h),
 
@@ -1474,10 +1491,16 @@ class _AddPageState extends State<AddPage> {
       }
 
       // FURNISHING ni to'g'ri formatga o'tkazish
-      String correctFurnishing = propertyControllers.selectedFurnishingStatus.value.toUpperCase();
+      String correctFurnishing = propertyControllers
+          .selectedFurnishingStatus
+          .value
+          .toUpperCase();
 
       // RENTAL FREQUENCY ni to'g'ri formatga o'tkazish
-      String correctRentalFrequency = propertyControllers.selectedRentalFrequency.value.toUpperCase();
+      String correctRentalFrequency = propertyControllers
+          .selectedRentalFrequency
+          .value
+          .toUpperCase();
 
       // First upload images, then create the house listing
       context.read<AddHouseBloc>().add(
@@ -1487,10 +1510,14 @@ class _AddPageState extends State<AddPage> {
             print("🎉 Rasmlar muvaffaqiyatli yuklandi");
 
             final uploaded = context.read<AddHouseBloc>().state.uploadedPhotos;
-            print("📋 Yuklangan rasmlar: ${uploaded.map((e) => e.secureUrl).toList()}");
+            print(
+              "📋 Yuklangan rasmlar: ${uploaded.map((e) => e.secureUrl).toList()}",
+            );
 
             // Create Photos objects with URLs
-            final photosList = uploaded.map((photoUrl) => Photo(photo: photoUrl.secureUrl)).toList();
+            final photosList = uploaded
+                .map((photoUrl) => Photo(photo: photoUrl.secureUrl))
+                .toList();
 
             final datum = Datum(
               typeOfSale: selectPriceIndex == 0 ? 'RENT' : 'PURCHASE',
@@ -1523,7 +1550,7 @@ class _AddPageState extends State<AddPage> {
               longitude: 123456,
               location: propertyControllers.locationController.text,
               locatedNear: propertyControllers.selectedAmenities.value,
-              isVip: false,
+              isVip: true,
               youtubeLink: null,
               isVerified: false,
               rentalFrequency: correctRentalFrequency,
@@ -1543,11 +1570,15 @@ class _AddPageState extends State<AddPage> {
               AddHouseEvent(
                 propertyModel: datum,
                 onSuccess: () {
-                  if (!mounted) return; // widget hali ekranda bo‘lmasa chiqib ketadi
+                  if (!mounted)
+                    return; // widgets hali ekranda bo‘lmasa chiqib ketadi
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('✅ Uy muvaffaqiyatli qo‘shildi!')),
+                    const SnackBar(
+                      content: Text('✅ Uy muvaffaqiyatli qo‘shildi!'),
+                    ),
                   );
-                  Navigator.of(context).pop(); // faqat mounted bo‘lsa ishlaydi
+                  context.push(Routes.home);
+                  // Navigator.of(context).pop(); // faqat mounted bo‘lsa ishlaydi
                 },
                 onFailure: () {
                   print("💥 FAILURE CALLBACK!");

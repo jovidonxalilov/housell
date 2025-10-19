@@ -1,7 +1,5 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:housell/config/theme/app_colors.dart';
 import '../../config/theme/app_fonts.dart';
 
 class AppText extends StatelessWidget {
@@ -41,7 +39,7 @@ class AppText extends StatelessWidget {
     final fw = AppFonts.getFontWeight(fontWeight);
 
     // Agar color berilmagan bo'lsa, tema rangini olish
-    final textColor = color ?? Theme.of(context).textTheme.bodyLarge?.color ?? Theme.of(context).colorScheme.onSurface;
+    // final textColor = color ?? Theme.of(context).textTheme.bodyLarge?.color ?? Theme.of(context).colorScheme.onSurface;
 
     return InkWell(
       onTap: onTap,
@@ -51,11 +49,11 @@ class AppText extends StatelessWidget {
           height: height,
           fontSize: fontSize?.sp,
           fontWeight: fw,
-          color: textColor, // Tema rangini ishlatish
+          color: color, // Tema rangini ishlatish
           fontFamily: AppFonts.getFontFamily(fontWeight),
           letterSpacing: letterSpacing,
           decoration: decoration ?? TextDecoration.none,
-          decorationColor: decorationColor ?? textColor,
+          decorationColor: decorationColor ?? color,
         ),
         maxLines: maxLines ?? 1,
         textAlign: textAlign,

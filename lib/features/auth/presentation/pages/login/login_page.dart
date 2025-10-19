@@ -44,12 +44,27 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthBloc(getIt<AuthLoginUsecase>(), getIt<AuthSentOtpUsecase>(),
-        getIt<AuthVerifyOtpUsecase>(),getIt<AuthSignUpUsecase>(), getIt<AuthResetVerifyOtpUsecase>(), getIt<AuthResetPasswordUsecase>(), getIt<AuthResetSendOtpUsecase>()),
+      create: (context) => AuthBloc(
+        getIt<AuthLoginUsecase>(),
+        getIt<AuthSentOtpUsecase>(),
+        getIt<AuthVerifyOtpUsecase>(),
+        getIt<AuthSignUpUsecase>(),
+        getIt<AuthResetVerifyOtpUsecase>(),
+        getIt<AuthResetPasswordUsecase>(),
+        getIt<AuthResetSendOtpUsecase>(),
+      ),
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
-          title: Center(child: AppText(text: "Login", fontWeight: 400, fontSize: 18, color: AppColors.blackT,)),
+          backgroundColor: AppColors.backgroundP,
+          title: Center(
+            child: AppText(
+              text: "Login",
+              fontWeight: 400,
+              fontSize: 18,
+              color: AppColors.blackT,
+            ),
+          ),
           centerTitle: true,
           leading: AppImage(
             path: AppAssets.arrowChevronLeft,
@@ -85,7 +100,8 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             SizedBox(height: 12.h),
                             AppText(
-                              text: "Log in with your phone number and password",
+                              text:
+                                  "Log in with your phone number and password",
                               fontSize: 16,
                               fontWeight: 400,
                               textAlign: TextAlign.center,
@@ -104,9 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                               controller: phoneController,
                               hintText: "Enter phone number",
                               autoPrefix998: true,
-                              fillColor: AppColors.white,
+                              fillColor: AppColors.backgroundP,
+                              borderNoFocusColor: AppColors.lightSky,
                               prefixImage: AppAssets.uzbI,
-                              borderColor: AppColors.lightSky,
+                              // borderColor: AppColors.lightSky,
                             ),
                             SizedBox(height: 16.h),
                             WTextField(
@@ -114,6 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                                 return SimpleValidators.password(value);
                               },
                               controller: passwordController,
+                              borderNoFocusColor: AppColors.lightSky,
+                              fillColor: AppColors.backgroundP,
                               hintText: "Enter password",
                               suffixIcon: true,
                             ),
@@ -155,15 +174,12 @@ class _LoginPageState extends State<LoginPage> {
                           context.read<AuthBloc>().add(
                             AuthLoginEvent(
                               authLogin: LoginModel(
-                                login: phoneController.text
-                                    .trim(),
+                                login: phoneController.text.trim(),
                                 password: passwordController.text.trim(),
                               ),
-                              onSuccess: (value)  {
-                                 getIt<SecureStorageService>().saveToken(
-                                  value,
-                                );
-                                context.push(Routes.home);
+                              onSuccess: (value) {
+                                getIt<SecureStorageService>().saveToken(value);
+                                context.go(Routes.home);
                               },
                               onFailure: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -180,22 +196,22 @@ class _LoginPageState extends State<LoginPage> {
                       height: 48.h,
                       child: state.loginStatus == MainStatus.loading
                           ? Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              AppColors.white,
-                            ),
-                          ),
-                        ),
-                      )
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    AppColors.white,
+                                  ),
+                                ),
+                              ),
+                            )
                           : Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [AppText(text: "Continue")],
-                      ),
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [AppText(text: "Continue", )],
+                            ),
                     ),
                   ),
                 ],

@@ -1,12 +1,12 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:housell/features/profile/data/model/profile_model.dart';
 import 'package:housell/features/profile/domain/entities/new_phone.dart';
 import 'package:housell/features/profile/domain/entities/path_profile.dart';
 
 import '../../../auth/domain/entities/otp.dart';
 import '../../../auth/domain/entities/reset_password.dart';
+import '../../../home/data/model/property_model.dart';
 
 class ProfileEvent {}
 
@@ -71,3 +71,16 @@ class ProfileNewPasswordEvent extends ProfileEvent {
     required this.onFailure,
   });
 }
+
+class ProfileGetMyHousesEvent extends ProfileEvent {
+  final PropertyModel? propertyModel;
+  final VoidCallback onSuccess;
+  final VoidCallback onFailure;
+
+  ProfileGetMyHousesEvent({
+    required this.propertyModel,
+    required this.onFailure,
+    required this.onSuccess,
+  });
+}
+

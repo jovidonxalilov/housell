@@ -4,7 +4,6 @@ import 'package:housell/features/home/data/model/property_model.dart';
 import '../../../../core/either/either.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/usecase/usecase.dart';
-import '../../../auth/data/model/auth_model.dart';
 import '../../data/model/url_photos_model.dart';
 
 class AddHouseUsecase extends UseCase<PropertyModel, Datum> {

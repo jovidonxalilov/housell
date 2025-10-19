@@ -27,6 +27,7 @@ Future<void> registerBlocs(GetIt getIt) async {
       () => HomeBloc(
         getIt<HomeGetHousesUsecase>(),
         getIt<HomeGetHousesIdUsecase>(),
+        getIt<ProfileGetInformationUsecase>()
       ),
     )
     ..registerFactory<AddHouseBloc>(
@@ -41,6 +42,7 @@ Future<void> registerBlocs(GetIt getIt) async {
         getIt<ProfileNewPhoneOtpUsecase>(),
         getIt<ProfileNewPhoneVerifyOtpUsecase>(),
         getIt<ProfileNewPasswordUsecase>()
+          ,getIt<ProfileGetMyHousesUsecase>()
       ),
     );
   log("Register BLOC Complate For GetIT");

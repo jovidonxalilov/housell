@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:housell/core/dp/dp_injection.dart';
 
 import '../../../../../config/service/local_service.dart';
-import '../../../../../core/dio/dio_client.dart';
 
 // 8. Splash Screen - Go Router bilan
 

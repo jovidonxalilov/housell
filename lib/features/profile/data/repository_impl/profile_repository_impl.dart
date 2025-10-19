@@ -8,11 +8,11 @@ import '../../../add/data/model/url_photos_model.dart';
 import '../../../auth/data/model/otp_model.dart';
 import '../../../home/data/model/property_model.dart';
 
-class ProfileRepositoryImpl implements ProfileRepository{
-
+class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileDataSource _profileDataSource;
 
-  ProfileRepositoryImpl({required ProfileDataSource profileDataSource}) : _profileDataSource = profileDataSource;
+  ProfileRepositoryImpl({required ProfileDataSource profileDataSource})
+    : _profileDataSource = profileDataSource;
 
   @override
   Future<Either<Failure, ProfileModel>> profile() async {
@@ -21,12 +21,14 @@ class ProfileRepositoryImpl implements ProfileRepository{
       return Right(result);
     } catch (e) {
       return Left(ValidationFailure(e.toString()));
-
     }
   }
 
   @override
-  Future<Either<Failure, ProfileModel>> patchProfile(String id, ProfileModel profileModel) async {
+  Future<Either<Failure, ProfileModel>> patchProfile(
+    String id,
+    ProfileModel profileModel,
+  ) async {
     try {
       final result = await _profileDataSource.patchProfile(id, profileModel);
       return Right(result);
@@ -40,13 +42,16 @@ class ProfileRepositoryImpl implements ProfileRepository{
     try {
       final result = await _profileDataSource.urlPhotos(photos);
       return Right(result);
-    } catch(e) {
+    } catch (e) {
       return Left(ValidationFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, OtpModel>> sentOtp(String phoneNumber, String id) async {
+  Future<Either<Failure, OtpModel>> sentOtp(
+    String phoneNumber,
+    String id,
+  ) async {
     try {
       final result = await _profileDataSource.sentOtp(phoneNumber, id);
       return Right(result);
@@ -77,13 +82,13 @@ class ProfileRepositoryImpl implements ProfileRepository{
   Future<Either<Failure, OtpModel>> newPassword({
     required String oldPassword,
     required String newPassword,
-    String? id
+    String? id,
   }) async {
     try {
       final result = await _profileDataSource.newPassword(
         oldPassword: oldPassword,
         newPassword: newPassword,
-        id: id!
+        id: id!,
       );
       return Right(result);
     } catch (e) {
@@ -91,4 +96,13 @@ class ProfileRepositoryImpl implements ProfileRepository{
     }
   }
 
+  @override
+  Future<Either<Failure, PropertyModel>> getHousesMy() async {
+    try {
+      final result = await _profileDataSource.getHousesMy();
+      return Right(result);
+    } catch (e) {
+      return Left(ValidationFailure(e.toString()));
+    }
+  }
 }

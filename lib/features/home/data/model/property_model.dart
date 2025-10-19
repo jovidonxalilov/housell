@@ -125,41 +125,92 @@ class Datum {
 
   String toJson() => json.encode(toMap());
 
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-    id: json["id"],
-    typeOfSale: json["typeOfSale"] ?? "",
-    buildingType: json["buildingType"] ?? "",
-    title: json["title"] ?? "",
-    description: json["description"] ?? "",
-    numberOfRooms: json["NumberOfRooms"] ?? 1,
-    numberOfBathrooms: json["NumberOfBathrooms"] ?? 1,
-    area: json["Area"] ?? 1,
-    floor: json["floor"] ?? 1,
-    totalFloors: json["totalFloors"] ?? 1,
-    furnishing: json["furnishing"] ?? "",
-    latitude: json["latitude"] ?? 0,
-    longitude: json["longitude"] ?? 0,
-    location: json["location"] ?? "",
-    locatedNear: json["locatedNear"] != null
-        ? List<String>.from(json["locatedNear"].map((x) => x.toString()))
-        : [],
-    isVip: json["isVip"] ?? false,
-    youtubeLink: json["youtubeLink"],
-    isVerified: json["isVerified"] ?? false,
-    rentalFrequency: json["rentalFrequency"] ?? "",
-    currency: json["currency"] ?? "",
-    price: json["price"] ?? 0,
-    photos: (json['photos'] as List<dynamic>?)
-        ?.map((e) => Photo.fromJson(e))
-        .toList() ?? [],
-    ownerId: json["ownerId"],
-    isPaid: json["isPaid"],
-    freeListingUsed: json["freeListingUsed"],
-    createdAt: json["createdAt"] != null ? DateTime.parse(json["createdAt"]) : null,
-    updatedAt: json["updatedAt"] != null ? DateTime.parse(json["updatedAt"]) : null,
-    user: json["user"] != null ? User.fromMap(json["user"]) : null,
-  );
+  factory Datum.fromMap(Map<String, dynamic> json) {
+    print("=== DATUM PARSE DEBUG ===");
+    print("Kelgan JSON: $json");
+    print("Photos turi: ${json['photos']?.runtimeType}");
+    print("Photos qiymati: ${json['photos']}");
 
+    return Datum(
+      id: json["id"]?.toString(), // ✅ String ga o'tkazish
+      typeOfSale: json["typeOfSale"]?.toString() ?? "",
+      buildingType: json["buildingType"]?.toString() ?? "",
+      title: json["title"]?.toString() ?? "",
+      description: json["description"]?.toString() ?? "",
+      numberOfRooms: json["NumberOfRooms"]?.toString() ?? "1",
+      numberOfBathrooms: _parseToInt(json["NumberOfBathrooms"]),
+      area: _parseToInt(json["Area"]),
+      floor: _parseToInt(json["floor"]),
+      totalFloors: _parseToInt(json["totalFloors"]),
+      furnishing: json["furnishing"]?.toString() ?? "",
+      latitude: _parseToInt(json["latitude"]),
+      longitude: _parseToInt(json["longitude"]),
+      location: json["location"]?.toString() ?? "",
+      locatedNear: _parseStringList(json["locatedNear"]),
+      isVip: json["isVip"] == true,
+      youtubeLink: json["youtubeLink"]?.toString(),
+      isVerified: json["isVerified"] == true,
+      rentalFrequency: json["rentalFrequency"]?.toString() ?? "",
+      currency: json["currency"]?.toString() ?? "",
+      price: _parseToInt(json["price"]),
+      photos: _parsePhotos(json["photos"]), // ✅ Alohida function
+      ownerId: json["ownerId"]?.toString(),
+      isPaid: json["isPaid"] as bool?,
+      freeListingUsed: json["freeListingUsed"] as bool?,
+      createdAt: json["createdAt"] != null
+          ? DateTime.tryParse(json["createdAt"].toString())
+          : null,
+      updatedAt: json["updatedAt"] != null
+          ? DateTime.tryParse(json["updatedAt"].toString())
+          : null,
+      user: json["user"] != null ? User.fromMap(json["user"]) : null,
+    );
+  }
+
+// ✅ Helper functions - Datum class ichiga qo'shing
+  static int _parseToInt(dynamic value) {
+    if (value == null) return 0;
+    if (value is int) return value;
+    if (value is String) return int.tryParse(value) ?? 0;
+    if (value is double) return value.toInt();
+    return 0;
+  }
+
+  static List<String> _parseStringList(dynamic value) {
+    if (value == null) return [];
+    if (value is List) {
+      return value.map((e) => e.toString()).toList();
+    }
+    return [];
+  }
+
+  static List<Photo> _parsePhotos(dynamic value) {
+    print("📸 Photos parse: $value (${value.runtimeType})");
+
+    if (value == null) return [];
+
+    if (value is List) {
+      return value.map((item) {
+        try {
+          // Agar String bo'lsa
+          if (item is String) {
+            return Photo(photo: item);
+          }
+          // Agar Map bo'lsa
+          if (item is Map<String, dynamic>) {
+            return Photo.fromJson(item);
+          }
+          print("⚠️ Noma'lum photo format: $item");
+          return Photo(photo: item.toString());
+        } catch (e) {
+          print("❌ Photo parse xatolik: $e");
+          return Photo(photo: "");
+        }
+      }).toList();
+    }
+
+    return [];
+  }
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{
       // ID ni faqat null bo'lmasa qo'shamiz
@@ -258,11 +309,17 @@ class User {
   final String name;
   final String email;
   final String image;
+  final String phone;
+  final String surname;
+  final String role;
 
   User({
     required this.id,
     required this.name,
     required this.email,
+    required this.phone,
+    required this.surname,
+    required this.role,
     required this.image,
   });
 
@@ -275,6 +332,9 @@ class User {
     name: json["name"] ?? "",
     email: json["email"] ?? "",
     image: json["image"] ?? "",
+    role: json['role'] ?? "",
+    phone: json['phone'] ?? "",
+    surname: json['surname'] ?? "",
   );
 
   Map<String, dynamic> toMap() => {
@@ -282,6 +342,9 @@ class User {
     "name": name,
     "email": email,
     "image": image,
+    "phone": phone,
+    "surname": surname,
+    "role": role
   };
 }
 

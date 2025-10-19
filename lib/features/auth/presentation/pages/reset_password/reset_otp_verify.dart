@@ -75,42 +75,6 @@ class _OtpVerifyState extends State<ResetOtpVerify> {
     });
   }
 
-  void _onResend() {
-    final phoneToSend = phoneController.text
-        .replaceAll(RegExp(r'[^0-9+]'), '');
-    context.read<AuthBloc>().add(
-      AuthResetSendOtpEvent(
-        phoneNumber: phoneToSend,
-        onSuccess: () {
-          print("🎉 UI: Success callback");
-          context.push(
-            Routes.resetOtpVerify,
-            extra: {"phone": phoneToSend},
-          );
-        },
-        onFailure: () {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(
-            SnackBar(
-              content: Text("Raqam topilmadi"),
-              backgroundColor: Colors.red,
-            ),
-          );
-        },
-      ),
-    );
-    if (_resendCount < 2) {
-      setState(() {
-        _resendCount++;
-      });
-      _startTimer();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Limitdan oshib ketdi")),
-      );
-    }
-  }
 
   @override
   void dispose() {

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:housell/core/constants/app_assets.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
-import 'package:housell/core/widgets/phone_formatter.dart';
 import '../../config/theme/app_colors.dart';
-import '../../config/theme/app_fonts.dart';
 import 'app_image.dart';
 import 'app_text.dart';
 
@@ -124,6 +121,7 @@ class WTextField extends StatefulWidget {
   final Color? fillColor; // Agar berilmasa, tema rangini oladi
   final Color? borderColor; // Agar berilmasa, tema rangini oladi
   final Color? cursorColor; // Agar berilmasa, tema rangini oladi
+  final Color? borderNoFocusColor; // Agar berilmasa, tema rangini oladi
   final double borderRadius;
   final Widget? prefixIcon;
   final bool suffixIcon;
@@ -158,6 +156,7 @@ class WTextField extends StatefulWidget {
     this.prefixIconOnePath,
     this.prefixIconTwoPath,
     this.controller,
+    this.borderNoFocusColor = AppColors.lightSky,
     this.suffixIconWidget,
     this.keyboardType,
     this.textInputAction = TextInputAction.done,
@@ -171,9 +170,9 @@ class WTextField extends StatefulWidget {
     this.maxLength,
     this.hasClearButton = false,
     this.hasError = false,
-    this.fillColor, // null bo'lsa tema rangini oladi
+    this.fillColor = AppColors.backgroundP, // null bo'lsa tema rangini oladi
     this.borderColor, // null bo'lsa tema rangini oladi
-    this.cursorColor, // null bo'lsa tema rangini oladi
+    this.cursorColor,
     this.borderRadius = 8,
     this.prefixIcon,
     this.suffixIcon = false,
@@ -257,21 +256,21 @@ class _WTextFieldState extends State<WTextField> {
   Widget build(BuildContext context) {
     final isFocused = _focusNode.hasFocus;
 
-    // Tema ranglarini olish
-    final theme = Theme.of(context);
-    final fillColor = widget.fillColor ?? theme.inputDecorationTheme.fillColor ?? theme.cardColor;
-    final cursorColor = widget.cursorColor ?? theme.colorScheme.primary;
-    final hintColor = theme.inputDecorationTheme.hintStyle?.color ?? theme.hintColor;
-    final titleColor = theme.textTheme.titleMedium?.color ?? theme.colorScheme.onSurface;
-    final textColor = theme.textTheme.bodyLarge?.color ?? theme.colorScheme.onSurface;
-    final iconColor = theme.iconTheme.color ?? theme.colorScheme.onSurface;
+    // // Tema ranglarini olish
+    // final theme = Theme.of(context);
+    // final fillColor = widgets.fillColor ?? theme.inputDecorationTheme.fillColor ?? theme.cardColor;
+    // final cursorColor = widgets.cursorColor ?? theme.colorScheme.primary;
+    // final hintColor = theme.inputDecorationTheme.hintStyle?.color ?? theme.hintColor;
+    // final titleColor = theme.textTheme.titleMedium?.color ?? theme.colorScheme.onSurface;
+    // final textColor = theme.textTheme.bodyLarge?.color ?? theme.colorScheme.onSurface;
+    // final iconColor = theme.iconTheme.color ?? theme.colorScheme.onSurface;
 
     // Border rangi
     final borderColor = widget.hasError
-        ? theme.colorScheme.error
+        ? Theme.of(context).colorScheme.error
         : isFocused
-        ? (widget.borderColor ?? theme.colorScheme.primary)
-        : (widget.borderColor ?? theme.dividerColor);
+        ? (widget.borderColor ?? AppColors.base)
+        : widget.borderNoFocusColor ?? AppColors.white;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,7 +282,7 @@ class _WTextFieldState extends State<WTextField> {
               text: widget.title!,
               fontSize: 16,
               fontWeight: 500,
-              color: titleColor, // Tema rangini ishlatish
+              color: AppColors.black, // Tema rangini ishlatish
             ),
           ),
         TextFormField(
@@ -298,12 +297,12 @@ class _WTextFieldState extends State<WTextField> {
           maxLines: widget.isObscureText ? 1 : widget.maxLines,
           minLines: widget.minLines,
           maxLength: widget.maxLength,
-          cursorColor: cursorColor, // Tema cursor rangi
+          cursorColor: widget.cursorColor, // Tema cursor rangi
           textAlign: widget.textAlign,
           style: widget.textStyle ?? TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: textColor, // Tema matn rangi
+            color: AppColors.darkest, // Tema matn rangi
           ),
           onTap: widget.onTap,
           onChanged: widget.onChanged,
@@ -316,7 +315,7 @@ class _WTextFieldState extends State<WTextField> {
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             filled: true,
-            fillColor: fillColor, // Tema fill rangi
+            fillColor: widget.fillColor, // Tema fill rangi
             contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             hint: Align(
               alignment: widget.hintTextAlign,
@@ -326,7 +325,7 @@ class _WTextFieldState extends State<WTextField> {
                     TextSpan(
                       text: widget.hintText,
                       style: TextStyle(
-                        color: hintColor, // Tema hint rangi
+                        color: AppColors.textLight, // Tema hint rangi
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
                       ),
@@ -335,7 +334,7 @@ class _WTextFieldState extends State<WTextField> {
                       TextSpan(
                         text: ' *',
                         style: TextStyle(
-                          color: theme.colorScheme.error, // Tema error rangi
+                          color: AppColors.red, // Tema error rangi
                           fontSize: 16,
                         ),
                       ),
@@ -344,7 +343,7 @@ class _WTextFieldState extends State<WTextField> {
               ),
             ),
             hintStyle: widget.hintStyle ?? TextStyle(
-              color: hintColor, // Tema hint rangi
+              // color: widget.hintColor, // Tema hint rangi
               fontSize: 16.sp,
               fontWeight: FontWeight.w500,
             ),
@@ -353,7 +352,7 @@ class _WTextFieldState extends State<WTextField> {
               size: 20,
               path: widget.prefixImage!,
               onTap: () {},
-              color: iconColor, // Tema ikonka rangi
+              // color: , // Tema ikonka rangi
             ).paddingAll(16)
                 : null,
             suffixIcon: widget.suffixIcon
@@ -368,7 +367,7 @@ class _WTextFieldState extends State<WTextField> {
                     });
                   },
                   path: _obscureText ? AppAssets.eyeOff : AppAssets.eyeOn,
-                  color: iconColor, // Tema ikonka rangi
+                  // color: widget.iconColor, // Tema ikonka rangi
                 ),
               ],
             )
@@ -382,7 +381,7 @@ class _WTextFieldState extends State<WTextField> {
                 AppImage(
                   path: widget.suffixImage!,
                   onTap: widget.suffixImageTap,
-                  color: iconColor, // Tema ikonka rangi
+                  // color: widget.iconColor, // Tema ikonka rangi
                 ),
               ],
             )
@@ -390,7 +389,7 @@ class _WTextFieldState extends State<WTextField> {
             counterText: '',
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(color: theme.dividerColor, width: 2),
+              borderSide: BorderSide(color: borderColor, width: 2),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
@@ -403,14 +402,14 @@ class _WTextFieldState extends State<WTextField> {
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
               borderSide: BorderSide(
-                color: theme.colorScheme.error, // Tema error rangi
+                color: AppColors.red, // Tema error rangi
                 width: 1.2,
               ),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(widget.borderRadius),
               borderSide: BorderSide(
-                color: theme.colorScheme.error, // Tema error rangi
+                color: AppColors.red, // Tema error rangi
                 width: 2,
               ),
             ),

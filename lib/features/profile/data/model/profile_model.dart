@@ -1,3 +1,4 @@
+// ignore: unused_import
 import 'dart:convert';
 
 class ProfileModel {
@@ -12,6 +13,8 @@ class ProfileModel {
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final int? freeListingsRemaining;
+  final int? rating;
+  final int? comment;
 
   ProfileModel({
     this.id,
@@ -25,6 +28,8 @@ class ProfileModel {
     this.createdAt,
     this.updatedAt,
     this.freeListingsRemaining,
+    this.rating,
+    this.comment
   });
 
   factory ProfileModel.fromMap(Map<String, dynamic> json) {
@@ -41,6 +46,8 @@ class ProfileModel {
         createdAt: _parseDateTime(json["createdAt"]),
         updatedAt: _parseDateTime(json["updatedAt"]),
         freeListingsRemaining: _parseInt(json["freeListingsRemaining"]),
+        rating: _parseInt(json["averageRating"]),
+        comment: _parseInt(json["comments"])
       );
     } catch (e) {
       print('ProfileModel.fromMap error: $e');
@@ -82,6 +89,8 @@ class ProfileModel {
     if (image != null) map["image"] = image;
     if (email != null) map["email"] = email;
     if (phone != null) map["phone"] = phone;
+    if (rating != null) map["averageRating"] = rating;
+    if (comment != null) map["comments"] = comment;
     if (password != null) map["password"] = password;
     if (role != null) map["role"] = role;
     if (createdAt != null) map["createdAt"] = createdAt!.toIso8601String();

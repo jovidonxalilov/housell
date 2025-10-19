@@ -2,8 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:housell/core/constants/api_urls.dart';
 import 'package:housell/core/dio/dio_client.dart';
 import 'package:housell/features/add/data/model/url_photos_model.dart';
-import 'package:housell/features/auth/data/model/auth_model.dart';
-import 'package:housell/features/auth/data/model/otp_model.dart';
 import 'package:housell/features/home/data/model/property_model.dart';
 
 import '../../../../core/error/failure.dart';
@@ -28,7 +26,7 @@ class AddDatasourceImpl implements AddHouseDatasource {
   Future<PropertyModel> addHouses(Datum propertyModel) async {
     try {
       // Debug uchun jo'natiladigan ma'lumotni log qilish
-      print("📤 Jo'natiladigan ma'lumot: ${propertyModel.toJson()}");
+      print("📤 Jo'natiladigan ma'lumot: ${propertyModel.toMap()}");
 
       final mainModel = await _dioClient.post(
           ApiUrls.addHouses,

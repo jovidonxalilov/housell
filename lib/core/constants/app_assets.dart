@@ -93,6 +93,17 @@ class AppAssets {
   static const String eyeOff = '${_svg}eye_off.svg';
   static const String filter = '${_svg}filter.svg';
   static const String play = '${_svg}play.svg';
+  static const String busP = '${_svg}busP.svg';
+  static const String entertainmentP = '${_svg}entertainmentP.svg';
+  static const String hospitalP = '${_svg}hospitalP.svg';
+  static const String hotelP = '${_svg}hotelP.svg';
+  static const String kindergartenP = '${_svg}kindergartenP.svg';
+  static const String playgroundP = '${_svg}playgroundP.svg';
+  static const String restaurantP = '${_svg}restaurantP.svg';
+  static const String schoolP = '${_svg}schoolP.svg';
+  static const String shopP = '${_svg}shopP.svg';
+static const String wallet = '${_svg}wallet.svg';
+  // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';

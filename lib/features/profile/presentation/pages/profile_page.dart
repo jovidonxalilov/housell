@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:housell/config/router/routes.dart';
-import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/constants/app_assets.dart';
 import 'package:housell/core/constants/app_status.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
@@ -14,6 +13,7 @@ import 'package:housell/core/widgets/w_custom_app_bar.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../config/theme/app_colors.dart';
 import '../../../../core/dp/dp_injection.dart';
 import '../../domain/usecase/profile_usecase.dart';
 import '../bloc/profile_bloc.dart';
@@ -37,10 +37,12 @@ class _ProfilePageState extends State<ProfilePage> {
         getIt<ProfileNewPhoneOtpUsecase>(),
         getIt<ProfileNewPhoneVerifyOtpUsecase>(),
         getIt<ProfileNewPasswordUsecase>(),
+        getIt<ProfileGetMyHousesUsecase>(),
       )..add(ProfileGetMeEvent()),
       child: Scaffold(
-        // backgroundColor: AppColors.backgroundP,
+        backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
+          backgroundColor: AppColors.backgroundP,
           title: AppText(text: "Profile", fontSize: 18, fontWeight: 400),
           actions: [
             AppImage(
@@ -88,18 +90,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(height: 12.h),
 
                     // Name and Phone
+                    AppText(text: "Jovidon Xalilov"),
                     AppText(
                       text: '${profile!.name} ${profile.surname}',
                       fontWeight: 700,
                       fontSize: 24,
-                      // color: AppColors.blackT,
+                      color: AppColors.lightIcon,
                     ),
                     SizedBox(height: 12.h),
                     AppText(
                       text: profile.phone.toString(),
                       fontWeight: 400,
                       fontSize: 16,
-                      // color: AppColors.textLight,
+                      color: AppColors.textMuted,
                     ),
                     SizedBox(height: 12.h),
 
@@ -110,8 +113,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       },
                       width: 231.w,
                       height: 42.h,
-                      // color: AppColors.white,
-                      // borderColor: AppColors.base,
+                      color: AppColors.white,
+                      borderColor: AppColors.base,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             text: "Edit Profile",
                             fontSize: 14,
                             fontWeight: 600,
-                            // color: AppColors.base,
+                            color: AppColors.base,
                           ),
                         ],
                       ),
@@ -133,7 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ContainerW(
                       width: double.infinity.h,
                       // height: 148.h,
-                      // color: AppColors.white,
+                      color: AppColors.white,
                       radius: 16,
                       boxShadow: [
                         BoxShadow(
@@ -171,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     // Account Balance
                     ContainerW(
-                      // color: AppColors.base.withOpacity(0.2),
+                      color: AppColors.base.withOpacity(0.2),
                       radius: 16,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -204,7 +207,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ContainerW(
                             width: 48.w,
                             height: 48.h,
-                            // color: AppColors.lightest,
+                            color: AppColors.lightest,
                             radius: 24,
                             child: Center(
                               child: AppImage(path: AppAssets.koshelok),
@@ -217,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     // Menu Items
                     ContainerW(
-                      // color: AppColors.white,
+                      color: AppColors.white,
                       radius: 16,
                       boxShadow: [
                         BoxShadow(
@@ -273,17 +276,15 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildStatCard(String icon, String value, String label) {
     return Column(
       children: [
-        ContainerW(
+        Container(
           width: 48,
           height: 48,
-          radius: 24,
-          // color: AppColors.base.withOpacity(0.2),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            color: AppColors.base.withOpacity(0.2),
+          ),
           child: Center(
-            child: AppImage(
-              path: icon,
-              size: 24,
-              // , color: AppColors.base,
-            ),
+            child: AppImage(path: icon, size: 24, color: AppColors.base),
           ),
         ),
         SizedBox(height: 8.h),
@@ -291,14 +292,14 @@ class _ProfilePageState extends State<ProfilePage> {
           text: value,
           fontWeight: 700,
           fontSize: 20,
-          // color: AppColors.blackT,
+          color: AppColors.blackT,
         ),
         SizedBox(height: 8.h),
         AppText(
           text: label,
           fontWeight: 400,
           fontSize: 12,
-          // color: AppColors.textLight,
+          color: AppColors.textLight,
         ),
       ],
     );
@@ -315,9 +316,7 @@ class _ProfilePageState extends State<ProfilePage> {
       decoration: BoxDecoration(
         border: isLast
             ? null
-            : Border(bottom: BorderSide(
-            // color: AppColors.bgLight,
-            width: 1)),
+            : Border(bottom: BorderSide(color: AppColors.bgLight, width: 1)),
       ),
       child: GestureDetector(
         onTap: onTap,
@@ -326,12 +325,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ContainerW(
               width: 40,
               height: 40,
-              // color: AppColors.base.withOpacity(0.2),
+              color: AppColors.base.withOpacity(0.2),
               radius: 24,
               child: Center(
-                child: AppImage(path: icon,
-                    // color: AppColors.base,
-                    size: 24),
+                child: AppImage(path: icon, color: AppColors.base, size: 24),
               ),
             ),
             SizedBox(width: 12.w),
@@ -340,10 +337,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 text: title,
                 fontWeight: 500,
                 fontSize: 16,
-                // color: AppColors.blackT,
+                color: AppColors.blackT,
               ),
             ),
-            AppImage(path: AppAssets.chevronRight, size: 24, ),
+            AppImage(path: AppAssets.chevronRight, size: 24),
           ],
         ),
       ),

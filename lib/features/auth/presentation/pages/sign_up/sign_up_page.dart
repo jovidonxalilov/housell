@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:housell/config/router/routes.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
-import 'package:housell/core/widgets/sing_drop_down.dart';
 import 'package:housell/core/widgets/w_text_form.dart';
 import 'package:housell/features/auth/data/model/auth_model.dart';
 import 'package:housell/features/auth/presentation/bloc/auth_event.dart';
@@ -18,7 +17,6 @@ import '../../../../../core/widgets/app_text.dart';
 import '../../../../../core/widgets/w__container.dart';
 import '../../../../../core/widgets/w_custom_app_bar.dart';
 import '../../../../../core/widgets/w_validator.dart';
-import '../../../domain/entities/login.dart';
 import '../../../domain/usecase/usecase.dart';
 import '../../bloc/auth_bloc.dart';
 
@@ -61,18 +59,6 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   // Role mapping helper
-  String _mapRoleToEnglish(String uzbekRole) {
-    switch (uzbekRole) {
-      case "Xaridor":
-        return "CUSTOMER";
-      case "Sotuvchi":
-        return "SELLER";
-      case "Makler":
-        return "BROKER";
-      default:
-        return "CUSTOMER";
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
           }
         },
         child: Scaffold(
-          backgroundColor: AppColors.white,
+          backgroundColor: AppColors.backgroundP,
           appBar: WCustomAppBar(
             leading: AppImage(
               path: AppAssets.arrowChevronLeft,
@@ -163,6 +149,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   }
                                   return null;
                                 },
+
                               ),
                               SizedBox(height: 13.h),
 

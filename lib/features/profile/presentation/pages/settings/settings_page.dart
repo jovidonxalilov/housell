@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
-import '../../../../../config/theme/theme_provider.dart';
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
@@ -39,31 +37,6 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   // Notification permission so'rash
-  Future<void> _toggleNotifications(bool value) async {
-    if (value) {
-      // Permission so'rash
-      final status = await Permission.notification.request();
-
-      if (mounted) {
-        setState(() {
-          pushNotifications = status.isGranted;
-        });
-      }
-
-      if (status.isPermanentlyDenied) {
-        _showSettingsDialog(
-          'Bildirishnomalar',
-          'Bildirishnomalarni yoqish uchun sozlamalarga o\'ting',
-        );
-      }
-    } else {
-      // O'chirish uchun sozlamalarga olib borish
-      _showSettingsDialog(
-        'Bildirishnomalarni o\'chirish',
-        'Bildirishnomalarni butunlay o\'chirish uchun sozlamalarga o\'ting',
-      );
-    }
-  }
 
   // Location permission so'rash
   Future<void> _toggleLocation(bool value) async {
@@ -173,12 +146,12 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.isDarkMode;
+    // final themeProvider = Provider.of<ThemeProvider>(context);
+    // final isDark = themeProvider.isDarkMode;
 
     if (isLoading) {
       return Scaffold(
-        backgroundColor: isDark ? Color(0xFF1A1A1A) : Color(0xFFF5F5F5),
+        backgroundColor:  Color(0xFFF5F5F5),
         body: Center(
           child: CircularProgressIndicator(
             color: Color(0xFF6C5CE7),
@@ -188,14 +161,14 @@ class _SettingsPageState extends State<SettingsPage> {
     }
 
     return Scaffold(
-      backgroundColor: isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5),
+      backgroundColor: const Color(0xFFF5F5F5),
       appBar: AppBar(
-        backgroundColor: isDark ? const Color(0xFF1A1A1A) : const Color(0xFFF5F5F5),
+        backgroundColor: const Color(0xFFF5F5F5),
         elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: isDark ? Colors.white : Colors.black,
+            color: Colors.white ,
             size: 20,
           ),
           onPressed: () => Navigator.pop(context),
@@ -203,7 +176,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text(
           'Settings',
           style: TextStyle(
-            color: isDark ? Colors.white : Colors.black,
+            color: Colors.white,
             fontSize: 18,
             fontWeight: FontWeight.w600,
           ),
@@ -217,27 +190,27 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 20),
 
             // Notifications Section
-            _buildSectionTitle('Notifications', isDark),
+            // _buildSectionTitle('Notifications'),
             const SizedBox(height: 8),
-            _buildToggleItem(
-              icon: Icons.notifications_outlined,
-              title: 'Push Notifications',
-              value: pushNotifications,
-              onChanged: _toggleNotifications,
-              isDark: isDark,
-            ),
+            // _buildToggleItem(
+            //   icon: Icons.notifications_outlined,
+            //   title: 'Push Notifications',
+            //   value: pushNotifications,
+            //   onChanged: _toggleNotifications,
+            //   // isDark: isDark,
+            // ),
 
             const SizedBox(height: 24),
 
             // Privacy Section
-            _buildSectionTitle('Privacy', isDark),
+            // _buildSectionTitle('Privacy', isDark),
             const SizedBox(height: 8),
             _buildToggleItem(
               icon: Icons.location_on_outlined,
               title: 'Location Sharing',
               value: locationSharing,
               onChanged: _toggleLocation,
-              isDark: isDark,
+              // isDark: isDark,
             ),
             _buildNavigationItem(
               icon: Icons.shield_outlined,
@@ -246,23 +219,23 @@ class _SettingsPageState extends State<SettingsPage> {
                 // Privacy Policy sahifasiga o'tish
                 print('Privacy Policy tapped');
               },
-              isDark: isDark,
+              // isDark: isDark,
             ),
 
             const SizedBox(height: 24),
 
             // Appearance Section
-            _buildSectionTitle('Appearance', isDark),
+            _buildSectionTitle('Appearance'),
             const SizedBox(height: 8),
-            _buildToggleItem(
-              icon: Icons.dark_mode_outlined,
-              title: 'Dark Mode',
-              value: isDark,
-              onChanged: (value) {
-                themeProvider.toggleTheme();
-              },
-              isDark: isDark,
-            ),
+            // _buildToggleItem(
+            //   icon: Icons.dark_mode_outlined,
+            //   title: 'Dark Mode',
+            //   value: isDark,
+            //   onChanged: (value) {
+            //     themeProvider.toggleTheme();
+            //   },
+            //   isDark: isDark,
+            // ),
             _buildNavigationItem(
               icon: Icons.language_outlined,
               title: 'Language',
@@ -270,7 +243,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 // Language sahifasiga o'tish
                 print('Language tapped');
               },
-              isDark: isDark,
             ),
             _buildNavigationItem(
               icon: Icons.attach_money,
@@ -279,13 +251,12 @@ class _SettingsPageState extends State<SettingsPage> {
                 // Currency sahifasiga o'tish
                 print('Currency tapped');
               },
-              isDark: isDark,
             ),
 
             const SizedBox(height: 24),
 
             // Support Section
-            _buildSectionTitle('Support', isDark),
+            _buildSectionTitle('Support'),
             const SizedBox(height: 8),
             _buildNavigationItem(
               icon: Icons.help_outline,
@@ -294,7 +265,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 // Help Center sahifasiga o'tish
                 print('Help Center tapped');
               },
-              isDark: isDark,
+              // isDark: isDark,
             ),
 
             const SizedBox(height: 40),
@@ -304,7 +275,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSectionTitle(String title, bool isDark) {
+  Widget _buildSectionTitle(String title,) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: Text(
@@ -312,7 +283,7 @@ class _SettingsPageState extends State<SettingsPage> {
         style: TextStyle(
           fontSize: 20,
           fontWeight: FontWeight.bold,
-          color: isDark ? Colors.white : Colors.black,
+          color:Colors.white ,
         ),
       ),
     );
@@ -323,13 +294,13 @@ class _SettingsPageState extends State<SettingsPage> {
     required String title,
     required bool value,
     required Function(bool) onChanged,
-    required bool isDark,
+    // required bool isDark,
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -343,7 +314,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           Icon(
             icon,
-            color: isDark ? Colors.grey[400] : Colors.grey[600],
+            color: Colors.grey[600],
             size: 22,
           ),
           const SizedBox(width: 16),
@@ -352,7 +323,7 @@ class _SettingsPageState extends State<SettingsPage> {
               title,
               style: TextStyle(
                 fontSize: 15,
-                color: isDark ? Colors.grey[300] : Colors.grey[700],
+                color:  Colors.grey[700],
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -365,7 +336,7 @@ class _SettingsPageState extends State<SettingsPage> {
               activeColor: Colors.white,
               activeTrackColor: const Color(0xFF6C5CE7),
               inactiveThumbColor: Colors.white,
-              inactiveTrackColor: isDark ? Colors.grey[700] : Colors.grey[300],
+              inactiveTrackColor:Colors.grey[300],
             ),
           ),
         ],
@@ -377,7 +348,7 @@ class _SettingsPageState extends State<SettingsPage> {
     required IconData icon,
     required String title,
     required VoidCallback onTap,
-    required bool isDark,
+    // required bool isDark,
   }) {
     return InkWell(
       onTap: onTap,
@@ -386,7 +357,7 @@ class _SettingsPageState extends State<SettingsPage> {
         margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 4),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         decoration: BoxDecoration(
-          color: isDark ? const Color(0xFF2A2A2A) : Colors.white,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -400,7 +371,7 @@ class _SettingsPageState extends State<SettingsPage> {
           children: [
             Icon(
               icon,
-              color: isDark ? Colors.grey[400] : Colors.grey[600],
+              color:  Colors.grey[600],
               size: 22,
             ),
             const SizedBox(width: 16),
@@ -409,14 +380,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 title,
                 style: TextStyle(
                   fontSize: 15,
-                  color: isDark ? Colors.grey[300] : Colors.grey[700],
+                  color:Colors.grey[700],
                   fontWeight: FontWeight.w400,
                 ),
               ),
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: isDark ? Colors.grey[600] : Colors.grey[400],
+              color:  Colors.grey[400],
               size: 16,
             ),
           ],

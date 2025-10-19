@@ -1,4 +1,3 @@
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:housell/core/constants/app_status.dart';
 import 'package:housell/core/usecase/usecase.dart';
@@ -9,18 +8,16 @@ import 'package:housell/features/home/presentation/bloc/home_state.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final HomeGetHousesUsecase homeGetHousesUsecase;
   final HomeGetHousesIdUsecase homeGetHousesIdUsecase;
+  final ProfileGetInformationUsecase profileGetInformationUsecase;
 
-  HomeBloc(this.homeGetHousesUsecase, this.homeGetHousesIdUsecase)
-    : super(HomeState.initial()) {
+  HomeBloc(
+    this.homeGetHousesUsecase,
+    this.homeGetHousesIdUsecase,
+    this.profileGetInformationUsecase,
+  ) : super(HomeState.initial()) {
     on<HomeGetHousesLoading>(_getLoading);
     on<HomeGetHousesIdEvent>(_getHouseId);
-    add(
-      HomeGetHousesLoading(
-        propertyModel: null,
-        onFailure: () {},
-        onSuccess: () {},
-      ),
-    );
+    on<ProfileGetInformationEvent>(_getProfileInformation);
   }
 
   Future<void> _getLoading(
@@ -82,10 +79,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           );
         },
         (success) {
+          emit(state.copyWith(mainStatus: MainStatus.succes, datum: success));
+        },
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          mainStatus: MainStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getProfileInformation(
+    ProfileGetInformationEvent event,
+    Emitter<HomeState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(mainStatus: MainStatus.loading));
+      final result = await profileGetInformationUsecase.call(event.id);
+      result.either(
+        (failure) {
+          emit(state.copyWith(mainStatus: MainStatus.failure));
+        },
+        (success) {
           emit(
             state.copyWith(
               mainStatus: MainStatus.succes,
-              propertyModel: success,
+              profileModel: success,
             ),
           );
         },

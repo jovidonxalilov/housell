@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
-import 'package:housell/core/widgets/sing_drop_down.dart';
 import 'package:housell/core/widgets/w_text_form.dart';
 import 'package:housell/core/widgets/w_validator.dart';
 import 'package:housell/features/auth/domain/entities/reset_password.dart';

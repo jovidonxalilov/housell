@@ -25,6 +25,7 @@ abstract class ProfileDataSource {
     required String newPassword,
     required String id
   });
+  Future<PropertyModel> getHousesMy();
 
   factory ProfileDataSource(DioClient dioClient) =>
       ProfileDataSourceImpl(dioClient: dioClient);
@@ -163,6 +164,28 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       throw "Password xato!";
     } catch (e) {
       throw "Parolni qo'yishda xatolik yuz berdi$e";
+    }
+  }
+
+  @override
+  Future<PropertyModel> getHousesMy() async {
+    try {
+      final mainModel = await _dioClient.get("${ApiUrls.getHouses}/my");
+
+      print("API javob turi: ${mainModel.result.runtimeType}");
+      print("API javob: ${mainModel.result}");
+
+      if (mainModel.ok && mainModel.result != null) {
+        // Bu yerda o'zgartirish - to'g'ridan-to'g'ri Map beradi
+        return PropertyModel.fromJson(mainModel.result);
+      }
+
+      throw ApiException(
+        "API xatoligi: ok=${mainModel.ok}, result=${mainModel.result}",
+      );
+    } catch(e) {
+      print("uy malumotlarini olishda xatolik: $e");
+      throw Exception("uy malumotlarini olishda xatolik: $e");
     }
   }
 }

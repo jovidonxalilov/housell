@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
 
+import '../../config/theme/app_colors.dart';
 import 'app_image.dart';
 // import 'package:housell/core/extensions/widget_extension.dart';
 //
@@ -26,7 +27,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.title,
     this.leadingImage,
     this.actions,
-    this.backgroundColor,
+    this.backgroundColor = AppColors.backgroundP,
     this.elevation = 0,
     this.padding,
     this.centerTitle = true,
@@ -41,7 +42,7 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final canPop = Navigator.of(context).canPop();
 
     return Material(
-      color: Theme.of(context).appBarTheme.backgroundColor,
+      color: backgroundColor,
       elevation: elevation,
       child: SafeArea(
         top: false,

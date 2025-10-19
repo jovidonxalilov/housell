@@ -4,12 +4,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
-import 'package:housell/core/widgets/sing_drop_down.dart';
-import 'package:housell/core/widgets/w_text_form.dart' hide AppText;
+import 'package:housell/core/widgets/w_text_form.dart';
 import 'package:housell/core/widgets/w_validator.dart';
 import 'package:housell/features/auth/domain/entities/reset_password.dart';
-import 'package:housell/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:housell/features/auth/presentation/bloc/auth_event.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_event.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_state.dart';
@@ -33,15 +30,14 @@ class NewPasswordPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<NewPasswordPage> {
-
   final TextEditingController oldPasswordController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   final ValueNotifier<bool> _isValidNotifier = ValueNotifier(false);
-
 
   @override
   void dispose() {
@@ -53,19 +49,29 @@ class _SignUpPageState extends State<NewPasswordPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProfileBloc(
-          getIt<ProfileGetUsecase>(),
-          getIt<ProfilePatchUsecase>(),
-          getIt<ProfilePhotoUrlUsecase>(),
-          getIt<ProfileNewPhoneOtpUsecase>(),
-          getIt<ProfileNewPhoneVerifyOtpUsecase>(),
-          getIt<ProfileNewPasswordUsecase>()
+        getIt<ProfileGetUsecase>(),
+        getIt<ProfilePatchUsecase>(),
+        getIt<ProfilePhotoUrlUsecase>(),
+        getIt<ProfileNewPhoneOtpUsecase>(),
+        getIt<ProfileNewPhoneVerifyOtpUsecase>(),
+        getIt<ProfileNewPasswordUsecase>(),
+          getIt<ProfileGetMyHousesUsecase>()
       ),
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
-          leading: AppImage(path: AppAssets.arrowChevronLeft, onTap: () {
-            context.pop();
-          },),        title: AppText(text: "Forgot Password"),
+          leading: AppImage(
+            path: AppAssets.arrowChevronLeft,
+            onTap: () {
+              context.pop();
+            },
+          ),
+          title: AppText(
+            text: "Forgot Password",
+            fontSize: 18,
+            fontWeight: 400,
+            color: AppColors.lightIcon,
+          ),
           centerTitle: true,
         ),
         body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -90,7 +96,7 @@ class _SignUpPageState extends State<NewPasswordPage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             AppText(
-                              text: "Set New Password",
+                              text: "Change Password",
                               fontSize: 24,
                               fontWeight: 700,
                               color: AppColors.darkest,
@@ -98,7 +104,7 @@ class _SignUpPageState extends State<NewPasswordPage> {
                             SizedBox(height: 12.h),
                             AppText(
                               text:
-                              "Create a strong password for your account.",
+                                  "Keep your account safe with a new secure password.",
                               fontSize: 16,
                               fontWeight: 400,
                               textAlign: TextAlign.center,
@@ -113,8 +119,10 @@ class _SignUpPageState extends State<NewPasswordPage> {
                               hintText: "Oldingi parolni kiriting",
                               borderRadius: 8,
                               suffixIcon: true,
+                              fillColor: AppColors.white,
                               controller: oldPasswordController,
                             ),
+                            SizedBox(height: 13.h),
                             WTextField(
                               validator: (value) {
                                 return SimpleValidators.password(value);
@@ -122,12 +130,14 @@ class _SignUpPageState extends State<NewPasswordPage> {
                               hintText: "Yangi parolni kiriting",
                               borderRadius: 8,
                               suffixIcon: true,
+                              fillColor: AppColors.white,
                               controller: passwordController,
                             ),
                             SizedBox(height: 13.h),
                             WTextField(
                               validator: (value) {
-                                String? passwordError = SimpleValidators.password(value);
+                                String? passwordError =
+                                    SimpleValidators.password(value);
                                 if (passwordError != null) {
                                   return passwordError;
                                 }
@@ -138,6 +148,7 @@ class _SignUpPageState extends State<NewPasswordPage> {
                               },
                               hintText: "Parolni tasqidlang",
                               borderRadius: 8,
+                              fillColor: AppColors.white,
                               suffixIcon: true,
                               controller: confirmPasswordController,
                             ),
@@ -151,46 +162,50 @@ class _SignUpPageState extends State<NewPasswordPage> {
                     padding: EdgeInsets.only(
                       left: 24,
                       right: 24,
-                      bottom: MediaQuery.of(context).viewInsets.bottom > 0 ? 24 : 30,
+                      bottom: MediaQuery.of(context).viewInsets.bottom > 0
+                          ? 24
+                          : 30,
                     ),
                     child: WContainer(
                       isValidNotifier: _isValidNotifier,
                       onTap: isLoading
                           ? null
-                          :() {
-                        if (_formKey.currentState!.validate()) {
-                          context.read<ProfileBloc>().add(
-                            ProfileNewPasswordEvent(
-                              newPassword: ResetPassword(
-                                newPassword: passwordController.text,
-                                phoneNumber: oldPasswordController.text,
-                                id: widget.id
-                              ),
-                              onSuccess: (value) {
-                                ScaffoldMessenger.of(
-                                  context,
-                                ).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      'Password muvaffaqiyatli yangilandi',
+                          : () {
+                              if (_formKey.currentState!.validate()) {
+                                context.read<ProfileBloc>().add(
+                                  ProfileNewPasswordEvent(
+                                    newPassword: ResetPassword(
+                                      newPassword: passwordController.text,
+                                      phoneNumber: oldPasswordController.text,
+                                      id: widget.id,
                                     ),
-                                    backgroundColor: Colors.green,
+                                    onSuccess: (value) {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        const SnackBar(
+                                          content: Text(
+                                            'Password muvaffaqiyatli yangilandi',
+                                          ),
+                                          backgroundColor: Colors.green,
+                                        ),
+                                      );
+                                      context.go(Routes.login);
+                                    },
+                                    onFailure: () {
+                                      ScaffoldMessenger.of(
+                                        context,
+                                      ).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Otp kod xato!"),
+                                          backgroundColor: Colors.red,
+                                        ),
+                                      );
+                                    },
                                   ),
                                 );
-                                context.go(Routes.login);
-                              },
-                              onFailure: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Otp kod xato!"),
-                                    backgroundColor: Colors.red,
-                                  ),
-                                );
-                              },
-                            ),
-                          );
-                        }
-                      },
+                              }
+                            },
                       height: 48.h,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,

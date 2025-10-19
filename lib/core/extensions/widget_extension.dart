@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:housell/core/constants/app_assets.dart';
 
 extension WidgetPaddingX on Widget {
   Widget paddingAll(double padding) =>
@@ -51,7 +52,38 @@ extension RentalFrequencyExtension on String {
         return this; // Agar mos kelmasa, asl qiymatni qaytaradi
     }
   }
+
 }
+// extension_helper.dart yoki utils faylingizda
+extension LocatedNearExtension on String {
+  String toLocatedNearSvg() {
+    switch (this.toLowerCase()) {
+      case "hospital, clinic":
+        return AppAssets.hospitalP;
+      case "entertainment facilities":
+        return AppAssets.entertainmentP;
+      case "kindergarten":
+        return AppAssets.kindergartenP;
+      case "restaurant, cafe":
+        return AppAssets.restaurantP;
+      case "resort/ dormitory":
+        return AppAssets.hotelP;
+      case "bus stops/metro stations":
+        return AppAssets.busP;
+      case "supermarket, shops":
+        return AppAssets.shopP;
+      case "park, green area":
+        return AppAssets.busP; // busP emas, parkP bo'lishi kerak
+      case "school":
+        return AppAssets.schoolP;
+      case "playground":
+        return AppAssets.playgroundP;
+      default:
+        return AppAssets.hospitalP; // default icon
+    }
+  }
+}
+
 
 extension NullCheckExtension on String? {
   String get orQoshilmagan => this ?? "qo'shilmagan";

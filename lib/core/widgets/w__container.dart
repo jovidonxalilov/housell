@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../config/theme/app_colors.dart';
-import '../../config/theme/app_fonts.dart';
 import 'app_text.dart';
 
 class WContainer extends StatelessWidget {
@@ -32,14 +31,14 @@ class WContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    // Default ranglar
-    final defaultColor = color ?? theme.colorScheme.primary; // Primary rang (binafsharang)
-    final defaultTextColor = textColor ?? theme.colorScheme.onPrimary; // Primary ustidagi matn (oq)
-    final defaultBorderColor = borderColor ?? Colors.transparent;
-    final disabledColor = theme.disabledColor; // Disabled rang
-    final disabledTextColor = theme.textTheme.bodySmall?.color ?? theme.colorScheme.onSurface.withOpacity(0.38);
+    // final theme = Theme.of(context);
+    //
+    // // Default ranglar
+    // final defaultColor = color ?? theme.colorScheme.primary; // Primary rang (binafsharang)
+    // final defaultTextColor = textColor ?? theme.colorScheme.onPrimary; // Primary ustidagi matn (oq)
+    // final defaultBorderColor = borderColor ?? Colors.transparent;
+    // final disabledColor = theme.disabledColor; // Disabled rang
+    // final disabledTextColor = theme.textTheme.bodySmall?.color ?? theme.colorScheme.onSurface.withOpacity(0.38);
 
     return ValueListenableBuilder(
       valueListenable: isValidNotifier ?? ValueNotifier(true),
@@ -50,16 +49,16 @@ class WContainer extends StatelessWidget {
             width: width?.w,
             height: height?.h,
             decoration: BoxDecoration(
-              color: isValid ? defaultColor : disabledColor, // Valid bo'lsa tema rangi, yo'qsa disabled
+              color: isValid ? AppColors.base : AppColors.lightSky, // Valid bo'lsa tema rangi, yo'qsa disabled
               borderRadius: BorderRadius.circular(radius!),
-              border: Border.all(color: defaultBorderColor),
+              // border: Border.all(color: defaultBorderColor),
             ),
             child: child ?? Center(
               child: AppText(
                 text: text!,
                 fontSize: 15,
                 fontWeight: 500,
-                color: isValid ? defaultTextColor : disabledTextColor, // Tema ranglarini ishlatish
+                color: isValid ?  AppColors.white : AppColors.skyDark, // Tema ranglarini ishlatish
               ),
             ),
           ),
@@ -72,15 +71,17 @@ class WContainer extends StatelessWidget {
 
 class ContainerW extends StatelessWidget {
   const ContainerW({
+    this.textColor,
     this.boxShadow,
     this.border,
+    this.borderRadius,
     super.key,
     this.child,
     this.margin,
     this.text,
-    this.width = double.infinity,
+    this.width,
     this.height,
-    this.color, // Agar berilmasa, tema card rangini oladi
+    this.color,
     this.borderColor,
     this.onTap,
     this.radius = 30,
@@ -92,7 +93,8 @@ class ContainerW extends StatelessWidget {
   final Border? border;
   final String? text;
   final double? width;
-  final Color? color, borderColor;
+  final Color? color, borderColor, textColor;
+  final BorderRadius? borderRadius;
   final double? height;
   final double? radius;
   final VoidCallback? onTap;
@@ -101,19 +103,19 @@ class ContainerW extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final _ = Theme.of(context);
 
-    // Default ranglar
-    final defaultColor = color ?? theme.cardColor; // Card rangi
-    final defaultBorder = border ?? Border.all(color: theme.dividerColor); // Divider rangi
-    final defaultShadow = boxShadow ?? [
-      BoxShadow(
-        color: theme.shadowColor, // Tema soyasi
-        blurRadius: 10,
-        offset: const Offset(0, 4),
-      ),
-    ];
-    final textColor = theme.colorScheme.onSurface; // Surface ustidagi matn
+    // // Default ranglar
+    // final defaultColor = color ?? theme.cardColor; // Card rangi
+    // final defaultBorder = border ?? Border.all(color: theme.dividerColor); // Divider rangi
+    // final defaultShadow = boxShadow ?? [
+    //   BoxShadow(
+    //     color: theme.shadowColor, // Tema soyasi
+    //     blurRadius: 10,
+    //     offset: const Offset(0, 4),
+    //   ),
+    // ];
+    // final textColor = theme.colorScheme.onSurface; // Surface ustidagi matn
 
     return GestureDetector(
       onTap: onTap,
@@ -122,10 +124,10 @@ class ContainerW extends StatelessWidget {
         height: height?.h,
         margin: margin,
         decoration: BoxDecoration(
-          color: defaultColor, // Tema rangini ishlatish
-          borderRadius: BorderRadius.circular(radius!),
-          border: border ?? Border.all(color: borderColor ?? theme.dividerColor),
-          boxShadow: boxShadow ?? defaultShadow, // Tema soyasini ishlatish
+          color: color, // Tema rangini ishlatish
+          borderRadius: borderRadius ?? BorderRadius.circular(radius!),
+          border: border ?? Border.all(color: borderColor ?? Colors.transparent),
+          boxShadow: boxShadow, // Tema soyasini ishlatish
         ),
         child: child ?? Center(
           child: AppText(

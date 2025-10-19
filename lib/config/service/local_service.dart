@@ -10,7 +10,7 @@ class SecureStorageService {
 
   Future<void> saveToken(String token) async {
     await _storage.write(key: _tokenKey, value: token);
-    print("Token saqlandi: ${token.substring(0, 20)}..."); // Xavfsizlik uchun faqat qismi
+    // Xavfsizlik uchun faqat qismi
   }
 
   Future<String?> getToken() async {

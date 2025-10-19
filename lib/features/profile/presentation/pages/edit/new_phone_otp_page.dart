@@ -1,10 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:housell/config/router/routes.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/constants/app_status.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
@@ -13,7 +11,6 @@ import 'package:housell/core/widgets/app_text.dart';
 import 'package:housell/core/widgets/w__container.dart';
 import 'package:housell/core/widgets/w_custom_app_bar.dart';
 import 'package:housell/core/widgets/w_text_form.dart';
-import 'package:housell/features/auth/presentation/bloc/auth_event.dart';
 import 'package:housell/features/profile/domain/entities/new_phone.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_bloc.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_event.dart';
@@ -23,8 +20,6 @@ import '../../../../../../core/constants/app_assets.dart';
 import '../../../../../../core/dp/dp_injection.dart';
 import '../../../../../../core/widgets/phone_formatter.dart';
 import '../../../../../../core/widgets/w_validator.dart';
-import '../../../../auth/domain/usecase/usecase.dart';
-import '../../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../domain/usecase/profile_usecase.dart';
 
 class NewPhoneOtpPage extends StatefulWidget {
@@ -58,7 +53,8 @@ class _LoginPageState extends State<NewPhoneOtpPage> {
         getIt<ProfilePhotoUrlUsecase>(),
         getIt<ProfileNewPhoneOtpUsecase>(),
         getIt<ProfileNewPhoneVerifyOtpUsecase>(),
-          getIt<ProfileNewPasswordUsecase>()
+          getIt<ProfileNewPasswordUsecase>(),
+          getIt<ProfileGetMyHousesUsecase>()
       ),
       child: Scaffold(
         backgroundColor: AppColors.white,

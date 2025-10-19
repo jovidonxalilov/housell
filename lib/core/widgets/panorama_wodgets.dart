@@ -12,7 +12,7 @@
 //           Hotspot(
 //             latitude: 0.1,
 //             longitude: 1.0,
-//             widget: GestureDetector(
+//             widgets: GestureDetector(
 //               onTap: () {
 //                 Navigator.push(
 //                   context,
@@ -44,7 +44,7 @@
 //           Hotspot(
 //             latitude: 0.1,
 //             longitude: 1.0,
-//             widget: GestureDetector(
+//             widgets: GestureDetector(
 //               onTap: () {
 //                 context.push(Routes.panorama);
 //               },

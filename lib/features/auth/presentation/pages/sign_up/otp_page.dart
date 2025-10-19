@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,13 +54,14 @@ class _LoginPageState extends State<OtpPage> {
         getIt<AuthResetSendOtpUsecase>(),
       ),
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
+          backgroundColor: AppColors.backgroundP,
           leading: AppImage(
             path: AppAssets.arrowChevronLeft,
             onTap: () => context.pop(),
           ),
-          title: AppText(text: "Sign up"),
+          title: AppText(text: "Sign up", fontSize: 18, fontWeight: 400, color: AppColors.darkest),
           centerTitle: true,
         ),
         body: BlocBuilder<AuthBloc, AuthState>(
@@ -93,6 +93,7 @@ class _LoginPageState extends State<OtpPage> {
                               fontWeight: 700,
                               color: AppColors.darkest,
                             ),
+                    
                             SizedBox(height: 12.h),
                             AppText(
                               text: "Your number helps us verify your account.",
@@ -114,6 +115,8 @@ class _LoginPageState extends State<OtpPage> {
                                 if (_serverError != null) return _serverError;
                                 return null;
                               },
+                          
+                              fillColor: AppColors.backgroundP,
                               controller: phoneController,
                               hintText: "Enter phone number",
                               autoPrefix998: true,

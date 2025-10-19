@@ -1,9 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:housell/features/add/data/datasource/add_datasource.dart';
 import 'package:housell/features/add/domain/usecase/add_usecase.dart';
 import 'package:housell/features/add/presentation/bloc/add_event.dart';
 import 'package:housell/features/add/presentation/bloc/add_state.dart';
-import 'package:housell/features/auth/presentation/bloc/auth_bloc.dart';
 
 import '../../../../core/constants/app_status.dart';
 import '../../../home/data/model/property_model.dart';

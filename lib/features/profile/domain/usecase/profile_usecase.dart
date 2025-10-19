@@ -73,16 +73,27 @@ class ProfileNewPhoneVerifyOtpUsecase extends UseCase<OtpModel, VerifyOtpModel> 
 }
 
 class ProfileNewPasswordUsecase extends UseCase<OtpModel, ResetPassword> {
-  final ProfileRepository authRepository;
+  final ProfileRepository profileRepository;
 
-  ProfileNewPasswordUsecase(this.authRepository);
+  ProfileNewPasswordUsecase(this.profileRepository);
 
   @override
   Future<Either<Failure, OtpModel>> call(ResetPassword param) {
-    return authRepository.newPassword(
+    return profileRepository.newPassword(
         oldPassword: param.phoneNumber,
       newPassword: param.newPassword,
       id: param.id
     );
+  }
+}
+
+class ProfileGetMyHousesUsecase extends UseCase<PropertyModel, NoParams> {
+  final ProfileRepository profileRepository;
+
+  ProfileGetMyHousesUsecase(this.profileRepository);
+
+  @override
+  Future<Either<Failure, PropertyModel>> call(NoParams param) {
+    return profileRepository.getHousesMy();
   }
 }

@@ -19,5 +19,11 @@ class HomeGetHousesLoading extends HomeEvent {
 class HomeGetHousesIdEvent extends HomeEvent {
   final String id;
 
-  HomeGetHousesIdEvent({ required this.id});
+  HomeGetHousesIdEvent({required this.id});
+}
+
+class ProfileGetInformationEvent extends HomeEvent {
+  final String id;
+
+  ProfileGetInformationEvent({required this.id});
 }

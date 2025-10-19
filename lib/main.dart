@@ -2,10 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:provider/provider.dart';
 import 'package:housell/config/router/router.dart';
-
-import 'config/theme/theme_provider.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'core/dp/dp_injection.dart';
 import 'core/extensions/num_extensions.dart';
 
@@ -23,6 +21,8 @@ void main() async {
       statusBarBrightness: Brightness.light,
     ),
   );
+
+  // AndroidYandexMap.useAndroidViewSurface = false;
 
   // System UI mode - 3 ta tugma ko'rinishi uchun
   SystemChrome.setEnabledSystemUIMode(
@@ -60,122 +60,113 @@ class MyApp extends StatelessWidget {
     SizeUtilsExtension.instance.init(context);
 
     // Provider bilan o'rash
-    return ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
-          final isDark = themeProvider.isDarkMode;
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'Housell',
 
-          return ScreenUtilInit(
-            designSize: const Size(375, 812),
-            minTextAdapt: true,
-            splitScreenMode: true,
-            child: MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              title: 'Housell',
+        // Provider'dan theme olish
+        // theme: themeProvider.themeData,
 
-              // Provider'dan theme olish
-              theme: themeProvider.themeData,
+        routerConfig: router,
 
-              routerConfig: router,
-
-              // Global builder - barcha sahifalarga wrappe qiladi
-              builder: (context, child) {
-                return AnnotatedRegion<SystemUiOverlayStyle>(
-                  value: SystemUiOverlayStyle(
-                    statusBarColor: Colors.transparent,
-                    statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-                    statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-                    systemNavigationBarColor: isDark ? const Color(0xFF1A1A1A) : Colors.white,
-                    systemNavigationBarDividerColor: Colors.transparent,
-                    systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-                  ),
-                  child: child ?? Container(),
-                );
-              },
-
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
+        // Global builder - barcha sahifalarga wrappe qiladi
+        builder: (context, child) {
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarIconBrightness: Brightness.light,
+              statusBarBrightness: Brightness.light,
+              systemNavigationBarColor: Colors.white,
+              systemNavigationBarDividerColor: Colors.transparent,
+              systemNavigationBarIconBrightness: Brightness.light,
             ),
+            child: child ?? Container(),
           );
         },
+
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
       ),
     );
   }
 }
 
 // Alohida sahifada boshqacha sozlash uchun
-class CustomPageWrapper extends StatelessWidget {
-  final Widget child;
-  final SystemUiOverlayStyle? systemOverlayStyle;
-
-  const CustomPageWrapper({
-    Key? key,
-    required this.child,
-    this.systemOverlayStyle,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final isDark = themeProvider.isDarkMode;
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: systemOverlayStyle ?? SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-        systemNavigationBarColor: isDark ? const Color(0xFF1A1A1A) : Colors.white,
-        systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
-      ),
-      child: child,
-    );
-  }
-}
+// class CustomPageWrapper extends StatelessWidget {
+//   final Widget child;
+//   final SystemUiOverlayStyle? systemOverlayStyle;
+//
+//   const CustomPageWrapper({
+//     Key? key,
+//     required this.child,
+//     this.systemOverlayStyle,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // final themeProvider = Provider.of<ThemeProvider>(context);
+//     // final isDark = themeProvider.isDarkMode;
+//
+//     return AnnotatedRegion<SystemUiOverlayStyle>(
+//       value: systemOverlayStyle ?? SystemUiOverlayStyle(
+//         statusBarColor: Colors.transparent,
+//         statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+//         systemNavigationBarColor: isDark ? const Color(0xFF1A1A1A) : Colors.white,
+//         systemNavigationBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+//       ),
+//       child: child,
+//     );
+//   }
+// }
 
 // Utility class - kerak bo'lganda ishlatish uchun
-class SystemUIManager {
-  // Normal holat - 3 ta tugma bilan
-  static void setNormalMode() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: [
-        SystemUiOverlay.top, // Status bar
-        SystemUiOverlay.bottom, // Navigation bar
-      ],
-    );
-  }
-
-  // Fullscreen mode (video uchun)
-  static void setFullscreenMode() {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.immersiveSticky,
-    );
-  }
-
-  // Qorong'u tema uchun
-  static void setDarkTheme() {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-        systemNavigationBarColor: Color(0xFF1A1A1A),
-        systemNavigationBarIconBrightness: Brightness.light,
-      ),
-    );
-  }
-
-  // Och tema uchun
-  static void setLightTheme() {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.light,
-        systemNavigationBarColor: Colors.white,
-        systemNavigationBarIconBrightness: Brightness.dark,
-      ),
-    );
-  }
-}
+// class SystemUIManager {
+//   // Normal holat - 3 ta tugma bilan
+//   static void setNormalMode() {
+//     SystemChrome.setEnabledSystemUIMode(
+//       SystemUiMode.manual,
+//       overlays: [
+//         SystemUiOverlay.top, // Status bar
+//         SystemUiOverlay.bottom, // Navigation bar
+//       ],
+//     );
+//   }
+//
+//   // Fullscreen mode (video uchun)
+//   static void setFullscreenMode() {
+//     SystemChrome.setEnabledSystemUIMode(
+//       SystemUiMode.immersiveSticky,
+//     );
+//   }
+//
+//   // Qorong'u tema uchun
+//   static void setDarkTheme() {
+//     SystemChrome.setSystemUIOverlayStyle(
+//       const SystemUiOverlayStyle(
+//         statusBarColor: Colors.transparent,
+//         statusBarIconBrightness: Brightness.light,
+//         statusBarBrightness: Brightness.dark,
+//         systemNavigationBarColor: Color(0xFF1A1A1A),
+//         systemNavigationBarIconBrightness: Brightness.light,
+//       ),
+//     );
+//   }
+//
+//   // Och tema uchun
+//   static void setLightTheme() {
+//     SystemChrome.setSystemUIOverlayStyle(
+//       const SystemUiOverlayStyle(
+//         statusBarColor: Colors.transparent,
+//         statusBarIconBrightness: Brightness.dark,
+//         statusBarBrightness: Brightness.light,
+//         systemNavigationBarColor: Colors.white,
+//         systemNavigationBarIconBrightness: Brightness.dark,
+//       ),
+//     );
+//   }
+// }
