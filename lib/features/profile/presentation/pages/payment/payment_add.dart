@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
@@ -147,15 +148,13 @@ class _TopUpPageState extends State<TopUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Top-up Amount',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
+        AppText(
+          text: 'Top-up Amount',
+          fontSize: 18,
+          fontWeight: 700,
+          color: AppColors.lightIcon,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
@@ -190,8 +189,8 @@ class _TopUpPageState extends State<TopUpPage> {
                   },
                 ),
               ),
-              Text(
-                "so'm",
+              AppText(
+                text: "so'm",
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -209,15 +208,13 @@ class _TopUpPageState extends State<TopUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Quick Select',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
+        AppText(
+          text: 'Quick Select',
+          fontWeight: 700,
+          fontSize: 18,
+          color: AppColors.lightIcon,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -225,7 +222,7 @@ class _TopUpPageState extends State<TopUpPage> {
             crossAxisCount: 3,
             crossAxisSpacing: 12,
             mainAxisSpacing: 12,
-            childAspectRatio: 2.2,
+            childAspectRatio: 2,
           ),
           itemCount: quickAmounts.length,
           itemBuilder: (context, index) {
@@ -239,38 +236,29 @@ class _TopUpPageState extends State<TopUpPage> {
                   amountController.text = amount.toString();
                 });
               },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: isSelected ? const Color(0xFF8B7FFF) : Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                    color: isSelected
-                        ? const Color(0xFF8B7FFF)
-                        : Colors.grey.shade200,
-                    width: 1.5,
-                  ),
+              child: ContainerW(
+                height: 64,
+                color: isSelected ? AppColors.base.withOpacity(0.2) : Colors.white,
+                radius: 8,
+                border: Border.all(
+                  color: isSelected ? AppColors.base : AppColors.bg,
+                  width: 1.5,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      _formatAmount(amount),
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: isSelected ? Colors.white : Colors.black87,
-                      ),
+                    AppText(
+                      text: _formatAmount(amount),
+                      fontSize: 16,
+                      fontWeight: 600,
+                      color: isSelected ? AppColors.white :AppColors.textMuted,
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      "so'm",
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: isSelected
-                            ? Colors.white70
-                            : Colors.grey.shade600,
-                      ),
+                    // SizedBox(height: 4.h),
+                    AppText(
+                      text: "so'm",
+                      fontWeight: 500,
+                      fontSize: 14,
+                      color: isSelected ? AppColors.white :AppColors.textMuted ,
                     ),
                   ],
                 ),
@@ -286,24 +274,22 @@ class _TopUpPageState extends State<TopUpPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          'Payment Method',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
+        AppText(
+          text: 'Payment Method',
+          fontSize: 20,
+          fontWeight: 700,
+          color: AppColors.lightIcon,
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         _buildPaymentOption(
           'Payme',
-          'assets/payme.png', // Sizning asset papkangizda bo'lishi kerak
+          AppAssets.paymeL, // Sizning asset papkangizda bo'lishi kerak
           Colors.blue.shade400,
         ),
-        const SizedBox(height: 12),
+         SizedBox(height: 12),
         _buildPaymentOption(
           'Click',
-          'assets/click.png', // Sizning asset papkangizda bo'lishi kerak
+          AppAssets.clickL, // Sizning asset papkangizda bo'lishi kerak
           Colors.blue.shade600,
         ),
       ],
@@ -319,34 +305,19 @@ class _TopUpPageState extends State<TopUpPage> {
           selectedPaymentMethod = name;
         });
       },
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
+      child: ContainerW(
+        // decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          radius: 12,
           border: Border.all(
-            color: isSelected ? const Color(0xFF8B7FFF) : Colors.grey.shade200,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? AppColors.purpleA : AppColors.bg,
+            width: isSelected ? 2 : 2,
           ),
-        ),
+        // ),
         child: Row(
           children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Icon(
-                  name == 'Payme' ? Icons.payment : Icons.credit_card,
-                  color: color,
-                  size: 24,
-                ),
-              ),
-            ),
-            const SizedBox(width: 12),
+            AppImage(path: iconPath, color: Colors.transparent,),
+            SizedBox(width: 12),
             Text(
               name,
               style: const TextStyle(
@@ -363,7 +334,7 @@ class _TopUpPageState extends State<TopUpPage> {
                 size: 24,
               ),
           ],
-        ),
+        ).paddingAll(16),
       ),
     );
   }

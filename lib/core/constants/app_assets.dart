@@ -59,7 +59,7 @@ class AppAssets {
   static const String close = '${_svg}close.svg';
   static const String calendarMinus = '${_svg}calendar_minus.svg';
   static const String chevronLeft = '${_svg}chevron_left.svg';
-  static const String clickL = '${_svg}click.svg';
+  static const String clickL = '${_svg}clickL.svg';
   static const String copy = '${_svg}copy.svg';
   static const String currency = '${_svg}currency.svg';
   static const String faceBookL = '${_svg}facebook_logo.svg';
@@ -73,7 +73,7 @@ class AppAssets {
   static const String message = '${_svg}message.svg';
   static const String moon = '${_svg}moon.svg';
   static const String paperclip = '${_svg}paperclip.svg';
-  static const String paymeL = '${_svg}payme.svg';
+  static const String paymeL = '${_svg}paymeL.svg';
   static const String pencil = '${_svg}pencil.svg';
   static const String phone = '${_svg}phone.svg';
   static const String plus = '${_svg}plus.svg';
