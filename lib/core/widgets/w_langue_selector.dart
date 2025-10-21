@@ -1,5 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:housell/core/widgets/w__container.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../config/theme/app_colors.dart';
 import '../constants/app_assets.dart';
 import 'app_image.dart';
@@ -19,7 +22,21 @@ class Language {
   });
 }
 
-class WLanguageSelector extends StatefulWidget {
+class LanguageService {
+  static const String _languageKey = 'selected_language';
+
+  static Future<void> saveLanguage(String languageCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_languageKey, languageCode);
+  }
+
+  static Future<String> getLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_languageKey) ?? 'uz';
+  }
+}
+
+class WLanguageSelector extends StatelessWidget {
   final Function(Locale)? onLanguageChanged;
   final String? initialLanguageCode;
 
@@ -29,138 +46,71 @@ class WLanguageSelector extends StatefulWidget {
     this.initialLanguageCode,
   });
 
-  @override
-  State<WLanguageSelector> createState() => _WLanguageSelectorState();
-}
-
-class _WLanguageSelectorState extends State<WLanguageSelector> {
-  late Language selectedLanguage;
-
-  final List<Language> languages = const [
-    Language(
-      name: "O'zbek",
-      flagAsset: AppAssets.cUz,
-      code: 'uz',
-      locale: Locale('uz'),
-    ),
-    Language(
-      name: "Русский",
-      flagAsset: AppAssets.cRus,
-      code: 'ru',
-      locale: Locale('ru'),
-    ),
+  static const List<Language> languages = [
     Language(
       name: "English",
       flagAsset: AppAssets.cEng,
       code: 'en',
       locale: Locale('en'),
     ),
+    Language(
+      name: "Uzbek",
+      flagAsset: AppAssets.cUz,
+      code: 'uz',
+      locale: Locale('uz'),
+    ),
+    Language(
+      name: "Russian",
+      flagAsset: AppAssets.cRus,
+      code: 'ru',
+      locale: Locale('ru'),
+    ),
   ];
 
   @override
-  void initState() {
-    super.initState();
-    selectedLanguage = languages.firstWhere(
-          (lang) => lang.code == (widget.initialLanguageCode ?? 'uz'),
-      orElse: () => languages.first,
+  Widget build(BuildContext context) {
+    final currentLanguageCode = initialLanguageCode ?? context.setLocale;
+
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: languages.map((language) {
+        final isSelected = currentLanguageCode == language.code;
+        return _buildLanguageOption(context, language, isSelected);
+      }).toList(),
     );
-    print("🚀 Boshlang‘ich til: ${selectedLanguage.name} (${selectedLanguage.code})");
   }
 
+  Widget _buildLanguageOption(BuildContext context, Language language, bool isSelected) {
+    return InkWell(
+      onTap: () async {
+        // 1. SharedPreferences ga saqlash
+        await LanguageService.saveLanguage(language.code);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 38.h,
-      width: 136.w,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(19),
-        boxShadow: [
-          BoxShadow(
-            // ignore: deprecated_member_use
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<Language>(
-          value: selectedLanguage,
-          icon: Icon(
-            Icons.keyboard_arrow_down,
-            color: AppColors.grey300,
-            size: 20,
-          ),
-          isExpanded: true,
-          dropdownColor: Colors.white,
-          elevation: 8,
-          borderRadius: BorderRadius.circular(12),
-          onChanged: (Language? newLanguage) {
-            if (newLanguage != null) {
-              print("🔄 Yangi til tanlandi: ${newLanguage.name} (${newLanguage.code})");
-              setState(() {
-                selectedLanguage = newLanguage;
-              });
+        // 2. EasyLocalization ga o'rnatish (avtomatik rebuild)
+        await context.setLocale(language.locale);
 
-              if (widget.onLanguageChanged != null) {
-                print("📢 Callback chaqirilmoqda Locale: ${newLanguage.locale}");
-                widget.onLanguageChanged!(newLanguage.locale);
-              } else {
-                print("⚠️ onLanguageChanged callback null, chaqirilmadi!");
-              }
-            }
-          },
-          selectedItemBuilder: (BuildContext context) {
-            return languages.map((Language language) {
-              return Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  AppImage(
-                    path: language.flagAsset,
-                    size: 18,
-                  ),
-                  SizedBox(width: 8.w),
-                  Expanded(
-                    child: AppText(
-                      text: language.name,
-                      color: AppColors.black,
-                      fontSize: 14,
-                      fontWeight: 500,
-                    ),
-                  ),
-                ],
-              );
-            }).toList();
-          },
-          items: languages.map((Language language) {
-            return DropdownMenuItem<Language>(
-              value: language,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Row(
-                  children: [
-                    AppImage(
-                      path: language.flagAsset,
-                      size: 20,
-                    ),
-                    SizedBox(width: 12.w),
-                    AppText(
-                      text: language.name,
-                      color: AppColors.black,
-                      fontSize: 14,
-                      fontWeight: selectedLanguage.code == language.code ? 600 : 400,
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }).toList(),
+        // 3. Callback chaqirish
+        onLanguageChanged?.call(language.locale);
+
+        print("🔄 Til o'zgartirildi: ${language.name} (${language.code})");
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: ContainerW(
+          width: double.infinity,
+          height: 40.h,
+          radius: 8,
+          color: isSelected ? AppColors.base.withOpacity(0.2) : AppColors.white,
+          child: Center(
+            child: AppText(
+              text: language.name,
+              fontSize: 16,
+              fontWeight: isSelected ? 600 : 400,
+              color: isSelected ? AppColors.base : Colors.black87,
+            ),
+          ),
         ),
       ),
     );
   }
 }
-

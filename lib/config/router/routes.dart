@@ -33,6 +33,7 @@ class Routes {
   static const String myProperties = '/my_properties';
   static const String saveProperties = '/save_properties';
   static const String signUp = '/sign_up';
+  static const String socialLinc = '/social_link';
   static const String resetOtp = '/reset_otp';
   static const String resetOtpVerify = '/reset_otp_verify';
   static const String resetPassword = '/reset_password';

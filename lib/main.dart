@@ -6,6 +6,7 @@ import 'package:housell/config/router/router.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'core/dp/dp_injection.dart';
 import 'core/extensions/num_extensions.dart';
+import 'core/widgets/w_langue_selector.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,21 +17,16 @@ void main() async {
       systemNavigationBarColor: Colors.white,
       systemNavigationBarDividerColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark,
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-      statusBarBrightness: Brightness.light,
+      statusBarColor: Colors.transparent, // ✅ Transparent qoldiramiz
+      statusBarIconBrightness: Brightness.dark, // ✅ Dark qilamiz (qora iconlar)
+      statusBarBrightness: Brightness.light, // ✅ iOS uchun
     ),
   );
 
-  // AndroidYandexMap.useAndroidViewSurface = false;
-
   // System UI mode - 3 ta tugma ko'rinishi uchun
   SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.manual,
-    overlays: [
-      SystemUiOverlay.top,    // Status bar
-      SystemUiOverlay.bottom, // Navigation bar (3 ta tugma)
-    ],
+    SystemUiMode.edgeToEdge, // ✅ edgeToEdge yaxshiroq
+    overlays: SystemUiOverlay.values,
   );
 
   // Preferred orientations
@@ -40,6 +36,10 @@ void main() async {
   ]);
 
   await EasyLocalization.ensureInitialized();
+
+  // ✅ Saqlangan tilni yuklash
+  final savedLanguage = await LanguageService.getLanguage();
+
   await setupDependencies();
 
   runApp(
@@ -47,6 +47,7 @@ void main() async {
       supportedLocales: const [Locale('uz'), Locale('ru'), Locale('en')],
       path: 'assets/localization',
       fallbackLocale: const Locale('uz'),
+      startLocale: Locale(savedLanguage), // ✅ Saqlangan til
       child: const MyApp(),
     ),
   );
@@ -59,7 +60,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeUtilsExtension.instance.init(context);
 
-    // Provider bilan o'rash
     return ScreenUtilInit(
       designSize: const Size(375, 812),
       minTextAdapt: true,
@@ -67,22 +67,18 @@ class MyApp extends StatelessWidget {
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         title: 'Housell',
-
-        // Provider'dan theme olish
-        // theme: themeProvider.themeData,
-
         routerConfig: router,
 
-        // Global builder - barcha sahifalarga wrappe qiladi
+        // Global builder
         builder: (context, child) {
           return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle(
+            value: const SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
-              statusBarIconBrightness: Brightness.light,
-              statusBarBrightness: Brightness.light,
+              statusBarIconBrightness: Brightness.dark, // ✅ Dark qilamiz
+              statusBarBrightness: Brightness.light, // ✅ iOS uchun
               systemNavigationBarColor: Colors.white,
               systemNavigationBarDividerColor: Colors.transparent,
-              systemNavigationBarIconBrightness: Brightness.light,
+              systemNavigationBarIconBrightness: Brightness.dark, // ✅ Dark qilamiz
             ),
             child: child ?? Container(),
           );

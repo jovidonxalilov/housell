@@ -27,6 +27,7 @@ import 'package:housell/features/profile/presentation/pages/payment/payment_add.
 import 'package:housell/features/profile/presentation/pages/payment/payment_history.dart';
 import 'package:housell/features/profile/presentation/pages/profile_page.dart';
 import 'package:housell/features/profile/presentation/pages/settings/settings_page.dart';
+import 'package:housell/features/profile/presentation/pages/social_links/social_liks_page.dart';
 
 import '../../features/home/data/model/property_model.dart';
 import '../../features/home/presentation/pages/search_page.dart';
@@ -36,7 +37,7 @@ import '../../features/profile/presentation/pages/edit/new_password_page.dart';
 import '../../features/profile/presentation/pages/save_properties/save_properties_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.login,
+  initialLocation: Routes.socialLinc,
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -116,6 +117,7 @@ final GoRouter router = GoRouter(
 
     GoRoute(path: Routes.signUp, builder: (context, state) => SignUpPage()),
     GoRoute(path: Routes.resetOtp, builder: (context, state) => ResetOtpPage()),
+    GoRoute(path: Routes.socialLinc, builder: (context, state) => SocialLinksPage()),
     GoRoute(path: Routes.settings, builder: (context, state) => SettingsPage()),
     GoRoute(
       path: Routes.search,

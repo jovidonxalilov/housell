@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 import 'package:housell/core/extensions/widget_extension.dart';
 
 import '../../config/theme/app_colors.dart';
@@ -35,78 +36,78 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => const Size.fromHeight(60);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
     final canPop = Navigator.of(context).canPop();
+    final shouldShowLeading = (leading != null || leadingImage != null) &&
+        (!showLeadingAutomatically || canPop);
 
-    return Material(
-      color: backgroundColor,
-      elevation: elevation,
-      child: SafeArea(
-        top: false,
-        bottom: false,
-        child: Container(
-          padding: padding ?? const EdgeInsets.symmetric(horizontal: 24),
-          height: preferredSize.height,
-          child: Stack(
-            children: [
-              // Leading (chap taraf)
-              if ((leading != null || leadingImage != null) &&
-                  (!showLeadingAutomatically || canPop))
-                Positioned(
-                  left: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: leading ??
-                        (leadingImage != null
-                            ? AppImage(path: leadingImage!)
-                            : const SizedBox.shrink()),
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: _getSystemUiOverlayStyle(),
+      child: Material(
+        color: backgroundColor,
+        elevation: elevation,
+        child: SafeArea(
+          bottom: false,
+          child: Container(
+            padding: padding ?? const EdgeInsets.symmetric(horizontal: 16),
+            height: preferredSize.height,
+            child: Stack(
+              children: [
+                // Leading - chap tomonda
+                if (shouldShowLeading)
+                  Positioned(
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    child: _buildLeading(),
                   ),
-                ),
 
-              // Actions (o'ng taraf)
-              if (actions != null && actions!.isNotEmpty)
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  bottom: 0,
-                  child: Align(
-                    alignment: Alignment.centerRight,
+                // Title - doim markazda
+                if (title != null)
+                  Positioned.fill(
+                    child: Center(child: title!),
+                  ),
+
+                // Actions - o'ng tomonda
+                if (actions != null && actions!.isNotEmpty)
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    bottom: 0,
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: actions!,
                     ),
                   ),
-                ),
-
-              // Title - centerTitle true bo'lsa markazda, false bo'lsa leadingdan keyin
-              if (title != null)
-                centerTitle
-                    ? Positioned.fill(
-                  child: Center(
-                    child: title!,
-                  ),
-                )
-                    : Positioned(
-                  left: (leading != null || leadingImage != null) &&
-                      (!showLeadingAutomatically || canPop)
-                      ? 56 // Leading elementdan keyin joy qoldirish
-                      : 0,
-                  top: 0,
-                  bottom: 0,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: title!,
-                  ),
-                ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ).paddingOnly(top: 44);
+    );
+  }
+
+  SystemUiOverlayStyle _getSystemUiOverlayStyle() {
+    final isLightBackground = backgroundColor == Colors.white ||
+        backgroundColor == const Color(0xFFF2F2F7) ||
+        backgroundColor == AppColors.backgroundP;
+
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: isLightBackground ? Brightness.dark : Brightness.light,
+      statusBarBrightness: isLightBackground ? Brightness.light : Brightness.dark,
+    );
+  }
+
+  Widget _buildLeading() {
+    return Center(
+      child: leading ??
+          (leadingImage != null
+              ? AppImage(path: leadingImage!)
+              : const SizedBox.shrink()),
+    );
   }
 }
