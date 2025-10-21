@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:housell/config/router/routes.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/constants/app_assets.dart';
 import 'package:housell/core/constants/app_status.dart';
@@ -99,6 +100,9 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                       children: [
                         SizedBox(height: 12.h),
                         ContainerW(
+                          onTap: () {
+                            context.push(Routes.settings);
+                          },
                           boxShadow: [
                             // Birinchi shadow
                             BoxShadow(

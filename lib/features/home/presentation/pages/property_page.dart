@@ -247,7 +247,7 @@ class _DetailPageState extends State<DetailPage> {
                                       children: [
                                         ContainerW(
                                           radius: 8,
-                                          width: 155.w,
+                                          // width: 155.w,
                                           height: 36.h,
                                           color: AppColors.base.withOpacity(0.2),
                                           child: Row(
@@ -267,12 +267,12 @@ class _DetailPageState extends State<DetailPage> {
                                                 color: AppColors.base,
                                               ),
                                             ],
-                                          ),
+                                          ).paddingOnly(left: 31, right: 31),
                                         ),
                                         SizedBox(width: 16.w),
                                         ContainerW(
                                           radius: 8,
-                                          width: 155.w,
+                                          // width: 155.w,
                                           height: 36.h,
                                           color: AppColors.base.withOpacity(0.2),
                                           child: Row(
@@ -288,7 +288,7 @@ class _DetailPageState extends State<DetailPage> {
                                                 color: AppColors.base,
                                               ),
                                             ],
-                                          ),
+                                          ).paddingOnly(left: 51, right: 51),
                                         ),
                                       ],
                                     ),
@@ -402,7 +402,7 @@ class _DetailPageState extends State<DetailPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ContainerW(
-                width: 157.w,
+                // width: 157.w,
                 height: 44.h,
                 radius: 8,
                 borderColor: Colors.transparent,
@@ -415,11 +415,11 @@ class _DetailPageState extends State<DetailPage> {
                     SizedBox(width: 4.w),
                     AppText(text: "Message", fontSize: 16, fontWeight: 600),
                   ],
-                ),
+                ).paddingOnly(left: 31, right: 31),
               ),
               Spacer(),
               ContainerW(
-                width: 157.w,
+                // width: 157.w,
                 height: 44.h,
                 radius: 8,
                 color: AppColors.greenLighter,
@@ -432,7 +432,7 @@ class _DetailPageState extends State<DetailPage> {
                     SizedBox(width: 4.w),
                     AppText(text: "Call", fontSize: 16, fontWeight: 600),
                   ],
-                ),
+                ).paddingOnly(left: 51, right: 51),
               ),
             ],
           ).paddingOnly(left: 24, right: 24, top: 12, bottom: 7),

@@ -37,7 +37,7 @@ import '../../features/profile/presentation/pages/edit/new_password_page.dart';
 import '../../features/profile/presentation/pages/save_properties/save_properties_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.socialLinc,
+  initialLocation: Routes.home,
   routes: [
     ShellRoute(
       builder: (context, state, child) {

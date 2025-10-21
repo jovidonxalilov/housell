@@ -65,10 +65,21 @@ class WCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
                     child: _buildLeading(),
                   ),
 
-                // Title - doim markazda
+                // Title - centerTitle ga qarab joylashadi
                 if (title != null)
-                  Positioned.fill(
+                  centerTitle
+                      ? Positioned.fill(
                     child: Center(child: title!),
+                  )
+                      : Positioned(
+                    left: shouldShowLeading ? 56 : 0, // leadingdan keyin joy
+                    top: 0,
+                    bottom: 0,
+                    right: actions != null && actions!.isNotEmpty ? 56 : 0,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: title!,
+                    ),
                   ),
 
                 // Actions - o'ng tomonda
