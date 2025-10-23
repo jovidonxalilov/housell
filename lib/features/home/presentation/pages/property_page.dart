@@ -249,7 +249,7 @@ class _DetailPageState extends State<DetailPage> {
                                           radius: 8,
                                           // width: 155.w,
                                           height: 36.h,
-                                          color: AppColors.base.withOpacity(0.2),
+                                          color: AppColors.primary.withOpacity(0.2),
                                           child: Row(
                                             crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -258,13 +258,13 @@ class _DetailPageState extends State<DetailPage> {
                                             children: [
                                               AppImage(
                                                 path: AppAssets.play,
-                                                color: AppColors.base,
+                                                color: AppColors.primary,
                                               ),
                                               AppText(
                                                 text: "See Video",
                                                 fontSize: 14,
                                                 fontWeight: 500,
-                                                color: AppColors.base,
+                                                color: AppColors.primary,
                                               ),
                                             ],
                                           ).paddingOnly(left: 31, right: 31),
@@ -274,7 +274,7 @@ class _DetailPageState extends State<DetailPage> {
                                           radius: 8,
                                           // width: 155.w,
                                           height: 36.h,
-                                          color: AppColors.base.withOpacity(0.2),
+                                          color: AppColors.primary.withOpacity(0.2),
                                           child: Row(
                                             crossAxisAlignment:
                                             CrossAxisAlignment.center,
@@ -285,7 +285,7 @@ class _DetailPageState extends State<DetailPage> {
                                                 text: "3d Tour",
                                                 fontSize: 14,
                                                 fontWeight: 500,
-                                                color: AppColors.base,
+                                                color: AppColors.primary,
                                               ),
                                             ],
                                           ).paddingOnly(left: 51, right: 51),
@@ -300,7 +300,7 @@ class _DetailPageState extends State<DetailPage> {
                                     ),
                                     SizedBox(height: 16.h),
                                     ContainerW(
-                                      color: AppColors.base.withOpacity(0.2),
+                                      color: AppColors.primary.withOpacity(0.2),
                                       radius: 16,
                                       child: AppText(
                                         text: property.description,
@@ -455,12 +455,12 @@ class _DetailPageState extends State<DetailPage> {
             ContainerW(
               width: 40.w,
               height: 40.h,
-              color: AppColors.base.withOpacity(0.1), // ✅ Icon uchun background
+              color: AppColors.primary.withOpacity(0.1), // ✅ Icon uchun background
               child: Center(
                 child: AppImage(
                   path: location.toLocatedNearSvg(),
                   size: 24, // ✅ Icon size
-                  color: AppColors.base,
+                  color: AppColors.primary,
                 ),
               ),
             ),

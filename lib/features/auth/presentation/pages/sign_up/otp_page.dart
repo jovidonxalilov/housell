@@ -233,7 +233,7 @@ class _LoginPageState extends State<OtpPage> {
                   }
                 },
                 text: "Log in",
-                color: AppColors.base,
+                color: AppColors.primary,
                 fontSize: 16,
                 fontWeight: 500,
               )

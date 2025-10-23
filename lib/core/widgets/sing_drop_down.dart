@@ -58,7 +58,7 @@ class _SingleFieldDropdownState extends State<SingleFieldDropdown> {
     final borderColor = widget.hasError
         ? Theme.of(context).colorScheme.error
         : isFocused
-        ? (widget.borderColor ?? AppColors.base)
+        ? (widget.borderColor ?? AppColors.primary)
         : AppColors.divider;
 
     return ValueListenableBuilder<String?>(

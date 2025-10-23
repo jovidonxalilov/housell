@@ -99,7 +99,7 @@ class _TopUpPageState extends State<TopUpPage> {
       //   ),
       // ],
       // color: Color(0xffF2F0FF),
-      color: AppColors.base.withOpacity(0.2),
+      color: AppColors.primary.withOpacity(0.2),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -132,7 +132,7 @@ class _TopUpPageState extends State<TopUpPage> {
               ),
               ContainerW(
                 // decoration: BoxDecoration(
-                color: AppColors.base.withOpacity(0.15),
+                color: AppColors.primary.withOpacity(0.15),
                 radius: 24,
                 // ),
                 child: AppImage(path: AppAssets.wallet).paddingAll(12),
@@ -238,10 +238,10 @@ class _TopUpPageState extends State<TopUpPage> {
               },
               child: ContainerW(
                 height: 64,
-                color: isSelected ? AppColors.base.withOpacity(0.2) : Colors.white,
+                color: isSelected ? AppColors.primary.withOpacity(0.2) : Colors.white,
                 radius: 8,
                 border: Border.all(
-                  color: isSelected ? AppColors.base : AppColors.bg,
+                  color: isSelected ? AppColors.primary : AppColors.bg,
                   width: 1.5,
                 ),
                 child: Column(

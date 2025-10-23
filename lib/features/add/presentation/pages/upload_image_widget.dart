@@ -150,7 +150,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
           DottedBorder(
             options: RoundedRectDottedBorderOptions(
               radius: Radius.circular(16),
-              color: AppColors.base,
+              color: AppColors.primary,
               strokeWidth: 2,
               dashPattern: [6, 4],
               padding: EdgeInsets.all(2),
@@ -159,7 +159,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
               width: double.infinity.w,
               height: 225.h,
               radius: 16,
-              color: AppColors.base.withOpacity(0.2),
+              color: AppColors.primary.withOpacity(0.2),
               onTap: _pickMultipleImages,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +169,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                   SizedBox(height: 12.h),
                   AppText(
                     text: "Add Photos",
-                    color: AppColors.base,
+                    color: AppColors.primary,
                     fontWeight: 600,
                     fontSize: 18,
                   ),
@@ -304,7 +304,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                             top: -8,
                             right: -8,
                             child: ContainerW(
-                              color: AppColors.base,
+                              color: AppColors.primary,
                               width: 32.w,
                               height: 32.h,
                               radius: 16,

@@ -118,10 +118,10 @@ class WTextField extends StatefulWidget {
   final int? maxLength;
   final bool hasClearButton;
   final bool hasError;
-  final Color? fillColor; // Agar berilmasa, tema rangini oladi
-  final Color? borderColor; // Agar berilmasa, tema rangini oladi
-  final Color? cursorColor; // Agar berilmasa, tema rangini oladi
-  final Color? borderNoFocusColor; // Agar berilmasa, tema rangini oladi
+  final Color? fillColor;
+  final Color? borderColor;
+  final Color? cursorColor;
+  final Color? borderNoFocusColor;
   final double borderRadius;
   final Widget? prefixIcon;
   final bool suffixIcon;
@@ -143,6 +143,7 @@ class WTextField extends StatefulWidget {
   final VoidCallback? onClearTap;
   final List<TextInputFormatter>? inputFormatters;
   final FocusNode? focusNode;
+  final double? height; // Yangi parametr
 
   const WTextField({
     this.errorText,
@@ -170,8 +171,8 @@ class WTextField extends StatefulWidget {
     this.maxLength,
     this.hasClearButton = false,
     this.hasError = false,
-    this.fillColor = AppColors.backgroundP, // null bo'lsa tema rangini oladi
-    this.borderColor, // null bo'lsa tema rangini oladi
+    this.fillColor = AppColors.backgroundP,
+    this.borderColor,
     this.cursorColor,
     this.borderRadius = 8,
     this.prefixIcon,
@@ -188,6 +189,7 @@ class WTextField extends StatefulWidget {
     this.onClearTap,
     this.inputFormatters,
     this.focusNode,
+    this.height, // Yangi parametr
   });
 
   @override
@@ -256,166 +258,187 @@ class _WTextFieldState extends State<WTextField> {
   Widget build(BuildContext context) {
     final isFocused = _focusNode.hasFocus;
 
-    // // Tema ranglarini olish
-    // final theme = Theme.of(context);
-    // final fillColor = widgets.fillColor ?? theme.inputDecorationTheme.fillColor ?? theme.cardColor;
-    // final cursorColor = widgets.cursorColor ?? theme.colorScheme.primary;
-    // final hintColor = theme.inputDecorationTheme.hintStyle?.color ?? theme.hintColor;
-    // final titleColor = theme.textTheme.titleMedium?.color ?? theme.colorScheme.onSurface;
-    // final textColor = theme.textTheme.bodyLarge?.color ?? theme.colorScheme.onSurface;
-    // final iconColor = theme.iconTheme.color ?? theme.colorScheme.onSurface;
-
-    // Border rangi
     final borderColor = widget.hasError
         ? Theme.of(context).colorScheme.error
         : isFocused
-        ? (widget.borderColor ?? AppColors.base)
+        ? (widget.borderColor ?? AppColors.primary)
         : widget.borderNoFocusColor ?? AppColors.white;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.title != null)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 8.0),
-            child: AppText(
-              text: widget.title!,
-              fontSize: 16,
-              fontWeight: 500,
-              color: AppColors.black, // Tema rangini ishlatish
-            ),
-          ),
-        TextFormField(
-          controller: widget.controller,
-          focusNode: _focusNode,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction,
-          obscureText: widget.suffixIcon ? _obscureText : false,
-          autofocus: widget.autoFocus,
-          readOnly: widget.readOnly,
-          enabled: widget.enabled,
-          maxLines: widget.isObscureText ? 1 : widget.maxLines,
-          minLines: widget.minLines,
-          maxLength: widget.maxLength,
-          cursorColor: widget.cursorColor, // Tema cursor rangi
-          textAlign: widget.textAlign,
-          style: widget.textStyle ?? TextStyle(
+    // TextFormField widgetini yaratish
+    final textField = TextFormField(
+      controller: widget.controller,
+      focusNode: _focusNode,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      obscureText: widget.suffixIcon ? _obscureText : false,
+      autofocus: widget.autoFocus,
+      readOnly: widget.readOnly,
+      enabled: widget.enabled,
+      maxLines: widget.isObscureText ? 1 : widget.maxLines,
+      minLines: widget.minLines,
+      maxLength: widget.maxLength,
+      cursorColor: widget.cursorColor,
+      textAlign: widget.textAlign,
+      style: widget.textStyle ??
+          TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
-            color: AppColors.darkest, // Tema matn rangi
+            color: AppColors.darkest,
           ),
-          onTap: widget.onTap,
-          onChanged: widget.onChanged,
-          validator: widget.validator ?? (value) {
+      onTap: widget.onTap,
+      onChanged: widget.onChanged,
+      validator: widget.validator ??
+              (value) {
             if (value == null || value.isEmpty) {
               return widget.errorText;
             }
             return null;
           },
-          inputFormatters: widget.inputFormatters,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: widget.fillColor, // Tema fill rangi
-            contentPadding: widget.contentPadding ?? const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            hint: Align(
-              alignment: widget.hintTextAlign,
-              child: RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: widget.hintText,
-                      style: TextStyle(
-                        color: AppColors.textLight, // Tema hint rangi
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    if (widget.richText)
-                      TextSpan(
-                        text: ' *',
-                        style: TextStyle(
-                          color: AppColors.red, // Tema error rangi
-                          fontSize: 16,
-                        ),
-                      ),
-                  ],
+      inputFormatters: widget.inputFormatters,
+      decoration: InputDecoration(
+        isDense: true,
+        filled: true,
+        fillColor: widget.fillColor,
+        contentPadding: widget.contentPadding ?? _calculateContentPadding(),
+
+        // MUAMMO SHU YERDA! Align ni olib tashlaymiz
+        hintText: widget.hintText, // Oddiy hintText ishlatamiz
+
+        hintStyle: widget.hintStyle ??
+            TextStyle(
+              color: AppColors.textLight,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+            ),
+
+        // Agar richText kerak bo'lsa, label ishlatamiz
+        label: widget.richText && widget.hintText != null
+            ? RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: widget.hintText,
+                style: TextStyle(
+                  color: AppColors.textLight,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
                 ),
               ),
-            ),
-            hintStyle: widget.hintStyle ?? TextStyle(
-              // color: widget.hintColor, // Tema hint rangi
-              fontSize: 16.sp,
-              fontWeight: FontWeight.w500,
-            ),
-            prefixIcon: widget.prefixImage != null
-                ? AppImage(
-              size: 20,
-              path: widget.prefixImage!,
-              onTap: () {},
-              // color: , // Tema ikonka rangi
-            ).paddingAll(16)
-                : null,
-            suffixIcon: widget.suffixIcon
-                ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(width: 15.w),
-                AppImage(
-                  onTap: () {
-                    setState(() {
-                      _obscureText = !_obscureText;
-                    });
-                  },
-                  path: _obscureText ? AppAssets.eyeOff : AppAssets.eyeOn,
-                  // color: widget.iconColor, // Tema ikonka rangi
+              TextSpan(
+                text: ' *',
+                style: TextStyle(
+                  color: AppColors.red,
+                  fontSize: 16,
                 ),
-              ],
-            )
-                : (widget.suffixIconWidget != null
-                ? widget.suffixIconWidget!
-                : (widget.suffixImage != null
-                ? Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(width: 15.w),
-                AppImage(
-                  path: widget.suffixImage!,
-                  onTap: widget.suffixImageTap,
-                  // color: widget.iconColor, // Tema ikonka rangi
-                ),
-              ],
-            )
-                : null)),
-            counterText: '',
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 2),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 2),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(color: borderColor, width: 2),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(
-                color: AppColors.red, // Tema error rangi
-                width: 1.2,
               ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-              borderSide: BorderSide(
-                color: AppColors.red, // Tema error rangi
-                width: 2,
-              ),
-            ),
+            ],
+          ),
+        )
+            : null,
+
+        prefixIcon: widget.prefixImage != null
+            ? Center( // Center bilan o'rab qo'yamiz
+          child: AppImage(
+            size: 20,
+            path: widget.prefixImage!,
+            onTap: () {},
+          ),
+        )
+            : null,
+        prefixIconConstraints: widget.prefixImage != null
+            ? BoxConstraints(
+          minWidth: 48, // Kenglikni bir oz oshiramiz
+          maxWidth: 48,
+        )
+            : null,
+
+        suffixIcon: widget.suffixIcon
+            ? Center( // Center bilan o'rab qo'yamiz
+          child: AppImage(
+            onTap: () {
+              setState(() {
+                _obscureText = !_obscureText;
+              });
+            },
+            path: _obscureText ? AppAssets.eyeOff : AppAssets.eyeOn,
+          ),
+        )
+            : (widget.suffixIconWidget != null
+            ? Center(child: widget.suffixIconWidget!)
+            : (widget.suffixImage != null
+            ? Center(
+          child: AppImage(
+            path: widget.suffixImage!,
+            onTap: widget.suffixImageTap,
+          ),
+        )
+            : null)),
+        suffixIconConstraints: (widget.suffixIcon ||
+            widget.suffixIconWidget != null ||
+            widget.suffixImage != null)
+            ? BoxConstraints(
+          minWidth: 48,
+          maxWidth: 48,
+        )
+            : null,
+
+        counterText: '',
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(color: borderColor, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(color: borderColor, width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(color: borderColor, width: 2),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(
+            color: AppColors.red,
+            width: 1.2,
           ),
         ),
-      ],
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(
+            color: AppColors.red,
+            width: 2,
+          ),
+        ),
+      ),
+    );
+
+    // Agar height berilgan bo'lsa, ConstrainedBox bilan o'rash
+    if (widget.height != null) {
+      return ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: widget.height!,
+          maxHeight: widget.height!,
+        ),
+        child: textField,
+      );
+    }
+
+    return textField;
+  }
+
+// Content padding ni hisoblash uchun helper method
+  EdgeInsets _calculateContentPadding() {
+    if (widget.height == null) {
+      return const EdgeInsets.symmetric(horizontal: 16, vertical: 14);
+    }
+
+    // Height berilgan bo'lsa, minimal paddingni ishlatamiz
+    // TextField o'zi textni vertikal o'rtaga qo'yadi
+    final verticalPadding = ((widget.height! - 24) / 2).clamp(10.0, 18.0);
+
+    return EdgeInsets.symmetric(
+      horizontal: 16,
+      vertical: verticalPadding,
     );
   }
 }

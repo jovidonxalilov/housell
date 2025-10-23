@@ -100,13 +100,13 @@ class WLanguageSelector extends StatelessWidget {
           width: double.infinity,
           height: 40.h,
           radius: 8,
-          color: isSelected ? AppColors.base.withOpacity(0.2) : AppColors.white,
+          color: isSelected ? AppColors.primary.withOpacity(0.2) : AppColors.white,
           child: Center(
             child: AppText(
               text: language.name,
               fontSize: 16,
               fontWeight: isSelected ? 600 : 400,
-              color: isSelected ? AppColors.base : Colors.black87,
+              color: isSelected ? AppColors.primary : Colors.black87,
             ),
           ),
         ),

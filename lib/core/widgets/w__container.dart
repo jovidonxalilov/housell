@@ -49,7 +49,7 @@ class WContainer extends StatelessWidget {
             width: width?.w,
             height: height?.h,
             decoration: BoxDecoration(
-              color: isValid ? AppColors.base : AppColors.lightSky, // Valid bo'lsa tema rangi, yo'qsa disabled
+              color: isValid ? AppColors.primary : AppColors.lightSky, // Valid bo'lsa tema rangi, yo'qsa disabled
               borderRadius: BorderRadius.circular(radius!),
               // border: Border.all(color: defaultBorderColor),
             ),

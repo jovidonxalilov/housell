@@ -136,7 +136,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             text: "Cancel",
             fontSize: 18,
             fontWeight: 400,
-            color: AppColors.base,
+            color: AppColors.primary,
           ),
           showLeadingAutomatically: true,
           actions: [
@@ -215,7 +215,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               text: "Done",
               fontSize: 18,
               fontWeight: 400,
-              color: AppColors.base,
+              color: AppColors.primary,
             ),
           ],
         ),

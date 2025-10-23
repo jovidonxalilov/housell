@@ -106,7 +106,7 @@ class _ResentCodeWidgetState extends State<ResentCodeWidget> {
         fontSize: 16,
         fontWeight: 500,
         textAlign: TextAlign.center,
-        color: AppColors.base,
+        color: AppColors.primary,
       ),
     );
   }

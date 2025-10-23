@@ -81,7 +81,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
               context.push('/new_phone_otp_page/${widget.id}');
             },
             height: 51.h,
-            color: AppColors.base,
+            color: AppColors.primary,
             radius: 8,
             text: "Change Number",
             textColor: AppColors.white,

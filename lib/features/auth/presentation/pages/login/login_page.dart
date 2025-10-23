@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                                     context.push(Routes.resetOtp);
                                   },
                                   text: "Forgot password?",
-                                  color: AppColors.base,
+                                  color: AppColors.primary,
                                   fontSize: 16,
                                   fontWeight: 400,
                                 ),
@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
                   }
                 },
                 text: "Sign up now",
-                color: AppColors.base,
+                color: AppColors.primary,
                 fontSize: 16,
                 fontWeight: 500,
               ),

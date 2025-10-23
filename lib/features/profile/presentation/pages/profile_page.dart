@@ -114,7 +114,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: 231.w,
                       height: 42.h,
                       color: AppColors.white,
-                      borderColor: AppColors.base,
+                      borderColor: AppColors.primary,
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +125,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             text: "Edit Profile",
                             fontSize: 14,
                             fontWeight: 600,
-                            color: AppColors.base,
+                            color: AppColors.primary,
                           ),
                         ],
                       ),
@@ -174,7 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
                     // Account Balance
                     ContainerW(
-                      color: AppColors.base.withOpacity(0.2),
+                      color: AppColors.primary.withOpacity(0.2),
                       radius: 16,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,9 +242,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                       child: Column(
                         children: [
-                          _buildMenuItem(AppAssets.housee, 'My Properties'),
+                          _buildMenuItem(AppAssets.housee, 'My Properties', onTap: () {
+                            context.push(Routes.myProperties);
+                          }),
                           _buildMenuItem(AppAssets.hearth, 'Saved Properties'),
-                          _buildMenuItem(AppAssets.add, 'Top Up Balance'),
+                          _buildMenuItem(AppAssets.add, 'Top Up Balance', onTap: () {
+                            context.push(Routes.paymentAdd);
+                          }),
                           _buildMenuItem(AppAssets.paperclip, 'Promocodes'),
                           _buildMenuItem(AppAssets.text, 'Transaction History'),
                           _buildMenuItem(
@@ -281,10 +285,10 @@ class _ProfilePageState extends State<ProfilePage> {
           height: 48,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
-            color: AppColors.base.withOpacity(0.2),
+            color: AppColors.primary.withOpacity(0.2),
           ),
           child: Center(
-            child: AppImage(path: icon, size: 24, color: AppColors.base),
+            child: AppImage(path: icon, size: 24, color: AppColors.primary),
           ),
         ),
         SizedBox(height: 8.h),
@@ -325,10 +329,10 @@ class _ProfilePageState extends State<ProfilePage> {
             ContainerW(
               width: 40,
               height: 40,
-              color: AppColors.base.withOpacity(0.2),
+              color: AppColors.primary.withOpacity(0.2),
               radius: 24,
               child: Center(
-                child: AppImage(path: icon, color: AppColors.base, size: 24),
+                child: AppImage(path: icon, color: AppColors.primary, size: 24),
               ),
             ),
             SizedBox(width: 12.w),

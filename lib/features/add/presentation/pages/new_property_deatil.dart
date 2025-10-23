@@ -905,7 +905,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
         DottedBorder(
           options: RoundedRectDottedBorderOptions(
             radius: Radius.circular(16),
-            color: AppColors.base,
+            color: AppColors.primary,
             strokeWidth: 2,
             dashPattern: [6, 4],
             padding: EdgeInsets.all(2),
@@ -914,7 +914,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
             width: double.infinity.w,
             height: 225.h,
             radius: 16,
-            color: AppColors.base.withOpacity(0.2),
+            color: AppColors.primary.withOpacity(0.2),
             onTap: _pickMultipleImages,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -924,7 +924,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                 SizedBox(height: 12.h),
                 AppText(
                   text: "Add Photos",
-                  color: AppColors.base,
+                  color: AppColors.primary,
                   fontWeight: 600,
                   fontSize: 18,
                 ),
@@ -978,7 +978,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                           top: -8,
                           right: -8,
                           child: ContainerW(
-                            color: AppColors.base,
+                            color: AppColors.primary,
                             width: 32.w,
                             height: 32.h,
                             radius: 16,
@@ -1265,7 +1265,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
               onTap: _priceAI,
               height: 36.h,
               radius: 8,
-              color: AppColors.base.withOpacity(0.2),
+              color: AppColors.primary.withOpacity(0.2),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1312,9 +1312,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                 height: 24.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: isSelected ? AppColors.base : AppColors.white,
+                  color: isSelected ? AppColors.primary : AppColors.white,
                   border: Border.all(
-                    color: isSelected ? AppColors.base : AppColors.skyBase,
+                    color: isSelected ? AppColors.primary : AppColors.skyBase,
                   ),
                 ),
                 child: isSelected
@@ -1406,7 +1406,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColors.bgLight),
                 color: selectedValue == value
-                    ? AppColors.base.withOpacity(0.2)
+                    ? AppColors.primary.withOpacity(0.2)
                     : AppColors.white,
               ),
               margin: const EdgeInsets.only(right: 8),
@@ -1415,7 +1415,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                   text: label,
                   fontWeight: 400,
                   fontSize: 14,
-                  color: selectedValue == value ? AppColors.base : AppColors.black,
+                  color: selectedValue == value ? AppColors.primary : AppColors.black,
                 ),
               ).paddingOnly(top: 8, left: 16, right: 16, bottom: 8),
             ),
@@ -1442,7 +1442,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
               child: Container(
                 margin: EdgeInsets.only(right: 8.w),
                 decoration: BoxDecoration(
-                  color: isSelected ? AppColors.base.withOpacity(0.2) : AppColors.white,
+                  color: isSelected ? AppColors.primary.withOpacity(0.2) : AppColors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppColors.bgLight),
                 ),
@@ -1451,7 +1451,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                     text: option,
                     fontSize: 14,
                     fontWeight: 400,
-                    color: isSelected ? AppColors.base : AppColors.black,
+                    color: isSelected ? AppColors.primary : AppColors.black,
                   ),
                 ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8),
               ),
@@ -1469,7 +1469,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
             child: Container(
               margin: EdgeInsets.only(right: 8.w),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.base.withOpacity(0.2) : AppColors.white,
+                color: isSelected ? AppColors.primary.withOpacity(0.2) : AppColors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColors.bgLight),
               ),
@@ -1478,7 +1478,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                   text: option,
                   fontSize: 14,
                   fontWeight: 400,
-                  color: isSelected ? AppColors.base : AppColors.black,
+                  color: isSelected ? AppColors.primary : AppColors.black,
                 ),
               ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8),
             ),

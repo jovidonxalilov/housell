@@ -193,7 +193,7 @@ class PropertyCard extends StatelessWidget {
                 child: ContainerW(
                   // width: 40.w,
                   radius: 4,
-                  color: AppColors.base,
+                  color: AppColors.primary,
                   child: AppText(
                     text: 'NEW',
                     fontWeight: 500,
@@ -272,43 +272,45 @@ class PropertyCard extends StatelessWidget {
                 SizedBox(height: 12.h),
                 Row(
                   children: [
-                    ContainerW(
-                      color: AppColors.bg,
-                      radius: 8,
-                      width: 145.w,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AppImage(path: AppAssets.pencil),
-                          SizedBox(width: 5),
-                          AppText(
-                            text: "Edit",
-                            fontSize: 14,
-                            fontWeight: 500,
-                            color: AppColors.lightIcon,
-                          ),
-                        ],
+                    Expanded(
+                      child: ContainerW(
+                        color: AppColors.bg,
+                        radius: 8,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AppImage(path: AppAssets.pencil),
+                            SizedBox(width: 5),
+                            AppText(
+                              text: "Edit",
+                              fontSize: 14,
+                              fontWeight: 500,
+                              color: AppColors.lightIcon,
+                            ),
+                          ],
+                        ).paddingSymmetric(vertical: 8, horizontal: 16),
                       ),
                     ),
-                    Spacer(),
-                    ContainerW(
-                      color: AppColors.base.withOpacity(0.2),
-                      radius: 8,
-                      width: 145.w,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          AppImage(path: AppAssets.star, color: AppColors.base),
-                          SizedBox(width: 5),
-                          AppText(
-                            text: "VIP",
-                            fontSize: 14,
-                            fontWeight: 500,
-                            color: AppColors.lightIcon,
-                          ),
-                        ],
+                    SizedBox(width: 12), // Oradagi bo'shliq
+                    Expanded(
+                      child: ContainerW(
+                        color: AppColors.primary.withOpacity(0.2),
+                        radius: 8,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            AppImage(path: AppAssets.star, color: AppColors.primary),
+                            SizedBox(width: 5),
+                            AppText(
+                              text: "VIP",
+                              fontSize: 14,
+                              fontWeight: 500,
+                              color: AppColors.lightIcon,
+                            ),
+                          ],
+                        ).paddingSymmetric(vertical: 8, horizontal: 16),
                       ),
                     ),
                   ],
@@ -330,7 +332,7 @@ class PropertyCard extends StatelessWidget {
           text: text,
           fontWeight: 400,
           fontSize: 12,
-          color: AppColors.base,
+          color: AppColors.primary,
         ),
       ],
     );

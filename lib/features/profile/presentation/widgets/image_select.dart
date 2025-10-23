@@ -66,7 +66,7 @@ class _ProfileAvatarState extends State<ProfileAvatar> {
           text: "Set New Photo",
           fontWeight: 400,
           fontSize: 16,
-          color: AppColors.base,
+          color: AppColors.primary,
         ),
       ],
     );

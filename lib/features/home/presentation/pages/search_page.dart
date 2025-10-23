@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:housell/config/theme/app_colors.dart';
+import 'package:housell/core/constants/app_assets.dart';
 import 'package:housell/core/extensions/widget_extension.dart';
+import 'package:housell/core/widgets/app_image.dart';
+import 'package:housell/core/widgets/app_text.dart';
 import 'package:housell/core/widgets/w_text_form.dart';
+
+import '../../../../core/widgets/w__container.dart';
 
 class LocationFilterPage extends StatefulWidget {
   const LocationFilterPage({Key? key}) : super(key: key);
@@ -12,7 +18,9 @@ class LocationFilterPage extends StatefulWidget {
 
 class _LocationFilterPageState extends State<LocationFilterPage> {
   // ValueNotifiers for state management
-  final ValueNotifier<List<String>> _selectedLocationsNotifier = ValueNotifier([]);
+  final ValueNotifier<List<String>> _selectedLocationsNotifier = ValueNotifier(
+    [],
+  );
   final ValueNotifier<List<String>> _searchResultsNotifier = ValueNotifier([]);
   final ValueNotifier<bool> _isSearchingNotifier = ValueNotifier(false);
 
@@ -62,8 +70,9 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
     } else {
       _isSearchingNotifier.value = true;
       _searchResultsNotifier.value = _locationSuggestions.keys
-          .where((location) =>
-          location.toLowerCase().contains(query.toLowerCase()))
+          .where(
+            (location) => location.toLowerCase().contains(query.toLowerCase()),
+          )
           .toList();
     }
   }
@@ -102,12 +111,13 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
         child: Column(
           children: [
             _buildSearchBar(),
+            SizedBox(height: 16.h),
             _buildSelectedChips(),
             Expanded(child: _buildContent()),
-            _buildBottomButtons(),
           ],
         ).paddingOnly(top: 24, left: 24, right: 24),
       ),
+      bottomNavigationBar: _buildBottomButtons(),
     );
   }
 
@@ -119,51 +129,23 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
             valueListenable: _searchController,
             builder: (context, value, child) {
               return WTextField(
-                controller: _searchController,
-                fillColor: AppColors.white,
-                borderNoFocusColor: AppColors.lightSky,
-                // decoration: InputDecoration(
-                hintText: 'Search',
-                hintStyle: TextStyle(
-                  color: Colors.grey[400],
-                  fontSize: 15,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Colors.grey[400],
-                  size: 20,
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
-                suffixIconWidget: value.text.isNotEmpty
-                    ? GestureDetector(
-                  onTap: _searchController.clear,
-                  child: Icon(
-                    Icons.close,
-                    color: Colors.grey[400],
-                    size: 20,
-                  ),
-                )
-                    : null,
-                // border: InputBorder.none,
-                // contentPadding: const EdgeInsets.symmetric(
-                //   horizontal: 12,
-                //   vertical: 10,
-                // ),
+                height: 36,
+                hintText: "Search",
+                prefixImage: AppAssets.search,
+                // contentPadding: EdgeInsets.symmetric(
+                //   horizontal: 16,
+                //   vertical: 50 != null ? 0 : 14, // Height berilsa padding 0
                 // ),
               );
             },
           ),
         ),
-        const SizedBox(width: 12),
-        GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Text(
-            'Cancel',
-            style: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 16,
-            ),
-          ),
+        SizedBox(width: 16.w,),
+        AppText(
+          text: 'Cancel',
+          fontSize: 16,
+          fontWeight: 400,
+          color: AppColors.lightIcon,
         ),
       ],
     );
@@ -180,26 +162,24 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
           builder: (context, selectedLocations, child) {
             if (selectedLocations.isEmpty) return const SizedBox.shrink();
 
-            return Container(
+            return ContainerW(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              // padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Wrap(
                 spacing: 8,
                 runSpacing: 8,
                 children: [
                   ...selectedLocations.map(
-                        (location) => _buildFilterChip(location),
+                    (location) => _buildFilterChip(location),
                   ),
-                  GestureDetector(
-                    onTap: _clearAll,
-                    child: Text(
-                      'Clear',
-                      style: TextStyle(
-                        color: Colors.blue[600],
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                  AppText(
+                    text: 'Clear',
+                    onTap: () {
+                      _clearAll();
+                    },
+                    fontWeight: 400,
+                    fontSize: 16,
+                    color: AppColors.purpleA,
                   ),
                 ],
               ),
@@ -214,18 +194,16 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
     return ValueListenableBuilder<bool>(
       valueListenable: _isSearchingNotifier,
       builder: (context, isSearching, child) {
-        return isSearching
-            ? _buildSearchResults()
-            : _buildPopularLocations();
+        return isSearching ? _buildSearchResults() : _buildPopularLocations();
       },
     );
   }
 
   Widget _buildBottomButtons() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return ContainerW(
+      // padding: const EdgeInsets.all(16),
+      // decoration: BoxDecoration(
+        color: AppColors.backgroundP,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -233,7 +211,8 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
             offset: const Offset(0, -2),
           ),
         ],
-      ),
+      radius: 0,
+      // ),
       child: ValueListenableBuilder<List<String>>(
         valueListenable: _selectedLocationsNotifier,
         builder: (context, selectedLocations, child) {
@@ -259,7 +238,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
                 ),
               ),
             ],
-          );
+          ).paddingOnly(left: 24, right: 24, top: 16, bottom: 16);
         },
       ),
     );
@@ -271,28 +250,24 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
     required bool isPrimary,
     required bool isEnabled,
   }) {
-    return GestureDetector(
+    return ContainerW(
       onTap: onTap,
-      child: Container(
-        height: 48,
-        decoration: BoxDecoration(
+      height: 48,
+      // decoration: BoxDecoration(
+        color: isPrimary
+            ? (isEnabled ? AppColors.purpleA : AppColors.lightSky)
+            : Colors.white,
+        borderRadius: BorderRadius.circular(8),
+        border: isPrimary ? null : Border.all(color: Colors.grey[300]!),
+      // ),
+      child: Center(
+        child: AppText(
+          text: label,
+          fontWeight: 600,
+          fontSize: 16,
           color: isPrimary
-              ? (isEnabled ? const Color(0xFF5B4FFF) : Colors.grey[300])
-              : Colors.white,
-          borderRadius: BorderRadius.circular(8),
-          border: isPrimary ? null : Border.all(color: Colors.grey[300]!),
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              color: isPrimary
-                  ? (isEnabled ? Colors.white : Colors.grey[400])
-                  : Colors.grey[700],
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+              ? (isEnabled ? Colors.white : Colors.grey[400])
+              : Colors.grey[700],
         ),
       ),
     );
@@ -308,22 +283,20 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: Color(0xFF5B4FFF),
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-            ),
+          AppText(
+            text: label,
+            fontSize: 16,
+            fontWeight: 400,
+            color: AppColors.purpleA,
           ),
-          const SizedBox(width: 4),
-          GestureDetector(
-            onTap: () => _toggleLocation(label),
-            child: const Icon(
-              Icons.close,
-              size: 16,
-              color: Color(0xFF5B4FFF),
-            ),
+          SizedBox(width: 8.w),
+          AppImage(
+            path: AppAssets.cancel,
+            color: AppColors.purpleA,
+            size: 16,
+            onTap: () {
+              _toggleLocation(label);
+            },
           ),
         ],
       ),
@@ -336,21 +309,19 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Row(
+          Row(
             children: [
-              Icon(Icons.trending_up, size: 20),
-              SizedBox(width: 8),
-              Text(
-                'Popular Locations',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
+              AppImage(path: AppAssets.increase),
+              SizedBox(width: 12.w),
+              AppText(
+                text: 'Popular Locations',
+                fontWeight: 700,
+                fontSize: 20,
+                color: AppColors.lightIcon,
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ValueListenableBuilder<List<String>>(
             valueListenable: _selectedLocationsNotifier,
             builder: (context, selectedLocations, child) {
@@ -381,23 +352,18 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 10,
-        ),
-        decoration: BoxDecoration(
-          color: isSelected ? const Color(0xFF5B4FFF) : Colors.grey[100],
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          location,
-          style: TextStyle(
-            color: isSelected ? Colors.white : Colors.grey[700],
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+      child: ContainerW(
+        // padding: c/onst EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        // decoration: BoxDecoration(
+          color: isSelected ? AppColors.purpleA : AppColors.white,
+          radius: 8,
+        // ),
+        child: AppText(
+          text: location,
+          fontSize: 14,
+          fontWeight: 400,
+          color: AppColors.lightIcon,
+        ).paddingOnly(top: 8, left: 16, right: 16, bottom: 8),
       ),
     );
   }
@@ -410,10 +376,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
           return Center(
             child: Text(
               'No results found',
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
-              ),
+              style: TextStyle(color: Colors.grey[600], fontSize: 16),
             ),
           );
         }
@@ -447,10 +410,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           border: Border(
-            bottom: BorderSide(
-              color: Colors.grey[200]!,
-              width: 1,
-            ),
+            bottom: BorderSide(color: Colors.grey[200]!, width: 1),
           ),
         ),
         child: Row(
@@ -462,11 +422,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
                 color: Colors.grey[100],
                 shape: BoxShape.circle,
               ),
-              child: Icon(
-                Icons.location_on,
-                color: Colors.grey[600],
-                size: 20,
-              ),
+              child: Icon(Icons.location_on, color: Colors.grey[600], size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -484,10 +440,7 @@ class _LocationFilterPageState extends State<LocationFilterPage> {
                   const SizedBox(height: 4),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Colors.grey[600],
-                    ),
+                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                   ),
                 ],
               ),

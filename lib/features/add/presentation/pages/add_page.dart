@@ -213,7 +213,7 @@ class _AddPageState extends State<AddPage> {
                                 top: BorderSide(color: AppColors.grey200),
                                 bottom: BorderSide(
                                   color: (isActive || index < currentIndex)
-                                      ? AppColors.base
+                                      ? AppColors.primary
                                       : Colors.transparent,
                                   width: 2,
                                 ),
@@ -225,7 +225,7 @@ class _AddPageState extends State<AddPage> {
                               fontSize: 16,
                               fontWeight: 400,
                               color: (isActive || index < currentIndex)
-                                  ? AppColors.base
+                                  ? AppColors.primary
                                   : AppColors.light,
                             ),
                           ),
@@ -291,7 +291,7 @@ class _AddPageState extends State<AddPage> {
                                     width: double.infinity,
                                     height: 51,
                                     color: isValid
-                                        ? AppColors.base
+                                        ? AppColors.primary
                                         : AppColors.grey200,
                                     text: "Next",
                                     // textColor: isValid ? AppColors.white : AppColors.textLight,
@@ -307,7 +307,7 @@ class _AddPageState extends State<AddPage> {
                                     width: double.infinity,
                                     height: 51,
                                     color: isValid
-                                        ? AppColors.base
+                                        ? AppColors.primary
                                         : AppColors.grey200,
                                     child:
                                         state.mainStatus == MainStatus.loading
@@ -389,7 +389,7 @@ class _AddPageState extends State<AddPage> {
               },
               child: ContainerW(
                 color: selectPriceIndex == index
-                    ? AppColors.base.withOpacity(0.2)
+                    ? AppColors.primary.withOpacity(0.2)
                     : AppColors.white,
                 border: Border.all(
                   color: selectPriceIndex == index
@@ -413,13 +413,13 @@ class _AddPageState extends State<AddPage> {
                     AppImage(
                       path: priceIcon[index],
                       color: selectPriceIndex == index
-                          ? AppColors.base
-                          : AppColors.base,
+                          ? AppColors.primary
+                          : AppColors.primary,
                     ),
                     SizedBox(height: 12.h),
                     AppText(
                       color: selectPriceIndex == index
-                          ? AppColors.base
+                          ? AppColors.primary
                           : AppColors.blackT,
                       text: priceType[index],
                       fontWeight: 700,
@@ -427,7 +427,7 @@ class _AddPageState extends State<AddPage> {
                     ),
                     AppText(
                       color: selectPriceIndex == index
-                          ? AppColors.base
+                          ? AppColors.primary
                           : AppColors.textLight,
                       text: priceDescription[index],
                       fontWeight: 400,
@@ -487,7 +487,7 @@ class _AddPageState extends State<AddPage> {
                 },
                 child: ContainerW(
                   color: selectPropertyTypeIndex == index
-                      ? AppColors.base.withOpacity(0.2)
+                      ? AppColors.primary.withOpacity(0.2)
                       : AppColors.white,
                   border: Border.all(
                     color: selectPropertyTypeIndex == index
@@ -511,13 +511,13 @@ class _AddPageState extends State<AddPage> {
                       AppImage(
                         path: propertyIcon[index],
                         color: selectPropertyTypeIndex == index
-                            ? AppColors.base
+                            ? AppColors.primary
                             : AppColors.blackT,
                       ),
                       SizedBox(height: 8.h),
                       AppText(
                         color: selectPropertyTypeIndex == index
-                            ? AppColors.base
+                            ? AppColors.primary
                             : AppColors.blackT,
                         text: propertyType[index],
                         fontWeight: 400,
@@ -559,7 +559,7 @@ class _AddPageState extends State<AddPage> {
         DottedBorder(
           options: RoundedRectDottedBorderOptions(
             radius: Radius.circular(16),
-            color: AppColors.base,
+            color: AppColors.primary,
             strokeWidth: 2,
             dashPattern: [6, 4],
             padding: EdgeInsets.all(2),
@@ -568,7 +568,7 @@ class _AddPageState extends State<AddPage> {
             width: double.infinity.w,
             height: 225.h,
             radius: 16,
-            color: AppColors.base.withOpacity(0.2),
+            color: AppColors.primary.withOpacity(0.2),
             onTap: _pickMultipleImages,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -578,7 +578,7 @@ class _AddPageState extends State<AddPage> {
                 SizedBox(height: 12.h),
                 AppText(
                   text: "Add Photos",
-                  color: AppColors.base,
+                  color: AppColors.primary,
                   fontWeight: 600,
                   fontSize: 18,
                 ),
@@ -632,7 +632,7 @@ class _AddPageState extends State<AddPage> {
                           top: -8,
                           right: -8,
                           child: ContainerW(
-                            color: AppColors.base,
+                            color: AppColors.primary,
                             width: 32.w,
                             height: 32.h,
                             radius: 16,
@@ -945,7 +945,7 @@ class _AddPageState extends State<AddPage> {
             onTap: _priceAI,
             height: 36.h,
             radius: 8,
-            color: AppColors.base.withOpacity(0.2),
+            color: AppColors.primary.withOpacity(0.2),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -1139,7 +1139,7 @@ class _AddPageState extends State<AddPage> {
                 margin: EdgeInsets.only(right: 8.w),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? AppColors.base.withOpacity(0.2)
+                      ? AppColors.primary.withOpacity(0.2)
                       : AppColors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppColors.bgLight),
@@ -1149,7 +1149,7 @@ class _AddPageState extends State<AddPage> {
                     text: option,
                     fontSize: 14,
                     fontWeight: 400,
-                    color: isSelected ? AppColors.base : AppColors.black,
+                    color: isSelected ? AppColors.primary : AppColors.black,
                   ),
                 ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8),
               ),
@@ -1168,7 +1168,7 @@ class _AddPageState extends State<AddPage> {
               margin: EdgeInsets.only(right: 8.w),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.base.withOpacity(0.2)
+                    ? AppColors.primary.withOpacity(0.2)
                     : AppColors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColors.bgLight),
@@ -1178,7 +1178,7 @@ class _AddPageState extends State<AddPage> {
                   text: option,
                   fontSize: 14,
                   fontWeight: 400,
-                  color: isSelected ? AppColors.base : AppColors.black,
+                  color: isSelected ? AppColors.primary : AppColors.black,
                 ),
               ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8),
             ),
@@ -1240,7 +1240,7 @@ class _AddPageState extends State<AddPage> {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColors.bgLight),
                 color: selectedValue == value
-                    ? AppColors.base.withOpacity(0.2)
+                    ? AppColors.primary.withOpacity(0.2)
                     : AppColors.white,
               ),
               margin: const EdgeInsets.only(right: 8),
@@ -1250,7 +1250,7 @@ class _AddPageState extends State<AddPage> {
                   fontWeight: 400,
                   fontSize: 14,
                   color: selectedValue == value
-                      ? AppColors.base
+                      ? AppColors.primary
                       : AppColors.black,
                 ),
               ).paddingOnly(top: 8, left: 16, right: 16, bottom: 8),
@@ -1280,7 +1280,7 @@ class _AddPageState extends State<AddPage> {
                 margin: EdgeInsets.only(right: 8.w),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? AppColors.base.withOpacity(0.2)
+                      ? AppColors.primary.withOpacity(0.2)
                       : AppColors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: AppColors.bgLight),
@@ -1290,7 +1290,7 @@ class _AddPageState extends State<AddPage> {
                     text: option,
                     fontSize: 14,
                     fontWeight: 400,
-                    color: isSelected ? AppColors.base : AppColors.black,
+                    color: isSelected ? AppColors.primary : AppColors.black,
                   ),
                 ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8),
               ),
@@ -1309,7 +1309,7 @@ class _AddPageState extends State<AddPage> {
               margin: EdgeInsets.only(right: 8.w),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.base.withOpacity(0.2)
+                    ? AppColors.primary.withOpacity(0.2)
                     : AppColors.white,
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: AppColors.bgLight),
@@ -1319,7 +1319,7 @@ class _AddPageState extends State<AddPage> {
                   text: option,
                   fontSize: 14,
                   fontWeight: 400,
-                  color: isSelected ? AppColors.base : AppColors.black,
+                  color: isSelected ? AppColors.primary : AppColors.black,
                 ),
               ).paddingOnly(left: 16, top: 8, right: 16, bottom: 8),
             ),
@@ -1361,9 +1361,9 @@ class _AddPageState extends State<AddPage> {
                 height: 24.h,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: isSelected ? AppColors.base : AppColors.white,
+                  color: isSelected ? AppColors.primary : AppColors.white,
                   border: Border.all(
-                    color: isSelected ? AppColors.base : AppColors.skyBase,
+                    color: isSelected ? AppColors.primary : AppColors.skyBase,
                   ),
                 ),
                 child: isSelected

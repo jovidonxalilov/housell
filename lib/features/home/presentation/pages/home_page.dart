@@ -18,6 +18,7 @@ import 'package:housell/features/home/presentation/bloc/home_bloc.dart';
 import '../../data/model/property_model.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
+import '../widgets/filter_widget.dart';
 
 class PropertyGridScreen extends StatefulWidget {
   const PropertyGridScreen({super.key});
@@ -42,6 +43,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
         return AppAssets.gallery;
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +103,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                         SizedBox(height: 12.h),
                         ContainerW(
                           onTap: () {
-                            context.push(Routes.settings);
+                            context.push(Routes.search);
                           },
                           boxShadow: [
                             // Birinchi shadow
@@ -187,6 +189,23 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                             ),
                             SizedBox(width: 12.w),
                             ContainerW(
+                              onTap: () {
+                                showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (context) {
+                                    return DraggableScrollableSheet(
+                                      initialChildSize: 0.9,
+                                      minChildSize: 0.5,
+                                      maxChildSize: 0.95,
+                                      builder: (_, controller) {
+                                        return FilterBottomSheet(scrollController: controller);
+                                      },
+                                    );
+                                  },
+                                );
+                              },
                               boxShadow: [
                                 // Birinchi shadow
                                 BoxShadow(
@@ -472,7 +491,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     width: 40.w,
                     height: 23.h,
                     radius: 4,
-                    color: AppColors.base,
+                    color: AppColors.primary,
                     child: Center(
                       child: AppText(
                         text: 'VIP',
@@ -639,7 +658,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     child: ContainerW(
                       width: 40.w,
                       height: 23.h,
-                      color: AppColors.base,
+                      color: AppColors.primary,
                       radius: 4,
                       child: Center(
                         child: AppText(
@@ -793,7 +812,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                     child: ContainerW(
                       width: 40.w,
                       height: 23.h,
-                      color: AppColors.base,
+                      color: AppColors.primary,
                       radius: 4,
                       child: Center(
                         child: AppText(
@@ -921,7 +940,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                       child: ContainerW(
                         width: 40.w,
                         height: 23.h,
-                        color: AppColors.base,
+                        color: AppColors.primary,
                         radius: 4,
                         child: Center(
                           child: AppText(
@@ -958,7 +977,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
                   text: "\$${property.price}",
                   fontSize: 18,
                   fontWeight: 800,
-                  color: AppColors.base,
+                  color: AppColors.primary,
                 ),
                 SizedBox(height: 4.h),
                 Row(
@@ -1019,7 +1038,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
       child: ContainerW(
         width: 155.w,
         height: 40.h,
-        color: isSelected ? AppColors.base.withOpacity(0.2) : AppColors.bg,
+        color: isSelected ? AppColors.primary.withOpacity(0.2) : AppColors.bg,
         radius: 12,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1027,11 +1046,11 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
           children: [
             AppImage(
               path: icon,
-              color: isSelected ? AppColors.base : AppColors.black,
+              color: isSelected ? AppColors.primary : AppColors.black,
             ),
             SizedBox(width: 24.w),
             AppText(
-              color: isSelected ? AppColors.base : AppColors.black,
+              color: isSelected ? AppColors.primary : AppColors.black,
 
               text: label,
               fontSize: 20,
