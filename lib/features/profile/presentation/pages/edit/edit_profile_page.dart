@@ -32,10 +32,11 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  File? file;
+  File? file;//
   ProfileBloc? _profileBloc;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController surnameController = TextEditingController();
+  final TextEditingController bioController = TextEditingController();
 
   bool _isDataLoaded = false;
 
@@ -109,14 +110,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return BlocProvider(
       create: (context) {
         _profileBloc = ProfileBloc(
-          getIt<ProfileGetUsecase>(),
-          getIt<ProfilePatchUsecase>(),
-          getIt<ProfilePhotoUrlUsecase>(),
-          getIt<ProfileNewPhoneOtpUsecase>(),
-          getIt<ProfileNewPhoneVerifyOtpUsecase>(),
+            getIt<ProfileGetUsecase>(),
+            getIt<ProfilePatchUsecase>(),
+            getIt<ProfilePhotoUrlUsecase>(),
+            getIt<ProfileNewPhoneOtpUsecase>(),
+            getIt<ProfileNewPhoneVerifyOtpUsecase>(),
             getIt<ProfileNewPasswordUsecase>(),
             getIt<ProfileGetMyHousesUsecase>()
-        )..add(ProfileGetMeEvent());
+        )
+          ..add(ProfileGetMeEvent());
         return _profileBloc!;
       },
       child: Scaffold(
@@ -146,7 +148,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   print('🔍 DEBUG: Done tugmasi bosildi');
 
                   // Validatsiya
-                  if (nameController.text.trim().isEmpty) {
+                  if (nameController.text
+                      .trim()
+                      .isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(content: Text("Ism kiritilishi shart")),
                     );
@@ -184,7 +188,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           _updateProfileWithImage(
                             name,
                             surname,
-                            uploadedImageUrl ?? _profileBloc!.state.profileModel!.image,
+                            uploadedImageUrl ??
+                                _profileBloc!.state.profileModel!.image,
                           );
                           Duration(seconds: 3);
                           context.pop();
@@ -219,7 +224,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ],
         ),
-        body: SingleChildScrollView(
+        body:
+        SingleChildScrollView(
           child: BlocBuilder<ProfileBloc, ProfileState>(
             builder: (context, state) {
               try {
@@ -228,7 +234,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 if (state.mainStatus == MainStatus.loading) {
                   print('🔍 DEBUG: Loading holati');
                   return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.7,
                     child: Center(child: CircularProgressIndicator()),
                   );
                 }
@@ -240,7 +249,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   if (profile == null) {
                     print('❌ DEBUG: profile null!');
                     return SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.7,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height * 0.7,
                       child: Center(
                         child: AppText(text: "Profile ma'lumoti null"),
                       ),
@@ -250,7 +262,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   print('🔍 DEBUG: Profile topildi: ${profile.name}');
                   _loadProfileData(profile);
 
-                  return Column(
+                  return profile.role == "CUSTOMER"
+                      ? Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(height: 24.h),
@@ -258,7 +271,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         imageUrl: profile.image,
                         onImageSelected: (selectedFile) {
                           print(
-                            '🔍 DEBUG: Yangi rasm tanlandi: ${selectedFile?.path}',
+                            '🔍 DEBUG: Yangi rasm tanlandi: ${selectedFile
+                                ?.path}',
                           );
                           setState(() {
                             file = selectedFile;
@@ -283,8 +297,88 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       SizedBox(height: 30.h),
 
                       _buildSettingsRow(
-                        onTap: (){
-                          context.push('/edit_phone_page/${profile.id}', extra: {
+                        onTap: () {
+                          context.push(
+                              '/edit_phone_page/${profile.id}', extra: {
+                            "phone": profile.phone.toString()
+                          });
+                        },
+                        icon: AppAssets.sim,
+                        title: "Number",
+                        des: profile.phone ?? "qo'shilmagan",
+                        isFirst: true,
+                      ),
+                      _buildSettingsRow(
+                        icon: AppAssets.sim,
+                        title: "Email",
+                        des: profile.email ?? "qo'shilmagan",
+                      ),
+                      _buildSettingsRow(
+                        onTap: () {
+                          context.push('/new_password/${profile.id}');
+                        },
+                        icon: AppAssets.unlock,
+                        title: "Password",
+                        des: "••••••••",
+                        isLast: true,
+                      ),
+                      SizedBox(height: 50.h),
+                    ],
+                  )
+                      : Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 24.h),
+                      ProfileAvatar(
+                        imageUrl: profile.image,
+                        onImageSelected: (selectedFile) {
+                          print(
+                            '🔍 DEBUG: Yangi rasm tanlandi: ${selectedFile
+                                ?.path}',
+                          );
+                          setState(() {
+                            file = selectedFile;
+                          });
+                        },
+                      ),
+
+                      SizedBox(height: 20.h),
+
+                      _buildTextField(
+                        controller: nameController,
+                        label: "Ism",
+                        text: profile.name,
+                        isFirst: true,
+                      ),
+                      SizedBox(height: 12.h),
+                      _buildTextField(
+                        controller: surnameController,
+                        label: "Familiya",
+                        text: profile.surname,
+                      ),
+                      SizedBox(height: 12.h),
+                      _buildTextField(
+                        controller: bioController,
+                        label: "Bio",
+                        text: profile.bio,
+                      ),
+                      SizedBox(height: 30.h),
+
+                      _buildSettingsRow(
+                        icon: AppAssets.language,
+                        title: "Languages",
+                        des: profile.language ?? "qo'shilmagan",
+                      ),
+                      _buildSettingsRow(
+                        icon: AppAssets.link,
+                        title: "Social links",
+                        des: "",
+                      ),
+
+                      _buildSettingsRow(
+                        onTap: () {
+                          context.push(
+                              '/edit_phone_page/${profile.id}', extra: {
                             "phone": profile.phone.toString()
                           });
                         },
@@ -310,12 +404,77 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       SizedBox(height: 50.h),
                     ],
                   );
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     SizedBox(height: 24.h),
+                  //     ProfileAvatar(
+                  //       imageUrl: profile.image,
+                  //       onImageSelected: (selectedFile) {
+                  //         print(
+                  //           '🔍 DEBUG: Yangi rasm tanlandi: ${selectedFile
+                  //               ?.path}',
+                  //         );
+                  //         setState(() {
+                  //           file = selectedFile;
+                  //         });
+                  //       },
+                  //     ),
+                  //
+                  //     SizedBox(height: 20.h),
+                  //
+                  //     _buildTextField(
+                  //       controller: nameController,
+                  //       label: "Ism",
+                  //       text: profile.name,
+                  //       isFirst: true,
+                  //     ),
+                  //     SizedBox(height: 12.h),
+                  //     _buildTextField(
+                  //       controller: surnameController,
+                  //       label: "Familiya",
+                  //       text: profile.surname,
+                  //     ),
+                  //     SizedBox(height: 30.h),
+                  //
+                  //     _buildSettingsRow(
+                  //       onTap: () {
+                  //         context.push(
+                  //             '/edit_phone_page/${profile.id}', extra: {
+                  //           "phone": profile.phone.toString()
+                  //         });
+                  //       },
+                  //       icon: AppAssets.sim,
+                  //       title: "Number",
+                  //       des: profile.phone ?? "qo'shilmagan",
+                  //       isFirst: true,
+                  //     ),
+                  //     _buildSettingsRow(
+                  //       icon: AppAssets.sim,
+                  //       title: "Email",
+                  //       des: profile.email ?? "qo'shilmagan",
+                  //     ),
+                  //     _buildSettingsRow(
+                  //       onTap: () {
+                  //         context.push('/new_password/${profile.id}');
+                  //       },
+                  //       icon: AppAssets.unlock,
+                  //       title: "Password",
+                  //       des: "••••••••",
+                  //       isLast: true,
+                  //     ),
+                  //     SizedBox(height: 50.h),
+                  //   ],
+                  // );
                 }
 
                 if (state.mainStatus == MainStatus.failure) {
                   print('❌ DEBUG: Failure holati');
                   return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.7,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.7,
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -336,7 +495,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                 print('❌ DEBUG: Noma\'lum holat');
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.7,
                   child: Center(
                     child: AppText(text: "Iltimos qayta urinib ko'ring"),
                   ),
@@ -345,7 +507,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 print('❌ DEBUG: BlocBuilder da xatolik: $e');
                 print('❌ DEBUG: StackTrace: $stackTrace');
                 return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.7,
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height * 0.7,
                   child: Center(child: AppText(text: "Xatolik: $e")),
                 );
               }
@@ -425,5 +590,238 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: Center(child: Text('SettingsRow xatolik: $e')),
       );
     }
+  }
+}
+
+// Specialty Chips Widget
+class SpecialtyChipsField extends StatefulWidget {
+  final List<String> selectedSpecialties;
+  final Function(List<String>) onChanged;
+  final List<String> availableSpecialties;
+
+  const SpecialtyChipsField({
+    Key? key,
+    required this.selectedSpecialties,
+    required this.onChanged,
+    this.availableSpecialties = const [
+      'Luxury Homes',
+      'First Time Homebuyers',
+      'Property Management',
+      'Commercial Real Estate',
+      'Investment Properties',
+      'New Construction',
+      'Foreclosures',
+      'Short Sales',
+      'Relocation',
+      'Senior Housing',
+    ],
+  }) : super(key: key);
+
+  @override
+  State<SpecialtyChipsField> createState() => _SpecialtyChipsFieldState();
+}
+
+class _SpecialtyChipsFieldState extends State<SpecialtyChipsField> {
+  bool _showAllSpecialties = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Label
+        const Text(
+          'Specialties',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF8E8E93),
+          ),
+        ),
+
+        const SizedBox(height: 12),
+
+        // Selected Chips Container
+        Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: const Color(0xFFE8E4F3), // Light purple background
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: widget.selectedSpecialties.isEmpty
+              ? GestureDetector(
+            onTap: () {
+              setState(() {
+                _showAllSpecialties = !_showAllSpecialties;
+              });
+            },
+            child: const Text(
+              'Select specialties...',
+              style: TextStyle(
+                fontSize: 16,
+                color: Color(0xFF8E8E93),
+              ),
+            ),
+          )
+              : Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: widget.selectedSpecialties.map((specialty) {
+              return _buildSelectedChip(specialty);
+            }).toList(),
+          ),
+        ),
+
+        // Add Button
+        const SizedBox(height: 12),
+
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _showAllSpecialties = !_showAllSpecialties;
+            });
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: const Color(0xFF7C3AED),
+                width: 1.5,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.add,
+                  size: 18,
+                  color: Color(0xFF7C3AED),
+                ),
+                const SizedBox(width: 4),
+                Text(
+                  _showAllSpecialties ? 'Hide Specialties' : 'Add Specialty',
+                  style: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF7C3AED),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        // Available Specialties (expandable)
+        if (_showAllSpecialties) ...[
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: const Color(0xFFE5E5EA),
+                width: 1,
+              ),
+            ),
+            child: Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: widget.availableSpecialties
+                  .where((specialty) =>
+              !widget.selectedSpecialties.contains(specialty))
+                  .map((specialty) {
+                return _buildAvailableChip(specialty);
+              }).toList(),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  // Selected Chip (with X button)
+  Widget _buildSelectedChip(String specialty) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: const Color(0xFF7C3AED).withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            specialty,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF7C3AED),
+            ),
+          ),
+          const SizedBox(width: 6),
+          GestureDetector(
+            onTap: () {
+              final newList = List<String>.from(widget.selectedSpecialties);
+              newList.remove(specialty);
+              widget.onChanged(newList);
+            },
+            child: const Icon(
+              Icons.close,
+              size: 16,
+              color: Color(0xFF7C3AED),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Available Chip (clickable to add)
+  Widget _buildAvailableChip(String specialty) {
+    return GestureDetector(
+      onTap: () {
+        final newList = List<String>.from(widget.selectedSpecialties);
+        newList.add(specialty);
+        widget.onChanged(newList);
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF5F5F7),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: const Color(0xFFE5E5EA),
+            width: 1,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              specialty,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF3C3C43),
+              ),
+            ),
+            const SizedBox(width: 6),
+            const Icon(
+              Icons.add,
+              size: 16,
+              color: Color(0xFF8E8E93),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

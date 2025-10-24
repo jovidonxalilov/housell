@@ -222,7 +222,7 @@ class OtpVerify extends StatefulWidget {
                                       onSuccess: () {
                                         print("🎉 UI: Success callback");
                                         context.push(
-                                          Routes.resetOtpVerify,
+                                          Routes.signUp,
                                           extra: {"phone": phoneToSend},
                                         );
                                       },

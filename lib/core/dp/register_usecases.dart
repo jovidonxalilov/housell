@@ -4,11 +4,13 @@ import 'package:housell/features/add/domain/repository/add_repository.dart';
 import 'package:housell/features/add/domain/usecase/add_usecase.dart';
 import 'package:housell/features/home/domain/repository/home_repository.dart';
 import 'package:housell/features/home/domain/usecase/home_usecase.dart';
+import 'package:housell/features/message/domain/repository/repository.dart';
 import 'package:housell/features/profile/domain/repository/profile_repository.dart';
 import 'package:housell/features/profile/domain/usecase/profile_usecase.dart';
 
 import '../../features/auth/domain/repository/auth_repository.dart';
 import '../../features/auth/domain/usecase/usecase.dart';
+import '../../features/message/domain/usecase/message_usecase.dart';
 
 Future<void> registerUseCases(GetIt getIt) async {
   getIt
@@ -53,6 +55,14 @@ Future<void> registerUseCases(GetIt getIt) async {
         () => ProfileGetMyHousesUsecase(getIt<ProfileRepository>()),
   )..registerLazySingleton<ProfileGetInformationUsecase>(
         () => ProfileGetInformationUsecase(getIt<HomeRepository>()),
+  )..registerLazySingleton<GetConversationsUseCase>(
+        () => GetConversationsUseCase(getIt<MessageRepository>()),
+  )..registerLazySingleton<GetMessagesUseCase>(
+        () => GetMessagesUseCase(getIt<MessageRepository>()),
+  )..registerLazySingleton<SendMessageUseCase>(
+        () => SendMessageUseCase(getIt<MessageRepository>()),
+  )..registerLazySingleton<GetOrCreateConversationUseCase>(
+        () => GetOrCreateConversationUseCase(getIt<MessageRepository>()),
   );
   log("Register UseCase Complare For GetIT");
 }

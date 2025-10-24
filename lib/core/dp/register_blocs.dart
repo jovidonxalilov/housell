@@ -4,11 +4,13 @@ import 'package:housell/features/add/domain/usecase/add_usecase.dart';
 import 'package:housell/features/add/presentation/bloc/add_bloc.dart';
 import 'package:housell/features/home/domain/usecase/home_usecase.dart';
 import 'package:housell/features/home/presentation/bloc/home_bloc.dart';
+import 'package:housell/features/message/presentation/bloc/message_bloc.dart';
 import 'package:housell/features/profile/domain/usecase/profile_usecase.dart';
 import 'package:housell/features/profile/presentation/bloc/profile_bloc.dart';
 
 import '../../features/auth/domain/usecase/usecase.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
+import '../../features/message/domain/usecase/message_usecase.dart';
 
 Future<void> registerBlocs(GetIt getIt) async {
   getIt
@@ -27,7 +29,7 @@ Future<void> registerBlocs(GetIt getIt) async {
       () => HomeBloc(
         getIt<HomeGetHousesUsecase>(),
         getIt<HomeGetHousesIdUsecase>(),
-        getIt<ProfileGetInformationUsecase>()
+        getIt<ProfileGetInformationUsecase>(),
       ),
     )
     ..registerFactory<AddHouseBloc>(
@@ -41,8 +43,16 @@ Future<void> registerBlocs(GetIt getIt) async {
         getIt<ProfilePhotoUrlUsecase>(),
         getIt<ProfileNewPhoneOtpUsecase>(),
         getIt<ProfileNewPhoneVerifyOtpUsecase>(),
-        getIt<ProfileNewPasswordUsecase>()
-          ,getIt<ProfileGetMyHousesUsecase>()
+        getIt<ProfileNewPasswordUsecase>(),
+        getIt<ProfileGetMyHousesUsecase>(),
+      ),
+    )
+    ..registerFactory<ChatBloc>(
+      () => ChatBloc(
+         getIt<GetConversationsUseCase>(),
+         getIt<GetMessagesUseCase>(),
+        getIt<SendMessageUseCase>(),
+  getIt<GetOrCreateConversationUseCase>(),
       ),
     );
   log("Register BLOC Complate For GetIT");

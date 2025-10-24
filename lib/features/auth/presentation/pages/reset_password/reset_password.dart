@@ -63,7 +63,7 @@ class _SignUpPageState extends State<ResetPasswordPage> {
         getIt<AuthResetSendOtpUsecase>(),
       ),
       child: Scaffold(
-        backgroundColor: AppColors.white,
+        backgroundColor: AppColors.backgroundP,
         appBar: WCustomAppBar(
           leading: AppImage(path: AppAssets.arrowChevronLeft, onTap: () {
             context.pop();

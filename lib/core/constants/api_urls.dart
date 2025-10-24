@@ -1,5 +1,5 @@
 class ApiUrls {
-  static const String baseUrl = "http://13.51.158.115/docs";
+  static const String baseUrl = "http://16.171.177.143/docs";
 
   static const String login = '/auth/login';
   static const String sendOtp = '/auth/send-register-otp';

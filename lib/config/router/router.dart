@@ -37,7 +37,7 @@ import '../../features/profile/presentation/pages/edit/new_password_page.dart';
 import '../../features/profile/presentation/pages/save_properties/save_properties_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.home,
+  initialLocation: Routes.login,
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -111,13 +111,13 @@ final GoRouter router = GoRouter(
       builder: (context, state) {
         final id = state.pathParameters['propertyId']!; // ✅ to‘g‘ri
         final userId = state.pathParameters['userId']!; // ✅ to‘g‘ri
-        return DetailPage(id: id, userId: userId,);
+        return DetailPage(id: id, userId: userId);
       },
     ),
 
     GoRoute(path: Routes.signUp, builder: (context, state) => SignUpPage()),
     GoRoute(path: Routes.resetOtp, builder: (context, state) => ResetOtpPage()),
-    GoRoute(path: Routes.socialLinc, builder: (context, state) => SocialLinksPage()),
+    // GoRoute(path: Routes.socialLinc, builder: (context, state) => SocialLinksPage()),
     GoRoute(path: Routes.settings, builder: (context, state) => SettingsPage()),
     GoRoute(
       path: Routes.search,
@@ -153,7 +153,15 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(path: Routes.login, builder: (context, state) => LoginPage()),
     GoRoute(path: Routes.paymentAdd, builder: (context, state) => TopUpPage()),
-    GoRoute(path: Routes.paymentHistory, builder: (context, state) => PaymentHistoryPage()),
+    GoRoute(
+      path: Routes.paymentHistory,
+      builder: (context, state) => PaymentHistoryPage(),
+    ),
+    GoRoute(
+      path: Routes.socialLinc,
+      builder: (context, state) => SocialLinksPage(
+      ),
+    ),
     GoRoute(
       path: Routes.myProperties,
       builder: (context, state) => MyPropertyPage(),
