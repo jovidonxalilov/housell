@@ -112,6 +112,7 @@ static const String wallet = '${_svg}wallet.svg';
 
   // PNG
   static const String logo = '${_png}logo.png';
+  static const String logoL = '${_png}logo3.png';
   static const String logoUi = '${_png}logo_ui.png';
   static const String simGroup = '${_png}sim_group.png';
 

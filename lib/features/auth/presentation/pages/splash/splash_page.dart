@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:housell/config/theme/app_colors.dart';
+import 'package:housell/core/constants/app_assets.dart';
+import 'package:housell/core/widgets/app_image.dart';
 
 import '../../../../../config/service/local_service.dart';
 
@@ -51,25 +54,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.primary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // App logo yoki nomi
-            Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Icon(Icons.mobile_friendly, size: 80, color: Colors.blue),
-            ),
+            // Container(
+            //   padding: EdgeInsets.all(20),
+            //   decoration: BoxDecoration(
+            //     color: Colors.blue.withOpacity(0.1),
+            //     borderRadius: BorderRadius.circular(20),
+            //   ),
+            //   child: Icon(Icons.mobile_friendly, size: 80, color: Colors.blue),
+            // ),
+            AppImage(path: AppAssets.logoL),
+            Image.asset(AppAssets.logoL),
 
-            SizedBox(height: 30),
+            SizedBox(height: 180),
 
             Text(
-              'MyApp',
+              'FLYHOMES',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -78,12 +83,12 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
 
-            SizedBox(height: 10),
-
-            Text(
-              'Yuklanmoqda...',
-              style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-            ),
+            // SizedBox(height: 10),
+            //
+            // Text(
+            //   'Yuklanmoqda...',
+            //   style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+            // ),
 
             SizedBox(height: 40),
 

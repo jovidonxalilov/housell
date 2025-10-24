@@ -67,7 +67,7 @@ class _PropertyGridScreenState extends State<PropertyGridScreen> {
         appBar: WCustomAppBar(
           backgroundColor: AppColors.backgroundP,
           title: AppText(
-            text: "Housell",
+            text: "FLYHOMES",
             fontSize: 32,
             fontWeight: 700,
             color: AppColors.blackT,
