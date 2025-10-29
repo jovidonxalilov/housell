@@ -3,13 +3,16 @@ import 'package:housell/core/constants/api_urls.dart';
 import 'package:housell/core/dio/dio_client.dart';
 import 'package:housell/features/add/data/model/url_photos_model.dart';
 import 'package:housell/features/home/data/model/property_model.dart';
+import 'package:housell/features/profile/data/model/profile_model.dart';
 
 import '../../../../core/error/failure.dart';
+import '../model/maker_model.dart';
 
 abstract class AddHouseDatasource {
   Future<PropertyModel> addHouses(Datum propertyModel);
 
   Future<PhotosUrl> urlPhotos(Photos photos);
+  Future<MaklerModel> getMaklers();
 
   factory AddHouseDatasource(DioClient dioClient) =>
       AddDatasourceImpl(dioClient: dioClient);
@@ -80,6 +83,21 @@ class AddDatasourceImpl implements AddHouseDatasource {
     } catch (e) {
       print("💥 Rasm yuklashda xatolik: $e");
       throw Exception("Rasm yuklashda xatolik: $e");
+    }
+  }
+
+  Future<MaklerModel> getMaklers() async {
+    try {
+      final mainModel = await _dioClient.get(ApiUrls.maklers,);
+      if (mainModel.ok && mainModel.result != null) {
+        return MaklerModel.fromMap(mainModel.result);
+      }
+      throw ApiException(
+        "API xatoligi: ok=${mainModel.ok}, result=${mainModel.result}",
+      );
+    } catch (e) {
+      print("💥 Broker malumotlarini olishda xatolik: $e");
+      throw Exception("Broker malumotlarini olishda xatolik: $e");
     }
   }
 }

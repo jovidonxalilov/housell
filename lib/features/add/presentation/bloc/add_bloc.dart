@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:housell/core/usecase/usecase.dart';
 import 'package:housell/features/add/domain/usecase/add_usecase.dart';
 import 'package:housell/features/add/presentation/bloc/add_event.dart';
 import 'package:housell/features/add/presentation/bloc/add_state.dart';
@@ -10,20 +11,29 @@ import '../../data/model/url_photos_model.dart';
 class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
   final AddHouseUsecase addHouseUsecase;
   final AddPhotosUrlUsecase addPhotosUrlUsecase;
+  final GetMaklersUsecase getMaklersUsecase;
 
-  AddHouseBloc(this.addHouseUsecase, this.addPhotosUrlUsecase) : super(AddHouseState.initial()) {
+  AddHouseBloc(
+    this.addHouseUsecase,
+    this.addPhotosUrlUsecase,
+    this.getMaklersUsecase,
+  ) : super(AddHouseState.initial()) {
     on<AddHouseEvent>(_addHouse);
     on<AddPhotosUrlEvent>(_urlPhotos);
+    on<AddGetMaklersEvent>(_getMaklers);
   }
 
-  Future<void> _addHouse(AddHouseEvent event, Emitter<AddHouseState> emit) async {
+  Future<void> _addHouse(
+    AddHouseEvent event,
+    Emitter<AddHouseState> emit,
+  ) async {
     try {
       emit(state.copyWith(mainStatus: MainStatus.loading));
       print("🔄 Bloc: Ma'lumot jo'natilmoqda...");
 
       final either = await addHouseUsecase.call(event.propertyModel);
       either.either(
-            (failure) {
+        (failure) {
           print("❌ Bloc: Xatolik - $failure");
           String errorMessage = failure.toString();
           emit(
@@ -34,19 +44,19 @@ class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
           );
           event.onFailure();
         },
-            (success) {
+        (success) {
           print("✅ Bloc: Muvaffaqiyat");
           // BU YERDA EMIT QILISHNI UNUTGAN EDINGIZ!
           emit(
             state.copyWith(
-                propertyModel: success,
-                mainStatus: MainStatus.succes
+              propertyModel: success,
+              mainStatus: MainStatus.succes,
             ),
           );
           event.onSuccess();
         },
       );
-    } catch(e) {
+    } catch (e) {
       print("💥 Bloc Exception xatolik: $e");
       emit(
         state.copyWith(
@@ -58,7 +68,10 @@ class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
     }
   }
 
-  Future<void> _urlPhotos(AddPhotosUrlEvent event, Emitter<AddHouseState> emit) async {
+  Future<void> _urlPhotos(
+    AddPhotosUrlEvent event,
+    Emitter<AddHouseState> emit,
+  ) async {
     try {
       print("🔄 ${event.photos.length} ta rasm yuklanmoqda...");
       emit(state.copyWith(mainStatus: MainStatus.loading));
@@ -74,12 +87,14 @@ class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
         final either = await addPhotosUrlUsecase.call(Photos(file: file));
 
         either.either(
-              (failure) {
+          (failure) {
             print("❌ Rasm ${i + 1} yuklashda xato: $failure");
             errorMessages.add("Rasm ${i + 1}: ${failure.toString()}");
           },
-              (success) {
-            print("✅ Rasm ${i + 1} muvaffaqiyatli yuklandi: ${success.secureUrl}");
+          (success) {
+            print(
+              "✅ Rasm ${i + 1} muvaffaqiyatli yuklandi: ${success.secureUrl}",
+            );
             uploadedUrls.add(success);
           },
         );
@@ -87,29 +102,69 @@ class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
 
       if (uploadedUrls.isEmpty) {
         print("❌ Hech qanday rasm yuklanmadi");
-        emit(state.copyWith(
-          mainStatus: MainStatus.failure,
-          errorMessage: "Rasmlar yuklanmadi: ${errorMessages.join(', ')}",
-        ));
+        emit(
+          state.copyWith(
+            mainStatus: MainStatus.failure,
+            errorMessage: "Rasmlar yuklanmadi: ${errorMessages.join(', ')}",
+          ),
+        );
         event.onFailure();
         return;
       }
 
       print("✅ Jami ${uploadedUrls.length} ta rasm yuklandi");
 
-      emit(state.copyWith(
-        mainStatus: MainStatus.succes,
-        uploadedPhotos: uploadedUrls,
-      ));
+      emit(
+        state.copyWith(
+          mainStatus: MainStatus.succes,
+          uploadedPhotos: uploadedUrls,
+        ),
+      );
       event.onSuccess();
     } catch (e) {
       print("💥 Bloc Exception: $e");
-      emit(state.copyWith(
-        mainStatus: MainStatus.failure,
-        errorMessage: e.toString(),
-      ));
+      emit(
+        state.copyWith(
+          mainStatus: MainStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
       event.onFailure();
     }
   }
 
+  Future<void> _getMaklers(
+    AddGetMaklersEvent event,
+    Emitter<AddHouseState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(mainStatus: MainStatus.loading));
+      final result = await getMaklersUsecase.call(NoParams());
+      result.either(
+        (failure) {
+          emit(
+            state.copyWith(
+              mainStatus: MainStatus.failure,
+              errorMessage: failure.toString(),
+            ),
+          );
+        },
+        (success) {
+          emit(
+            state.copyWith(
+              mainStatus: MainStatus.succes,
+              profileModel: success,
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          mainStatus: MainStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
 }

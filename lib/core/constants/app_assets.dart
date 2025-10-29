@@ -104,8 +104,8 @@ class AppAssets {
   static const String shopP = '${_svg}shopP.svg';
 static const String wallet = '${_svg}wallet.svg';
   static const String increase = '${_svg}increase.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
-  // static const String bedroom = '${_svg}bedroom.svg';
+  static const String user = '${_svg}user.svg';
+  static const String userGroup = '${_svg}user_group.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';
   // static const String bedroom = '${_svg}bedroom.svg';

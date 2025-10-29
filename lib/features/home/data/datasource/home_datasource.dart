@@ -78,4 +78,5 @@ class HomeDataSourceImpl implements HomeDatasourse {
       throw Exception("profile malumotlarini olishda xatolik: $e");
     }
   }
+
 }

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:housell/config/router/router.dart';
-import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'core/dp/dp_injection.dart';
 import 'core/extensions/num_extensions.dart';
 import 'core/widgets/w_langue_selector.dart';
@@ -25,7 +24,7 @@ void main() async {
 
   // System UI mode - 3 ta tugma ko'rinishi uchun
   SystemChrome.setEnabledSystemUIMode(
-    SystemUiMode.edgeToEdge, // ✅ edgeToEdge yaxshiroq
+    SystemUiMode.edgeToEdge,
     overlays: SystemUiOverlay.values,
   );
 

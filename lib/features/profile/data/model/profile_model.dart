@@ -58,7 +58,7 @@ class ProfileModel {
         updatedAt: _parseDateTime(json["updatedAt"]),
         freeListingsRemaining: _parseInt(json["freeListingsRemaining"]),
         rating: _parseInt(json["averageRating"]),
-        comment: _parseInt(json["comments"])
+        comment: _parseInt(json["totalComments"])
       );
     } catch (e) {
       print('ProfileModel.fromMap error: $e');
@@ -104,7 +104,7 @@ class ProfileModel {
     if (email != null) map["email"] = email;
     if (phone != null) map["phone"] = phone;
     if (rating != null) map["averageRating"] = rating;
-    if (comment != null) map["comments"] = comment;
+    if (comment != null) map["totalComments"] = comment;
     if (password != null) map["password"] = password;
     if (role != null) map["role"] = role;
     if (createdAt != null) map["createdAt"] = createdAt!.toIso8601String();

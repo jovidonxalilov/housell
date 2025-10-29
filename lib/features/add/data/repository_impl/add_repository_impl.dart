@@ -4,6 +4,8 @@ import 'package:housell/features/add/domain/repository/add_repository.dart';
 import 'package:housell/features/home/data/model/property_model.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../profile/data/model/profile_model.dart';
+import '../model/maker_model.dart';
 import '../model/url_photos_model.dart';
 
 class AddRepositoryImpl implements AddRepository {
@@ -29,6 +31,16 @@ class AddRepositoryImpl implements AddRepository {
       final result = await _addDatasource.urlPhotos(photos);
       return Right(result);
     } catch(e) {
+      return Left(ValidationFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, MaklerModel>> getMaklers() async {
+    try {
+      final result = await _addDatasource.getMaklers();
+      return Right(result);
+    } catch (e) {
       return Left(ValidationFailure(e.toString()));
     }
   }

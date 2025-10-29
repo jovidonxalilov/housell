@@ -30,9 +30,12 @@ class Routes {
   static const String newPasswordPage = '/new_password_page';
   static const String otpVerify = '/otp_verify';
   static const String panorama = '/panorama';
+  static const String brokers = '/brokers';
+  static const String searchBroker = '/search_brokers';
   static const String myProperties = '/my_properties';
   static const String saveProperties = '/save_properties';
   static const String signUp = '/sign_up';
+  static const String chose = '/chose';
   static const String socialLinc = '/social_link';
   static const String resetOtp = '/reset_otp';
   static const String resetOtpVerify = '/reset_otp_verify';

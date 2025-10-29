@@ -10,6 +10,7 @@ class ApiUrls {
   static const String addHouses = '/houses';
   static const String profile = '/users/me';
   static const String users = '/users';
+  static const String maklers = '/users/maklers';
   static const String patchProfile = '/users';
   static const String senResetOtp = '/auth/send-reset-otp';
   static const String verifyResetOtp = '/auth/verify-reset-otp';

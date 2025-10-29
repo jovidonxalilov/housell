@@ -22,7 +22,7 @@ import 'package:housell/features/add/presentation/pages/new_property_deatil.dart
 import 'package:housell/features/home/data/model/property_model.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
-import '../../../../core/widgets/w_validator.dart';
+import '../../../../../core/widgets/w_validator.dart';
 
 class AddPage extends StatefulWidget {
   @override

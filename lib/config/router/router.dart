@@ -6,7 +6,10 @@ import 'package:housell/config/router/routes.dart';
 import 'package:housell/core/dp/dp_injection.dart';
 import 'package:housell/features/add/domain/usecase/add_usecase.dart';
 import 'package:housell/features/add/presentation/bloc/add_bloc.dart';
-import 'package:housell/features/add/presentation/pages/add_page.dart';
+import 'package:housell/features/add/presentation/pages/add_pages/add_page.dart';
+import 'package:housell/features/add/presentation/pages/brokers_pages/broker_search_page.dart';
+import 'package:housell/features/add/presentation/pages/brokers_pages/brokers_page.dart';
+import 'package:housell/features/add/presentation/pages/brokers_pages/choce.dart';
 import 'package:housell/features/auth/presentation/pages/login/login_page.dart';
 import 'package:housell/features/auth/presentation/pages/reset_password/reset_otp.dart';
 import 'package:housell/features/auth/presentation/pages/reset_password/reset_otp_verify.dart';
@@ -37,7 +40,7 @@ import '../../features/profile/presentation/pages/edit/new_password_page.dart';
 import '../../features/profile/presentation/pages/save_properties/save_properties_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.splash,
+  initialLocation: Routes.chose,
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -55,6 +58,7 @@ final GoRouter router = GoRouter(
             create: (context) => AddHouseBloc(
               getIt<AddHouseUsecase>(),
               getIt<AddPhotosUrlUsecase>(),
+              getIt<GetMaklersUsecase>()
             ),
             child: AddPage(),
           ),
@@ -72,6 +76,9 @@ final GoRouter router = GoRouter(
     GoRoute(path: Routes.otp, builder: (context, state) => OtpPage()),
     GoRoute(path: Routes.otpVerify, builder: (context, state) => OtpVerify()),
     GoRoute(path: Routes.splash, builder: (context, state) => SplashScreen()),
+    GoRoute(path: Routes.brokers, builder: (context, state) => BrokersPage()),
+    GoRoute(path: Routes.searchBroker, builder: (context, state) => BrokerSearchPage()),
+    GoRoute(path: Routes.chose, builder: (context, state) => ListingMethodPage()),
     GoRoute(
       path: Routes.newPhoneOtpPage,
       pageBuilder: (context, state) {

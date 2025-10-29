@@ -1,11 +1,14 @@
 import 'package:housell/features/add/data/model/url_photos_model.dart';
 import 'package:housell/features/home/data/model/property_model.dart';
+import 'package:housell/features/profile/data/model/profile_model.dart';
 
 import '../../../../core/constants/app_status.dart';
+import '../../data/model/maker_model.dart';
 
 class AddHouseState {
   final PropertyModel? propertyModel;
   final PhotosUrl? photosUrl; // agar faqat bitta rasm ishlatsang kerak bo‘ladi
+  final MaklerModel? maklerModel;
   final List<PhotosUrl> uploadedPhotos; // 🔥 ko‘p rasm uchun
   final MainStatus mainStatus;
   final MiniStatus miniStatus;
@@ -18,6 +21,7 @@ class AddHouseState {
     required this.propertyModel,
     required this.errorMessage,
     required this.uploadedPhotos,
+    required this.maklerModel,
   });
 
   factory AddHouseState.initial() {
@@ -27,7 +31,8 @@ class AddHouseState {
       photosUrl: null,
       propertyModel: null,
       errorMessage: "",
-      uploadedPhotos: [], // bosh ro‘yxat
+      uploadedPhotos: [], // bosh ro‘yxat,
+      maklerModel: null
     );
   }
 
@@ -35,6 +40,7 @@ class AddHouseState {
     PropertyModel? propertyModel,
     PhotosUrl? photosUrl,
     List<PhotosUrl>? uploadedPhotos,
+    MaklerModel? profileModel,
     MainStatus? mainStatus,
     MiniStatus? miniStatus,
     String? errorMessage,
@@ -46,6 +52,7 @@ class AddHouseState {
       propertyModel: propertyModel ?? this.propertyModel,
       errorMessage: errorMessage ?? this.errorMessage,
       uploadedPhotos: uploadedPhotos ?? this.uploadedPhotos,
+      maklerModel: profileModel ?? this.maklerModel
     );
   }
 }
