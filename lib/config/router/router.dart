@@ -31,7 +31,7 @@ import 'package:housell/features/profile/presentation/pages/payment/payment_hist
 import 'package:housell/features/profile/presentation/pages/profile_page.dart';
 import 'package:housell/features/profile/presentation/pages/settings/settings_page.dart';
 import 'package:housell/features/profile/presentation/pages/social_links/social_liks_page.dart';
-
+import '../../features/add/presentation/pages/brokers_pages/broker_page.dart';
 import '../../features/home/data/model/property_model.dart';
 import '../../features/home/presentation/pages/search_page.dart';
 import '../../features/home/presentation/widgets/image_lengh.dart';
@@ -40,7 +40,7 @@ import '../../features/profile/presentation/pages/edit/new_password_page.dart';
 import '../../features/profile/presentation/pages/save_properties/save_properties_page.dart';
 
 final GoRouter router = GoRouter(
-  initialLocation: Routes.chose,
+  initialLocation: Routes.home,
   routes: [
     ShellRoute(
       builder: (context, state, child) {
@@ -58,7 +58,8 @@ final GoRouter router = GoRouter(
             create: (context) => AddHouseBloc(
               getIt<AddHouseUsecase>(),
               getIt<AddPhotosUrlUsecase>(),
-              getIt<GetMaklersUsecase>()
+              getIt<GetMaklersUsecase>(),
+                getIt<GetMaklerUsecase>()
             ),
             child: AddPage(),
           ),
@@ -71,14 +72,28 @@ final GoRouter router = GoRouter(
           path: Routes.profile,
           builder: (context, state) => ProfilePage(),
         ),
+        GoRoute(
+          path: Routes.chose,
+          builder: (context, state) => ListingMethodPage(),
+        ),
       ],
     ),
     GoRoute(path: Routes.otp, builder: (context, state) => OtpPage()),
     GoRoute(path: Routes.otpVerify, builder: (context, state) => OtpVerify()),
     GoRoute(path: Routes.splash, builder: (context, state) => SplashScreen()),
     GoRoute(path: Routes.brokers, builder: (context, state) => BrokersPage()),
-    GoRoute(path: Routes.searchBroker, builder: (context, state) => BrokerSearchPage()),
-    GoRoute(path: Routes.chose, builder: (context, state) => ListingMethodPage()),
+    GoRoute(
+      path: Routes.broker,
+      builder: (context, state) {
+        final id = state.pathParameters['userId']!;
+        return BrokerPage(id: id);
+      },
+    ),
+    GoRoute(
+      path: Routes.searchBroker,
+      builder: (context, state) => BrokerSearchPage(),
+    ),
+
     GoRoute(
       path: Routes.newPhoneOtpPage,
       pageBuilder: (context, state) {
@@ -166,8 +181,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: Routes.socialLinc,
-      builder: (context, state) => SocialLinksPage(
-      ),
+      builder: (context, state) => SocialLinksPage(),
     ),
     GoRoute(
       path: Routes.myProperties,

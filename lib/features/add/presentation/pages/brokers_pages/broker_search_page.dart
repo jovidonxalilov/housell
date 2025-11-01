@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:housell/features/add/presentation/bloc/add_bloc.dart';
+import 'package:housell/features/add/presentation/bloc/add_event.dart';
 
 import '../../../../../config/theme/app_colors.dart';
 import '../../../../../core/constants/app_status.dart';
+import '../../../../../core/dp/dp_injection.dart';
 import '../../../../../core/widgets/app_text.dart';
 import '../../../data/model/maker_model.dart';
+import '../../../domain/usecase/add_usecase.dart';
 import '../../bloc/add_state.dart';
 import 'brokers_page.dart';
 
@@ -63,11 +66,17 @@ class _BrokerSearchPageState extends State<BrokerSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.backgroundP,
-      appBar: _buildSearchAppBar(),
-      body: BlocBuilder<AddHouseBloc, AddHouseState>(
-        builder: (context, state) => _buildBody(state),
+    return BlocProvider(
+      create: (context) => AddHouseBloc(getIt<AddHouseUsecase>(),
+        getIt<AddPhotosUrlUsecase>(),
+        getIt<GetMaklersUsecase>(),getIt<GetMaklerUsecase>())
+        ..add(AddGetMaklersEvent()),
+      child: Scaffold(
+        backgroundColor: AppColors.backgroundP,
+        appBar: _buildSearchAppBar(),
+        body: BlocBuilder<AddHouseBloc, AddHouseState>(
+          builder: (context, state) => _buildBody(state),
+        ),
       ),
     );
   }

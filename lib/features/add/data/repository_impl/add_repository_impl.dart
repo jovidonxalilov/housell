@@ -44,4 +44,14 @@ class AddRepositoryImpl implements AddRepository {
       return Left(ValidationFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, Maklers>> getMakler(String id) async {
+    try {
+      final result = await _addDatasource.getMakler(id);
+      return Right(result);
+    } catch (e) {
+      return Left(ValidationFailure(e.toString()));
+    }
+  }
 }

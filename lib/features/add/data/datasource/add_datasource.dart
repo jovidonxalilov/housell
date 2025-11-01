@@ -13,6 +13,7 @@ abstract class AddHouseDatasource {
 
   Future<PhotosUrl> urlPhotos(Photos photos);
   Future<MaklerModel> getMaklers();
+  Future<Maklers> getMakler(String id);
 
   factory AddHouseDatasource(DioClient dioClient) =>
       AddDatasourceImpl(dioClient: dioClient);
@@ -97,6 +98,20 @@ class AddDatasourceImpl implements AddHouseDatasource {
       );
     } catch (e) {
       print("💥 Broker malumotlarini olishda xatolik: $e");
+      throw Exception("Broker malumotlarini olishda xatolik: $e");
+    }
+  }
+
+  Future<Maklers> getMakler(String id) async {
+    try {
+      final mainModel = await _dioClient.get("${ApiUrls.users}/$id");
+      if (mainModel.ok && mainModel.result != null) {
+        return Maklers.fromMap(mainModel.result);
+      }
+      throw ApiException(
+        "API xatoligi: ok=${mainModel.ok}, result=${mainModel.result}",
+      );
+    } catch (e) {
       throw Exception("Broker malumotlarini olishda xatolik: $e");
     }
   }

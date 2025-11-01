@@ -12,6 +12,7 @@ abstract class AddRepository {
   Future<Either<Failure, PropertyModel>> addHouses(Datum propertyModel);
   Future<Either<Failure, PhotosUrl>> urlPhotos(Photos photos);
   Future<Either<Failure, MaklerModel>> getMaklers();
+  Future<Either<Failure, Maklers>> getMakler(String id);
 
   factory AddRepository(AddHouseDatasource aadDatasource) =>
       AddRepositoryImpl(addDatasource: aadDatasource);

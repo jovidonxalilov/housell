@@ -65,6 +65,8 @@ Future<void> registerUseCases(GetIt getIt) async {
         () => GetOrCreateConversationUseCase(getIt<MessageRepository>()),
   )..registerLazySingleton<GetMaklersUsecase>(
         () => GetMaklersUsecase(getIt<AddRepository>()),
+  )..registerLazySingleton<GetMaklerUsecase>(
+        () => GetMaklerUsecase(getIt<AddRepository>()),
   );
   log("Register UseCase Complare For GetIT");
 }

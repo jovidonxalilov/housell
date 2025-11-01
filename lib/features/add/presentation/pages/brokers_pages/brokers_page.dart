@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:housell/config/router/routes.dart';
 import 'package:housell/config/theme/app_colors.dart';
 import 'package:housell/core/constants/app_status.dart';
+import 'package:housell/core/extensions/widget_extension.dart';
 import 'package:housell/core/widgets/app_image.dart';
 import 'package:housell/core/widgets/app_text.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,12 +37,16 @@ class _BrokersPageState extends State<BrokersPage> {
         getIt<AddHouseUsecase>(),
         getIt<AddPhotosUrlUsecase>(),
         getIt<GetMaklersUsecase>(),
+          getIt<GetMaklerUsecase>(),
       )..add(AddGetMaklersEvent()),
       child: Scaffold(
         backgroundColor: AppColors.backgroundP,
         appBar: _buildAppBar(),
         body: BlocBuilder<AddHouseBloc, AddHouseState>(
-          builder: (context, state) => _buildBody(context, state),
+          builder: (context, state) => _buildBody(
+            context,
+            state,
+          ).paddingOnly(left: 24, right: 24, top: 24),
         ),
       ),
     );
@@ -49,7 +54,6 @@ class _BrokersPageState extends State<BrokersPage> {
 
   PreferredSizeWidget _buildAppBar() {
     return WCustomAppBar(
-      backgroundColor: AppColors.white,
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.arrow_back, color: AppColors.black),
@@ -63,18 +67,11 @@ class _BrokersPageState extends State<BrokersPage> {
       ),
       centerTitle: true,
       actions: [
-        BlocBuilder<AddHouseBloc, AddHouseState>(
-          builder: (context, state) {
-            final maklerModel = state.maklerModel;
-            if (state.mainStatus != MainStatus.succes || maklerModel == null) {
-              return SizedBox(width: 48.w);
-            }
-            return AppImage(
-              path: Routes.search,
-              onTap: () {
-                context.push(Routes.searchBroker);
-              },
-            );
+        AppText(
+          text: Routes.add,
+          color: AppColors.black,
+          onTap: () {
+            context.push(Routes.searchBroker);
           },
         ),
       ],
@@ -104,7 +101,7 @@ class _BrokersPageState extends State<BrokersPage> {
   Widget _buildLoadingState() {
     return Center(
       child: CircularProgressIndicator(
-        color: AppColors.primary,
+        // color: AppColors.primary,
         strokeWidth: 3,
       ),
     );
@@ -192,24 +189,44 @@ class _BrokersPageState extends State<BrokersPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 16.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.w),
-          child: AppText(
-            text: "Choose a broker",
-            fontSize: 24,
-            fontWeight: 700,
-            color: AppColors.lightIcon,
-          ),
+        AppText(
+          text: "Choose a broker",
+          fontSize: 24,
+          fontWeight: 700,
+          color: AppColors.lightIcon,
         ),
         SizedBox(height: 24.h),
         Expanded(
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            itemCount: maklerModel.data.length,
-            separatorBuilder: (context, index) => SizedBox(height: 12.h),
-            itemBuilder: (context, index) {
-              return BrokerCard(broker: maklerModel.data[index], onTap: () {});
-            },
+          child: ContainerW(
+            color: AppColors.white,
+            width: double.infinity,
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFF141414).withOpacity(0.04),
+                offset: Offset(0, -2),
+                blurRadius: 8,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: Color(0xFF141414).withOpacity(0.02),
+                offset: Offset(0, -1),
+                blurRadius: 1,
+                spreadRadius: 0,
+              ),
+            ],
+            child: ListView.builder(
+              // padding: EdgeInsets.symmetric(horizontal: 16.w),
+              itemCount: maklerModel.data.length,
+              // separatorBuilder: (context, index) => SizedBox(height: 12.h),
+              itemBuilder: (context, index) {
+                return BrokerCard(
+                  broker: maklerModel.data[index],
+                  onTap: () {
+                    context.push("/broker/${maklerModel.data[index].id}");
+                  },
+                );
+              },
+            ).paddingOnly(top: 16, bottom: 16),
           ),
         ),
       ],
@@ -243,41 +260,26 @@ class BrokerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: ContainerW(
-        color: AppColors.white,
-        radius: 12,
-        // padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFF141414).withOpacity(0.04),
-            offset: Offset(0, -2),
-            blurRadius: 8,
-            spreadRadius: 0,
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: onTap,
+          child: Row(
+            children: [
+              _buildAvatar(),
+              SizedBox(width: 12.w),
+              Expanded(child: _buildInfo()),
+              Icon(Icons.chevron_right, color: AppColors.lightIcon, size: 20.sp),
+            ],
           ),
-          BoxShadow(
-            color: Color(0xFF141414).withOpacity(0.02),
-            offset: Offset(0, -1),
-            blurRadius: 1,
-            spreadRadius: 0,
-          ),
-        ],
-        child: Row(
-          children: [
-            _buildAvatar(),
-            SizedBox(width: 12.w),
-            Expanded(child: _buildInfo()),
-            Icon(Icons.chevron_right, color: AppColors.lightIcon, size: 20.sp),
-          ],
-        ),
-      ),
+        ).paddingOnly(left: 16, right: 16),
+        Divider().paddingOnly(top: 12, bottom: 12)
+      ],
     );
   }
 
   Widget _buildAvatar() {
     final hasImage = broker.image != null && broker.image!.isNotEmpty;
-
     return ClipOval(
       child: Container(
         width: 48.w,

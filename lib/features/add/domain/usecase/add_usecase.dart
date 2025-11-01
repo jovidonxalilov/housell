@@ -41,3 +41,14 @@ class GetMaklersUsecase extends UseCase<MaklerModel, NoParams> {
     return addRepository.getMaklers();
   }
 }
+
+class GetMaklerUsecase extends UseCase<Maklers, String> {
+  final AddRepository addRepository;
+
+  GetMaklerUsecase(this.addRepository);
+
+  @override
+  Future<Either<Failure, Maklers>> call(String id) {
+    return addRepository.getMakler(id);
+  }
+}

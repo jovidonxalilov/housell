@@ -9,6 +9,7 @@ class AddHouseState {
   final PropertyModel? propertyModel;
   final PhotosUrl? photosUrl; // agar faqat bitta rasm ishlatsang kerak bo‘ladi
   final MaklerModel? maklerModel;
+  final Maklers? makler;
   final List<PhotosUrl> uploadedPhotos; // 🔥 ko‘p rasm uchun
   final MainStatus mainStatus;
   final MiniStatus miniStatus;
@@ -22,6 +23,7 @@ class AddHouseState {
     required this.errorMessage,
     required this.uploadedPhotos,
     required this.maklerModel,
+    required this.makler
   });
 
   factory AddHouseState.initial() {
@@ -32,7 +34,8 @@ class AddHouseState {
       propertyModel: null,
       errorMessage: "",
       uploadedPhotos: [], // bosh ro‘yxat,
-      maklerModel: null
+      maklerModel: null,
+      makler: null
     );
   }
 
@@ -40,7 +43,8 @@ class AddHouseState {
     PropertyModel? propertyModel,
     PhotosUrl? photosUrl,
     List<PhotosUrl>? uploadedPhotos,
-    MaklerModel? profileModel,
+    MaklerModel? maklerModel,
+    Maklers? makler,
     MainStatus? mainStatus,
     MiniStatus? miniStatus,
     String? errorMessage,
@@ -52,7 +56,8 @@ class AddHouseState {
       propertyModel: propertyModel ?? this.propertyModel,
       errorMessage: errorMessage ?? this.errorMessage,
       uploadedPhotos: uploadedPhotos ?? this.uploadedPhotos,
-      maklerModel: profileModel ?? this.maklerModel
+      maklerModel: maklerModel ?? this.maklerModel,
+      makler: makler ?? this.makler
     );
   }
 }

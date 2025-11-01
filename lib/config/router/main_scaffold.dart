@@ -19,7 +19,7 @@ class _MainScaffoldState extends State<MainScaffold> {
   final List<String> _routes = [
     Routes.home,
     Routes.map,
-    Routes.add,
+    Routes.chose,
     Routes.message,
     Routes.profile,
   ];

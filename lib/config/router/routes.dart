@@ -12,6 +12,7 @@ class Routes {
   static String newPhoneId(int userId) => '/edit_phone_page/$userId';
   static String newPhoneVerifyOtpId(int userId) => '/new_phone_verify_otp_page/$userId';
   static String newpPasswordId(int userId) => '/new_password/$userId';
+  static String brokersId(int userId) => '/broker/$userId';
   static const String propertyDetail = '/property_detail/:propertyId/:userId';
   static const String editProfile = '/edit_profile';
   static const String splash = '/splash';
@@ -31,6 +32,7 @@ class Routes {
   static const String otpVerify = '/otp_verify';
   static const String panorama = '/panorama';
   static const String brokers = '/brokers';
+  static const String broker = '/broker/:userId';
   static const String searchBroker = '/search_brokers';
   static const String myProperties = '/my_properties';
   static const String saveProperties = '/save_properties';

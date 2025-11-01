@@ -35,7 +35,7 @@ Future<void> registerBlocs(GetIt getIt) async {
     ..registerFactory<AddHouseBloc>(
       () =>
           AddHouseBloc(getIt<AddHouseUsecase>(), getIt<AddPhotosUrlUsecase>(),
-              getIt<GetMaklersUsecase>()
+              getIt<GetMaklersUsecase>(),getIt<GetMaklerUsecase>()
           ),
     )
     ..registerFactory<ProfileBloc>(

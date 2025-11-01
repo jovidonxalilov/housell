@@ -12,15 +12,18 @@ class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
   final AddHouseUsecase addHouseUsecase;
   final AddPhotosUrlUsecase addPhotosUrlUsecase;
   final GetMaklersUsecase getMaklersUsecase;
+  final GetMaklerUsecase getMaklerUsecase;
 
   AddHouseBloc(
     this.addHouseUsecase,
     this.addPhotosUrlUsecase,
     this.getMaklersUsecase,
+    this.getMaklerUsecase,
   ) : super(AddHouseState.initial()) {
     on<AddHouseEvent>(_addHouse);
     on<AddPhotosUrlEvent>(_urlPhotos);
     on<AddGetMaklersEvent>(_getMaklers);
+    on<AddGetMaklerEvent>(_getMakler);
   }
 
   Future<void> _addHouse(
@@ -151,11 +154,33 @@ class AddHouseBloc extends Bloc<AddEvent, AddHouseState> {
         },
         (success) {
           emit(
-            state.copyWith(
-              mainStatus: MainStatus.succes,
-              profileModel: success,
-            ),
+            state.copyWith(mainStatus: MainStatus.succes, maklerModel: success),
           );
+        },
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          mainStatus: MainStatus.failure,
+          errorMessage: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _getMakler(
+    AddGetMaklerEvent event,
+    Emitter<AddHouseState> emit,
+  ) async {
+    try {
+      emit(state.copyWith(mainStatus: MainStatus.loading));
+      final result = await getMaklerUsecase.call(event.id);
+      result.either(
+        (failure) {
+          emit(state.copyWith(mainStatus: MainStatus.failure));
+        },
+        (success) {
+          emit(state.copyWith(mainStatus: MainStatus.succes, makler: success));
         },
       );
     } catch (e) {
